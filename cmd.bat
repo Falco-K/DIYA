@@ -1,0 +1,1 @@
+start cmd.exe /k "cd E:\Programme\Dropbox\EclipseWorkspace\Diya"

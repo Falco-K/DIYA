@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\Falco\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx\1.7.1\2179cc613447c297623a4a6d2ba6692c3aaff804\gdx-1.7.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="2179cc613447c297623a4a6d2ba6692c3aaff804">
+        <dex dex="E:\Programme\Dropbox\EclipseWorkspace\Diya\android\build\intermediates\pre-dexed\debug\gdx-1.7.1-cba3c91fd76975c2b43ec71f9d7ed57578073de4.jar" />
+    </item>
+    <item
+        jar="C:\Users\Falco\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx-box2d\1.7.1\fd23897393900f8f888222795e3229eff600fb3d\gdx-box2d-1.7.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="fd23897393900f8f888222795e3229eff600fb3d">
+        <dex dex="E:\Programme\Dropbox\EclipseWorkspace\Diya\android\build\intermediates\pre-dexed\debug\gdx-box2d-1.7.1-639ad10036fcdfa6a69beb7d6db4f04ffcf7891b.jar" />
+    </item>
+    <item
+        jar="E:\Programme\Dropbox\EclipseWorkspace\Diya\model\build\libs\model-1.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="d08bf91687c62c7ff586e64be4958112c5da93d5">
+        <dex dex="E:\Programme\Dropbox\EclipseWorkspace\Diya\android\build\intermediates\pre-dexed\debug\model-1.0-477d1079642f4805ac9470a68a8640f24097537e.jar" />
+    </item>
+    <item
+        jar="E:\Programme\Dropbox\EclipseWorkspace\Diya\core\build\libs\core-1.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="e49d9be1aeb033df2a910381646f90113d7a0998">
+        <dex dex="E:\Programme\Dropbox\EclipseWorkspace\Diya\android\build\intermediates\pre-dexed\debug\core-1.0-827685e69be99f681c60bed0c05142f508e629b0.jar" />
+    </item>
+    <item
+        jar="C:\Users\Falco\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx-backend-android\1.7.1\454871d4783564f17959bf9247660e7f56ecc4ab\gdx-backend-android-1.7.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="454871d4783564f17959bf9247660e7f56ecc4ab">
+        <dex dex="E:\Programme\Dropbox\EclipseWorkspace\Diya\android\build\intermediates\pre-dexed\debug\gdx-backend-android-1.7.1-93d36d48bcb79ad3c91eccb9a9ace3574e0781ad.jar" />
+    </item>
+    <item
+        jar="E:\Programme\Dropbox\EclipseWorkspace\Diya\controller\build\libs\controller-1.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="a9e3d25fb7f790421bef6cb333de103b969fb5a5">
+        <dex dex="E:\Programme\Dropbox\EclipseWorkspace\Diya\android\build\intermediates\pre-dexed\debug\controller-1.0-010cc3bf56c60c08793b2fd6433afef853729ef1.jar" />
+    </item>
+
+</items>

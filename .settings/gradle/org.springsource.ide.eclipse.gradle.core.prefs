@@ -1,0 +1,5 @@
+#org.springsource.ide.eclipse.gradle.core.preferences.GradleProjectPreferences
+#Wed Dec 09 19:46:15 CET 2015
+build.family.org.gradle.tooling.model.eclipse.HierarchicalEclipseProject=;android;controller;core;desktop;html;ios;model;
+org.springsource.ide.eclipse.gradle.linkedresources=
+org.springsource.ide.eclipse.gradle.rootprojectloc=
