@@ -1,11 +1,8 @@
 package diya.controller.commands;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import diya.model.automata.Automaton;
-import diya.model.automata.components.Transition;
-import diya.model.automata.transitionRules.TransitionRule;
 import diya.view.DiyaViewInterface;
 
 public class UpdateTransition extends Command {

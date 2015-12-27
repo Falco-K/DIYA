@@ -1,6 +1,5 @@
 package diya.model.automata.components;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Stack;
 

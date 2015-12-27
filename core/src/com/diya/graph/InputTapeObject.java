@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputEvent.Type;
@@ -27,7 +26,6 @@ import com.diya.ConstructionMenuOption;
 import com.diya.ConstructionStage;
 
 import diya.model.automata.components.InputTape;
-import diya.model.language.Symbol;
 
 public class InputTapeObject extends GraphElement implements ConstructionMenuInterface{
 

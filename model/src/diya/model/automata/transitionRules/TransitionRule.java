@@ -1,9 +1,5 @@
 package diya.model.automata.transitionRules;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-
 import diya.model.language.Symbol;
 
 public class TransitionRule {

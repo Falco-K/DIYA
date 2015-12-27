@@ -3,7 +3,6 @@ package com.diya.graph;
 import java.util.ArrayList;
 import java.util.EnumSet;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -18,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
-import com.badlogic.gdx.utils.Align;
 import com.diya.ConstructionMenuOption;
 import com.diya.ConstructionStage;
 import com.diya.ConstructionMenuInterface;

@@ -1,7 +1,5 @@
 package diya.controller.handler;
 
-import java.util.Arrays;
-
 import diya.controller.commands.*;
 import diya.model.automata.Automaton;
 import diya.view.DiyaViewInterface;

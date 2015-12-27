@@ -1,9 +1,6 @@
 package com.diya;
 
-import java.util.ArrayList;
 import java.util.EnumSet;
-
-import com.badlogic.gdx.math.Vector2;
 
 public interface ConstructionMenuInterface {
 	public EnumSet<ConstructionMenuOption> getMenuOptions();

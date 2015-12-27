@@ -1,8 +1,6 @@
 package diya.model.automata;
 
 import diya.model.language.Alphabet;
-import diya.model.language.Symbol;
-
 import java.util.ArrayList;
 
 import diya.model.automata.components.State;
