@@ -13,7 +13,7 @@ Low density is not really used much anymore, so this check ignores the ldpi dens
         url="http://developer.android.com/guide/practices/screens_support.html"
         urls="http://developer.android.com/guide/practices/screens_support.html">
         <location
-            file="E:\Programme\Dropbox\EclipseWorkspace\Diya\android\res"/>
+            file="E:\Programme\Dropbox\DiyaGit\DIYA\android\res"/>
     </issue>
 
 </issues>

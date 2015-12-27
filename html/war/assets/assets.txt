@@ -1,19 +1,16 @@
 d:assets:0:application/unknown
 b:amiga4ever pro2.ttf:32596:application/unknown
-t:ArialDF.fnt:25696:application/unknown
-b:ArialDF.hiero:861:application/unknown
+t:ArialDF.fnt:25482:application/unknown
+b:ArialDF.hiero:836:application/unknown
 i:ArialDF.png:99607:image/png
-i:badlogic.jpg:68465:image/jpeg
-i:badlogic.png:78964:image/png
-t:default.fnt:11626:application/unknown
+t:default.fnt:11526:application/unknown
 i:default.png:26179:image/png
-b:font.frag:377:application/unknown
-b:font.vert:280:application/unknown
-i:ng.9.png:370:image/png
+b:font.frag:362:application/unknown
+b:font.vert:267:application/unknown
+i:ng.png:370:image/png
 b:OpenSans-Bold.ttf:224592:application/unknown
 b:OpenSans-ExtraBold.ttf:222584:application/unknown
 b:OpenSans-Regular.ttf:217360:application/unknown
-i:sc_map.png:1476927:image/png
 t:uiskin.atlas:2923:application/unknown
 t:uiskin.json:3147:application/unknown
 i:uiskin.png:28299:image/png
