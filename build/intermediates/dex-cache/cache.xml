@@ -5,7 +5,7 @@
         jar="E:\Programme\Dropbox\DiyaGit\DIYA\controller\build\libs\controller-1.0.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="398c4683290ee3b51da1694543e7cf3112f59038">
+        sha1="6c5c1bbc23b163df6a7dbc8c6c32438e16f4c267">
         <dex dex="E:\Programme\Dropbox\DiyaGit\DIYA\android\build\intermediates\pre-dexed\debug\controller-1.0-cb6e355cb75394ebdf31fe7db676db26c1f59c8c.jar" />
     </item>
     <item
@@ -19,7 +19,7 @@
         jar="E:\Programme\Dropbox\DiyaGit\DIYA\core\build\libs\core-1.0.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="4e9280634c5ad35249992ab48b0af234e0d067b2">
+        sha1="56fc28851af8ab8469725a06ce8ff3a40cd9fc96">
         <dex dex="E:\Programme\Dropbox\DiyaGit\DIYA\android\build\intermediates\pre-dexed\debug\core-1.0-2f34d5af76b24003de858e865d758d690eb9d5c7.jar" />
     </item>
     <item
@@ -40,7 +40,7 @@
         jar="E:\Programme\Dropbox\DiyaGit\DIYA\model\build\libs\model-1.0.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="14438331ab9923a5f8c86be20e6339c8bbc39e93">
+        sha1="987f484f884b81787d8f6d0da49bacdbcc58c961">
         <dex dex="E:\Programme\Dropbox\DiyaGit\DIYA\android\build\intermediates\pre-dexed\debug\model-1.0-f81297ce6f463b76ecfc8babcead3af1d7a17e3d.jar" />
     </item>
 
