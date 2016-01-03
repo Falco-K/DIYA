@@ -26,6 +26,8 @@ import diya.model.automata.components.Transition;
 
 public class Node extends GraphElement implements ConstructionMenuInterface{
 	
+	static float finalCircleRadius = 5;
+	
 	State state;
 	Circle circle;
 	ArrayList<Edge> outgoingEdges;
@@ -145,12 +147,16 @@ public class Node extends GraphElement implements ConstructionMenuInterface{
 		return false;
 	}
 
-	public float getRadius(){
+	public float getInnerRadius(){
 		return circle.radius;
 	}
 	
+	public float getOuterRadius(){
+		return this.isFinal() ? circle.radius+finalCircleRadius : circle.radius;
+	}
+	
 	public float getMidX(){
-		return getX()+getRadius();
+		return getX()+getInnerRadius();
 	}
 	
 	public boolean isFinal(){
@@ -158,11 +164,11 @@ public class Node extends GraphElement implements ConstructionMenuInterface{
 	}
 	
 	public float getMidY(){
-		return getY()+getRadius();
+		return getY()+getInnerRadius();
 	}
 
 	public void update(){
-		this.setPosition(state.getX()-this.getRadius(), state.getY()-this.getRadius());
+		this.setPosition(state.getX()-this.getInnerRadius(), state.getY()-this.getInnerRadius());
 	}
 	
 	@Override
@@ -224,7 +230,7 @@ public class Node extends GraphElement implements ConstructionMenuInterface{
 		
 		shapeRenderer.set(ShapeType.Line);
 		if(this.state.isFinal()){
-			shapeRenderer.circle(this.circle.x, this.circle.y, this.circle.radius+5);
+			shapeRenderer.circle(this.circle.x, this.circle.y, this.circle.radius+finalCircleRadius);
 		}
 	}
 
@@ -289,14 +295,14 @@ public class Node extends GraphElement implements ConstructionMenuInterface{
 		
 		public StartEdge(final Node node){
 			this.node = node;
-			this.edgeVector = new Vector2(node.getRadius()*2, 0);
+			this.edgeVector = new Vector2(node.getInnerRadius()*2, 0);
 			this.startVector = new Vector2();
 			this.arrowCenter = new Vector2();
 			this.arrowStart = new Vector2();
 			this.arrowLeftSide = new Vector2();
 			this.arrowRightSide = new Vector2();
 			
-			this.setSize(node.getRadius()*2f, node.getRadius());
+			this.setSize(node.getInnerRadius()*2f, node.getInnerRadius());
 
 			this.addListener(new ClickListener(){
 				Vector2 temp = new Vector2();
@@ -317,6 +323,7 @@ public class Node extends GraphElement implements ConstructionMenuInterface{
 				@Override
 				public void touchDragged(InputEvent event, float x, float y, int pointer){
 					Actor tempActor = (StartEdge)event.getListenerActor();
+					
 					float rotation = temp.set(x+offsetX, y-offsetY).angle();
 					if(tempActor.getRotation()+rotation >= 360){
 						rotation-=360;
@@ -329,7 +336,7 @@ public class Node extends GraphElement implements ConstructionMenuInterface{
 			});
 			
 			updateEdgePosition();
-			this.setOrigin(node.getRadius(), node.getRadius());
+			this.setOrigin(node.getInnerRadius(), node.getInnerRadius());
 			this.setRotation(180);
 		}
 		
@@ -351,7 +358,7 @@ public class Node extends GraphElement implements ConstructionMenuInterface{
 		
 		private void calculateArrowHead(float rotation){	
 			arrowCenter.set(edgeVector);
-			arrowCenter.setLength(node.isFinal() ? node.getRadius()+5 : node.getRadius());
+			arrowCenter.setLength(node.isFinal() ? node.getInnerRadius()+5 : node.getInnerRadius());
 			arrowStart.set(node.getMidX()+arrowCenter.x, node.getMidY()+arrowCenter.y);
 			
 			arrowLeftSide.set(arrowCenter);

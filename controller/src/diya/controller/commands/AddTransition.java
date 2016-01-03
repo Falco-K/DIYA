@@ -15,7 +15,12 @@ public class AddTransition extends Command{
 	public AddTransition(Automaton automaton, DiyaViewInterface view, String... parameters){
 		super(automaton, view, UndoType.UndoPossible);
 		
-		if(parameters.length >= 3){
+		if(parameters.length == 2){
+			origin = parameters[0];
+			destination = parameters[1];
+			transitionSymbols = new String[]{automaton.getAlphabet()[0]};
+		}
+		else if(parameters.length >= 3){
 			origin = parameters[0];
 			destination = parameters[1];
 			transitionSymbols = this.getStringArray(parameters, 2, parameters.length);

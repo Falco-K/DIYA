@@ -33,8 +33,8 @@ public class DiyaMain extends ApplicationAdapter implements DiyaViewInterface{
 	@Override
 	public void create () {
 		Alphabet alphabet = new Alphabet();
-		alphabet.addSymbol("a");
-		alphabet.addSymbol("b");
+		alphabet.addSymbol("0");
+		alphabet.addSymbol("1");
 		automaton = new FiniteStateMachine(200, 400, alphabet);
 		controller = new DiyaCommandProcessor(automaton);
 		automaton.addObserver(this);
@@ -47,21 +47,22 @@ public class DiyaMain extends ApplicationAdapter implements DiyaViewInterface{
         constructionStage.setDebugAll(true);
       
 		graph = new Graph(worldWidth, worldHeight, this, automaton.getInputTape());
-		automaton.addState("t1", true, false, 200, 200);
-		//automaton.addState("t2", false, true, 400, 200);
-//		automaton.addState("s1", false, false, 400, 200);
-		//automaton.addTransition("t1", "t2", new String[] {"a"});
-//		automaton.addTransition("t2", "s1", new String[] {"a"});
-//		automaton.addTransition("s1", "t2", new String[] {"b"});
-//		automaton.addTransition("t2", "t2", new String[] {"a"});
+		automaton.addState("t1", true, false, 100, 200);
+		automaton.addState("t2", false, true, 300, 200);
+		automaton.addState("s1", false, false, 500, 200);
+		automaton.addTransition("t1", "t2", new String[] {"0"});
+		automaton.addTransition("t2", "t1", new String[] {"0"});
+		automaton.addTransition("s1", "s1", new String[] {"1"});
+		automaton.addTransition("t2", "s1", new String[] {"1"});
 //		automaton.addTransition("t2", "t1", new String[] {"a"});
 //		automaton.addTransition("s1", "t1", new String[] {"a"});
 //		automaton.addTransition("t1", "s1", new String[] {"a"});
 		/*graph.addNode(automaton.addState("s2", false, false, 300, 100));
 		graph.addEdge(automaton.addTransition("s2", "s1", new String[] {"a"}));
 		graph.addEdge(automaton.addTransition("s1", "test", new String[] {"a"}));*/
+		
        	constructionStage.addActor(graph);
-       	ConstructionMenu menu = new ConstructionMenu(new String[]{"a", "b"});
+       	ConstructionMenu menu = new ConstructionMenu(alphabet.getAsStrings());
        	constructionStage.setMenu(menu);
        	graph.toBack();
 		

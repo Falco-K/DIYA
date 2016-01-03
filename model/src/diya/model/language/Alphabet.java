@@ -10,12 +10,12 @@ public class Alphabet {
 	}
 	
 	public void addSymbol(Symbol symbol){
-		symbols.put(String.valueOf(symbol.symbolChar), symbol);
+		symbols.put(symbol.toString(), symbol);
 	}
 	
 	public void addSymbol(String symbol){
 		Symbol newSymbol = new Symbol(symbol);
-		symbols.put(symbol, newSymbol);
+		this.addSymbol(newSymbol);
 	}
 	
 	public void removeSymbol(Symbol symbol){

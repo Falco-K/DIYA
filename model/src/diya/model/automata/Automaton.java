@@ -191,12 +191,18 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 	}
 	
 	public Transition addTransition(String origin, String destination, String[] transition){
+		
 		State firstState = states.get(origin);
 		if(firstState != null && firstState.getTransition(destination) == null)
 		{
+			
 			State secondState = states.get(destination);
 			Transition newEdge = new Transition(firstState, secondState);
 			for(String aRule : transition){
+				if(alphabet.getSymbol(aRule) == null){
+					return null;
+				}
+				
 				newEdge.addTransitionRule(this.makeTransitionRule(aRule));
 			}
 			

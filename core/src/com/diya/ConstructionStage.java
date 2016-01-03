@@ -121,7 +121,7 @@ public class ConstructionStage extends Stage implements GestureListener{
 							}
 							else{
 								constructionMenu.open(x, y, (ConstructionMenuInterface) clickedActor);
-								view.sendCommand("addtransition "+firstNode+ " "+((Node)clickedActor).getName() + " a");
+								view.sendCommand("addtransition "+firstNode+ " "+((Node)clickedActor).getName());
 								firstNode = ((Node)clickedActor).getName();
 							}
 						}
