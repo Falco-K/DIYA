@@ -54,6 +54,8 @@ public class Node extends GraphElement implements ConstructionMenuInterface{
 		startEdge.setTouchable(Touchable.enabled);
 		this.addActor(startEdge);
 		this.highlightingColor = Color.RED;
+		this.animation = 0;
+		this.highlight = false;
 
 		this.outgoingEdges = new ArrayList<Edge>();
 		this.setDebug(true);
@@ -110,6 +112,10 @@ public class Node extends GraphElement implements ConstructionMenuInterface{
 	
 	public void setHighlighting(boolean highlight){
 		this.highlight = highlight;
+	}
+	
+	public boolean isHighlighted(){
+		return highlight;
 	}
 	
 	public void removeEdgeToNode(final State state){
@@ -186,6 +192,15 @@ public class Node extends GraphElement implements ConstructionMenuInterface{
 		if(this.state.isInitial()){
 			startEdge.updateEdgePosition();
 		}
+		
+		if(highlight == true){
+			if(animation < 1){
+				animation+=0.020f;
+			}
+		}
+		else if(animation > 0){
+			animation-=0.020f;
+		}
 
 		super.act(delta);
 	}
@@ -214,23 +229,15 @@ public class Node extends GraphElement implements ConstructionMenuInterface{
 		shapeRenderer.setColor(Color.BLACK);
 		shapeRenderer.circle(this.circle.x, this.circle.y, this.circle.radius);
 		
-		shapeRenderer.set(ShapeType.Filled);
-		shapeRenderer.setColor(highlightingColor);
-		if(highlight == true){
-			shapeRenderer.circle(this.circle.x, this.circle.y, Interpolation.linear.apply(0, this.circle.radius, animation));
-			
-			if(animation < 1){
-				animation+=0.05;
-			}
-		}
-		else if(animation > 0){
-			animation-= 0.05;
-			shapeRenderer.circle(this.circle.x, this.circle.y, Interpolation.linear.apply(0, this.circle.radius, animation));
-		}
-		
-		shapeRenderer.set(ShapeType.Line);
 		if(this.state.isFinal()){
 			shapeRenderer.circle(this.circle.x, this.circle.y, this.circle.radius+finalCircleRadius);
+		}
+		
+		if(animation > 0){
+			shapeRenderer.set(ShapeType.Filled);
+			shapeRenderer.setColor(highlightingColor);
+			shapeRenderer.circle(this.circle.x, this.circle.y, Interpolation.linear.apply(0, this.circle.radius, animation));
+			shapeRenderer.set(ShapeType.Line);
 		}
 	}
 

@@ -104,7 +104,7 @@ public class InputTapeObject extends GraphElement implements ConstructionMenuInt
 				readNextCell();
 			}
 			
-		}, 0, 1);
+		}, 0, 2);
 		doSteps.stop();
 		
 		runButton = new TextButton("Run", skin);

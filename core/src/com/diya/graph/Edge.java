@@ -120,14 +120,18 @@ public class Edge extends GraphElement implements ConstructionMenuInterface{
 		edgeLabel.setText(text);
 	}
 	
+	public void animateTransition(){
+		curve.setAnimation(true);
+	}
+	
 	@Override
 	public void drawDebug(ShapeRenderer shapeRenderer){
 		curve.drawDebug(shapeRenderer);
-		
+		/*
 		this.drawDebugBounds(shapeRenderer);
 		this.applyTransform(shapeRenderer, this.computeTransform());
 		this.drawDebugChildren(shapeRenderer);
-		this.resetTransform(shapeRenderer);
+		this.resetTransform(shapeRenderer);*/
 	}
 	
 	@Override

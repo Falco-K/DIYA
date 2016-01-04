@@ -64,9 +64,12 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 	}
 	
 	public boolean doTransition(){
+		
 		if(currentStates.isEmpty() && running == false){
 			setInitialStates();
 			running = !running;
+			
+			fireEvent(new StepDoneEvent(currentStates));
 		}
 		else{
 			Symbol nextSymbol = inputTape.readSymbolMoveTape();
@@ -77,18 +80,21 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 			}
 			
 			ArrayList<State> tempStates = new ArrayList<State>();
+			ArrayList<Transition> tempTransitions = new ArrayList<Transition>();
 			
 			for(State aState : currentStates){
-				for(Transition aEdge : aState.getNextEdges(nextSymbol)){
-					tempStates.add(aEdge.getDestination());
-					afterInputRead(aEdge.getTransitionRule(nextSymbol));
+				for(Transition aTransition : aState.getNextEdges(nextSymbol)){
+					tempTransitions.add(aTransition);
+					tempStates.add(aTransition.getDestination());
+					afterInputRead(aTransition.getTransitionRule(nextSymbol));
 				}
 			}
 			
 			currentStates = tempStates;
+			
+			fireEvent(new StepDoneEvent(currentStates, tempTransitions));
 		}
-		
-		fireEvent(new StepDoneEvent(currentStates));
+
 		return true;
 	}
 	

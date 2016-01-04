@@ -107,16 +107,25 @@ public class Graph extends Group{
 		}
 	}*/
 
-	public void setHighlightedStates(ArrayList<State> states) {
+	public void animateTransition(ArrayList<State> states, ArrayList<Transition> transitions) {
 
 		Set<Entry<String, Node>> allNodes = nodes.entrySet();
-		for(Entry<String, Node> aNode : allNodes){
-			aNode.getValue().setHighlightingColor(new Color(1f,0f,0f,0.3f));
-			aNode.getValue().setHighlighting(false);
+		for(Entry<String, Node> aNodeName : allNodes){
+			Node aNode = aNodeName.getValue();
+			aNode.setHighlightingColor(new Color(1f,0f,0f,0.3f));
+			aNode.setHighlighting(false);
 		}
 		
-		for(State aState : states){
-			nodes.get(aState.getName()).setHighlighting(true);
+		if(transitions != null){
+			for(Transition aTransition : transitions){
+				Node aNode = nodes.get(aTransition.getOrigin().getName());
+				aNode.getEdge(aTransition).animateTransition();
+			}
+		}
+		else{
+			for(State aState : states){
+				nodes.get(aState.getName()).setHighlighting(true);
+			}
 		}
 	}
 }
