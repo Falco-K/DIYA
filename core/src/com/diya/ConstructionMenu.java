@@ -7,7 +7,9 @@ import java.util.Set;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
@@ -23,8 +25,13 @@ import com.badlogic.gdx.utils.Align;
 import com.diya.graph.*;
 
 public class ConstructionMenu extends Group {
+
+	final static TextureRegion menuCircle;
 	
-	CircleLayout circle;
+	static{
+		menuCircle = new TextureRegion(new Texture(Gdx.files.internal("MenuCircle.png")));
+	}
+	
 	ConstructionMenuInterface currentObject;
 	Skin skin;
 	HashMap<String, Button> possibleButtons;
@@ -32,14 +39,16 @@ public class ConstructionMenu extends Group {
 	String[] symbols;
 	ArrayList<String> output;
 	
+	Circle circle;
+	
 	Vector2 calculatingVector;
 	
 	public ConstructionMenu(String[] symbols){
 		this.setVisible(false);
 		
 		this.skin = new Skin(Gdx.files.internal("uiskin.json"));
-		this.circle = new CircleLayout();
-		this.addActor(circle);
+		this.circle = new Circle();
+		this.circle.setRadius(64);
 		this.symbols = symbols;
 		this.output = new ArrayList<String>();
 		
@@ -212,12 +221,12 @@ public class ConstructionMenu extends Group {
 		}
 		
 		int buttonCount = currentButtons.size();
-		calculatingVector.set(0, -circle.getRadius());
+		calculatingVector.set(0, -circle.radius);
 		calculatingVector.rotate(-45);
-		this.setPosition(currentObject.preferredMenuPositionX()-circle.getRadius(), currentObject.preferredMenuPositionY()-circle.getRadius());
+		this.setPosition(currentObject.preferredMenuPositionX()-circle.radius, currentObject.preferredMenuPositionY()-circle.radius);
 		
 		for(Button currentButton : currentButtons){
-			currentButton.setPosition(circle.getRadius()+calculatingVector.x-currentButton.getWidth()/2, circle.getRadius()+calculatingVector.y-currentButton.getHeight()/2);
+			currentButton.setPosition(circle.radius+calculatingVector.x-currentButton.getWidth()/2, circle.radius+calculatingVector.y-currentButton.getHeight()/2);
 			currentButton.setVisible(true);
 			currentButton.toFront();
 			calculatingVector.rotate(360/buttonCount);
@@ -231,8 +240,16 @@ public class ConstructionMenu extends Group {
 	}
 	
 	@Override
-	public void draw(Batch batch, float parentAlpha){	
+	public void draw(Batch batch, float parentAlpha){
+		if(!this.isVisible()) return;
+		
+		batch.begin();
+		batch.setColor(Color.RED);
+		batch.draw(menuCircle, this.getX(), this.getY());
+		batch.setColor(Color.WHITE);
 		this.drawChildren(batch, parentAlpha);
+		batch.end();
+		batch.setColor(Color.WHITE);
 	}
 	
 	public void addOutput(String output){
@@ -315,29 +332,6 @@ public class ConstructionMenu extends Group {
 				}
 				possibleButtons.get(option).setColor(Color.RED);
 			}
-		}
-	}
-	
-	class CircleLayout extends Widget{
-		Circle circle;
-		
-		public CircleLayout(){
-			circle = new Circle();
-			this.setTouchable(Touchable.disabled);
-		}
-		
-		public void setRadius(float radius){
-			circle.radius = radius;
-		}
-		
-		public float getRadius(){
-			return circle.radius;
-		}
-		
-		@Override
-		public void drawDebug(ShapeRenderer shapeRenderer){
-			shapeRenderer.setColor(Color.RED);
-			shapeRenderer.circle(this.getX()+circle.radius, this.getY()+circle.radius, circle.radius);
 		}
 	}
 }

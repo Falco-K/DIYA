@@ -1,6 +1,11 @@
 package com.diya;
 
+import java.util.ArrayList;
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
@@ -10,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.diya.graph.Edge;
+import com.diya.graph.Graph;
 import com.diya.graph.Node;
 
 import diya.controller.handler.DiyaController;
@@ -26,6 +32,8 @@ public class ConstructionStage extends Stage implements GestureListener{
 	ConstructionMenu constructionMenu;
 	ShapeRenderer shapeRenderer;
 	
+	ArrayList<Graph> graphs;
+	
 	int stateCounter;
 	Vector2 temp;
 	String lastNode;
@@ -35,7 +43,7 @@ public class ConstructionStage extends Stage implements GestureListener{
 	float offsetY;
 	Actor hitActor;
 	
-	public ConstructionStage(final Camera camera, final DiyaViewInterface view, final DiyaController controller){
+	public ConstructionStage(final Camera camera, final DiyaViewInterface view, final DiyaController controller, ShapeRenderer shapeRenderer){
 		super(camera.getViewPort());
 		
 		this.view = view;
@@ -45,9 +53,11 @@ public class ConstructionStage extends Stage implements GestureListener{
 		this.worldWidth = camera.getWorldWidth();
 		this.worldHeight = camera.getWorldHeight();
 		
-		this.shapeRenderer = new ShapeRenderer();
+		this.shapeRenderer = shapeRenderer;
 		this.temp = new Vector2();
 		this.lastNode = "";
+		
+		this.graphs = new ArrayList<Graph>();
 		
 		this.addListener(new InputListener(){
 			String firstNode = "";
@@ -163,13 +173,26 @@ public class ConstructionStage extends Stage implements GestureListener{
 	@Override
 	public void draw(){
 		drawBackground();
-		super.draw();
+		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+		drawGraphs(this.getBatch());
+		constructionMenu.draw(this.getBatch(), 1);
 	}
 	
 	@Override
 	public void dispose(){
 		shapeRenderer.dispose();
 		super.dispose();
+	}
+	
+	public void addGraph(Graph graph){
+		this.addActor(graph);
+		graphs.add(graph);
+	}
+	
+	private void drawGraphs(Batch batch){
+		for(Graph aGraph : graphs){
+			aGraph.drawGraph(batch);
+		}
 	}
 	
 	public void sendCommand(String command){

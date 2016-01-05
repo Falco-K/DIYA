@@ -15,34 +15,32 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
 public abstract class GraphElement extends Group{
 	
-	static BitmapFont labelFont = null;
-	static ShaderProgram fontShader = null;
-	static Color labelFontColor = null;
-	static LabelStyle labelStyle = null;
+	final static BitmapFont labelFont;
+	final static Color labelFontColor;
+	final static LabelStyle labelStyle;
+	
+	final static TextureRegion nodeBackground;
+	final static TextureRegion nodeFinalBackground;
+	final static TextureRegion nodeCircle;
+	final static TextureRegion nodeFinalCircle;
 
-	public GraphElement(){
-		this.setStaticFields();
+
+	static{
+		Texture texture = new Texture(Gdx.files.internal("ArialDF.png"), true);
+		texture.setFilter(TextureFilter.MipMapLinearNearest, TextureFilter.Linear);
+		
+		labelFont = new BitmapFont(Gdx.files.internal("ArialDF.fnt"), new TextureRegion(texture), false);
+
+		labelFontColor = Color.BLACK;
+		
+		labelStyle = new Label.LabelStyle(labelFont, labelFontColor);
+		
+		nodeBackground = new TextureRegion(new Texture(Gdx.files.internal("NodeBackground.png")));
+		nodeFinalBackground = new TextureRegion(new Texture(Gdx.files.internal("NodeFinalBackground.png")));
+		nodeCircle = new TextureRegion(new Texture(Gdx.files.internal("NodeCircle.png")));
+		nodeFinalCircle = new TextureRegion(new Texture(Gdx.files.internal("NodeFinalCircle.png")));
 	}
 	
-	private void setStaticFields(){
-		if(labelFont == null){
-			Texture texture = new Texture(Gdx.files.internal("ArialDF.png"), true);
-			texture.setFilter(TextureFilter.MipMapLinearNearest, TextureFilter.Linear);
-			
-			labelFont = new BitmapFont(Gdx.files.internal("ArialDF.fnt"), new TextureRegion(texture), false);
-			
-			fontShader = new ShaderProgram(Gdx.files.internal("font.vert"), Gdx.files.internal("font.frag"));
-			if (!fontShader.isCompiled()) {
-			    Gdx.app.error("fontShader", "compilation failed:\n" + fontShader.getLog());
-			}
-		}
-		if(labelFontColor == null){
-			labelFontColor = Color.BLACK;
-		}
-		if(labelStyle == null){
-			labelStyle = new Label.LabelStyle(labelFont, labelFontColor);
-		}
-	}
 	/*
 	public static void generateFont(){
 	   	FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("OpenSans-Regular.ttf"));

@@ -53,13 +53,12 @@ public class Node extends GraphElement implements ConstructionMenuInterface{
 		startEdge = new StartEdge(this);
 		startEdge.setTouchable(Touchable.enabled);
 		this.addActor(startEdge);
-		this.highlightingColor = Color.RED;
+		this.highlightingColor = new Color(1, 0, 0, 0.3f);
 		this.animation = 0;
 		this.highlight = false;
 
 		this.outgoingEdges = new ArrayList<Edge>();
-		this.setDebug(true);
-		
+	
 		this.addListener(new DragListener(){
 			
 			float offsetX;
@@ -207,21 +206,14 @@ public class Node extends GraphElement implements ConstructionMenuInterface{
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha){
-		batch.setShader(fontShader);
-		this.toFront();
-		this.drawChildren(batch, parentAlpha);
-		batch.setShader(null);
+
 	}
 
 	@Override
 	public void drawDebug(ShapeRenderer shapeRenderer){
 		//this.drawDebugBounds(shapeRenderer);
 		shapeRenderer.setColor(Color.GREEN);
-		for(Edge anEdge: outgoingEdges){
-			anEdge.toBack();
-			anEdge.drawDebug(shapeRenderer);
-		}
-		
+
 		if(this.state.isInitial()){
 			startEdge.drawDebug(shapeRenderer);
 		}
@@ -232,12 +224,42 @@ public class Node extends GraphElement implements ConstructionMenuInterface{
 		if(this.state.isFinal()){
 			shapeRenderer.circle(this.circle.x, this.circle.y, this.circle.radius+finalCircleRadius);
 		}
+	}
+	
+	public void drawEdges(ShapeRenderer shapeRenderer){
+		for(Edge anEdge: outgoingEdges){
+			anEdge.drawDebug(shapeRenderer);
+		}
 		
+		if(this.state.isInitial()){
+			startEdge.drawDebug(shapeRenderer);
+		}
+	}
+	
+	public void drawCircle(Batch batch, float parentAlpha){
+		if(this.state.isFinal()){
+			batch.draw(nodeFinalBackground, this.getX()-finalCircleRadius, this.getY()-finalCircleRadius);
+			batch.draw(nodeFinalCircle, this.getX()-finalCircleRadius, this.getY()-finalCircleRadius);
+		}
+		else{
+			batch.draw(nodeBackground, this.getX(), this.getY());
+		}
+
+		batch.draw(nodeCircle, this.getX(), this.getY());
+	}
+	
+	public void drawAnimation(ShapeRenderer shapeRenderer){
 		if(animation > 0){
-			shapeRenderer.set(ShapeType.Filled);
 			shapeRenderer.setColor(highlightingColor);
 			shapeRenderer.circle(this.circle.x, this.circle.y, Interpolation.linear.apply(0, this.circle.radius, animation));
-			shapeRenderer.set(ShapeType.Line);
+		}
+	}
+	
+	public void drawLabels(Batch batch, float parentAlpha){
+		this.drawChildren(batch, parentAlpha);
+		
+		for(Edge anEdge : outgoingEdges){
+			anEdge.draw(batch, parentAlpha);
 		}
 	}
 
@@ -383,11 +405,15 @@ public class Node extends GraphElement implements ConstructionMenuInterface{
 		}
 		
 		private void drawArrowHead(ShapeRenderer shapeRenderer){
+			shapeRenderer.set(ShapeType.Filled);
+			
 			shapeRenderer.triangle(arrowStart.x, arrowStart.y, arrowStart.x+arrowCenter.x, arrowStart.y+arrowCenter.y, 
 					arrowStart.x+arrowLeftSide.x, arrowStart.y+arrowLeftSide.y);
 			
 			shapeRenderer.triangle(arrowStart.x, arrowStart.y, arrowStart.x+arrowCenter.x, arrowStart.y+arrowCenter.y, 
 					arrowStart.x+arrowRightSide.x, arrowStart.y+arrowRightSide.y);
+			
+			shapeRenderer.set(ShapeType.Line);
 		}
 	}
 }

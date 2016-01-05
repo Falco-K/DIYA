@@ -3,6 +3,7 @@ package com.diya.graph;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Bezier;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
@@ -184,7 +185,37 @@ public class Connection extends Actor{
 	}
 	
 	@Override
+	public void act(float delta){
+		if(this.type == ConnectionType.Line){
+			if(highlight == true){
+				animation+=0.02f;
+				if(animation > 1){
+					highlight = false;
+					this.destination.setHighlighting(true);
+				}
+			}
+			else if(animation > 0){
+				animation-=0.02f;
+			}
+		}
+		else if (this.type == ConnectionType.Loop || this.type == ConnectionType.Curve){
+			if(highlight == true){
+				animation+=0.02f;
+
+				if(animation > 1){
+					highlight = false;
+					this.destination.setHighlighting(true);
+				}
+			}
+			else if(animation > 0){
+				animation-=0.02f;
+			}
+		}
+	}
+	
+	@Override
 	public void drawDebug(ShapeRenderer shapeRenderer){	
+
 		if(this.type == ConnectionType.Loop){
 			drawCurve(shapeRenderer, 0.05f);
 		}
@@ -203,7 +234,7 @@ public class Connection extends Actor{
 			shapeRenderer.setColor(Color.RED);
 		}
 		else{
-			shapeRenderer.setColor(Color.GREEN);
+			shapeRenderer.setColor(Color.DARK_GRAY);
 		}
 		
 		shapeRenderer.line(origin.getMidX(), origin.getMidY(), destination.getMidX(), destination.getMidY());
@@ -212,23 +243,14 @@ public class Connection extends Actor{
 			shapeRenderer.setColor(Color.RED);
 			Vector2 temp = getPointOnLine(origin.getMidX(), origin.getMidY(), destination.getMidX(), destination.getMidY(), Interpolation.linear.apply(0, edgeVector.len(), animation), calculatingVector);
 			shapeRenderer.line(Vector2.X.set(origin.getMidX(), origin.getMidY()), temp);
-			
-			animation+=0.01f;
-			if(animation > 1){
-				highlight = false;
-				this.destination.setHighlighting(true);
-			}
-			
 		}else if(animation > 0){
-			shapeRenderer.setColor(Color.GREEN);
+			shapeRenderer.setColor(Color.DARK_GRAY);
 			
-			Vector2 temp = getPointOnLine(origin.getMidX(), origin.getMidY(), destination.getMidX(), destination.getMidY(), Interpolation.linear.apply(0, edgeVector.len(), 1-animation), calculatingVector);
-			shapeRenderer.line(Vector2.X.set(origin.getMidX(), origin.getMidY()), temp);
-			
-			animation-=0.01;
+			Vector2 point = getPointOnLine(origin.getMidX(), origin.getMidY(), destination.getMidX(), destination.getMidY(), Interpolation.linear.apply(0, edgeVector.len(), 1-animation), calculatingVector);
+			shapeRenderer.line(Vector2.X.set(origin.getMidX(), origin.getMidY()), point);
 		}
 		
-		shapeRenderer.setColor(Color.GREEN);
+		shapeRenderer.setColor(Color.DARK_GRAY);
 	}
 	
 	private void drawCurve(ShapeRenderer shapeRenderer, float distance){
@@ -240,7 +262,7 @@ public class Connection extends Actor{
 				shapeRenderer.setColor(Color.RED);
 			}
 			else{
-				shapeRenderer.setColor(Color.GREEN);
+				shapeRenderer.setColor(Color.DARK_GRAY);
 			}
 
 			curve.valueAt(lineEnd, i);
@@ -253,36 +275,24 @@ public class Connection extends Actor{
 				}
 				else if(animation+distance > i){
 					float tempDis = (animation-(i-distance))/distance;
-					Vector2 temp = getPointOnLine(lineStart, lineEnd, Interpolation.linear.apply(0, Vector2.X.set(lineEnd.x-lineStart.x, lineEnd.y-lineStart.y).len(),tempDis), calculatingVector);
+					Vector2 temp = getPointOnLine(lineStart, lineEnd, Interpolation.linear.apply(0, Vector2.len(lineEnd.x-lineStart.x, lineEnd.y-lineStart.y),tempDis), calculatingVector);
 					shapeRenderer.line(lineStart, temp);
 				}
 			}
 			else if(animation > 0){
-				shapeRenderer.setColor(Color.GREEN);
+				shapeRenderer.setColor(Color.DARK_GRAY);
 				if(i <= 1-animation){
 					shapeRenderer.line(lineStart, lineEnd);
 				}
 				else if((1-animation)+distance > i){
 					float tempDis = ((1-animation)-(i-distance))/distance;
-					Vector2 temp = getPointOnLine(lineStart, lineEnd, Interpolation.linear.apply(0, Vector2.X.set(lineEnd.x-lineStart.x, lineEnd.y-lineStart.y).len(),tempDis), calculatingVector);
+					Vector2 temp = getPointOnLine(lineStart, lineEnd, Interpolation.linear.apply(0, Vector2.len(lineEnd.x-lineStart.x, lineEnd.y-lineStart.y),tempDis), calculatingVector);
 					shapeRenderer.line(lineStart, temp);
 				}
 			}
 
-			shapeRenderer.setColor(Color.GREEN);
+			shapeRenderer.setColor(Color.DARK_GRAY);;
 			lineStart.set(lineEnd.x, lineEnd.y);
-		}
-		
-		if(highlight == true){
-			animation+=0.01f;
-
-			if(animation > 1){
-				highlight = false;
-				this.destination.setHighlighting(true);
-			}
-		}
-		else if(animation > 0){
-			animation-=0.01;
 		}
 	}
 	
@@ -302,9 +312,12 @@ public class Connection extends Actor{
 	}
 	
 	private void drawArrowHead(ShapeRenderer shapeRenderer){
+		shapeRenderer.set(ShapeType.Filled);
 		//Left half of the arrow
 		shapeRenderer.triangle(arrowStartX, arrowStartY, arrowEndX, arrowEndY, arrowLeftX, arrowLeftY);
 		//Right half of the arrow
 		shapeRenderer.triangle(arrowStartX, arrowStartY, arrowEndX, arrowEndY, arrowRightX, arrowRightY);
+		
+		shapeRenderer.set(ShapeType.Line);
 	}
 }

@@ -4,6 +4,8 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.GL30;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -42,17 +44,19 @@ public class DiyaMain extends ApplicationAdapter implements DiyaViewInterface{
 		Viewport viewport = new ExtendViewport(512, 512);
 		uiStage = new UIStage(viewport, this, controller);
        	camera = new Camera(1024, 1024, viewport.getScreenWidth(), viewport.getScreenHeight());
-       	constructionStage = new ConstructionStage(camera, this, controller);
-
-        constructionStage.setDebugAll(true);
-      
-		graph = new Graph(worldWidth, worldHeight, this, automaton.getInputTape());
+       	
+       	ShapeRenderer shapeRenderer = new ShapeRenderer();
+       	shapeRenderer.setAutoShapeType(true);
+       	constructionStage = new ConstructionStage(camera, this, controller, shapeRenderer);
+		graph = new Graph(worldWidth, worldHeight, this, automaton.getInputTape(), shapeRenderer);
+       	//constructionStage.setDebugAll(true);
+     
 		automaton.addState("t1", true, false, 100, 200);
 		automaton.addState("t2", false, true, 300, 200);
 		automaton.addState("s1", false, false, 500, 200);
 		automaton.addTransition("t1", "t2", new String[] {"0"});
 		automaton.addTransition("t2", "t1", new String[] {"0"});
-		//automaton.addTransition("s1", "s1", new String[] {"1"});
+		automaton.addTransition("s1", "s1", new String[] {"1"});
 		automaton.addTransition("t2", "s1", new String[] {"1"});
 //		automaton.addTransition("t2", "t1", new String[] {"a"});
 //		automaton.addTransition("s1", "t1", new String[] {"a"});
@@ -61,10 +65,9 @@ public class DiyaMain extends ApplicationAdapter implements DiyaViewInterface{
 		graph.addEdge(automaton.addTransition("s2", "s1", new String[] {"a"}));
 		graph.addEdge(automaton.addTransition("s1", "test", new String[] {"a"}));*/
 		
-       	constructionStage.addActor(graph);
+       	constructionStage.addGraph(graph);
        	ConstructionMenu menu = new ConstructionMenu(alphabet.getAsStrings());
        	constructionStage.setMenu(menu);
-       	graph.toBack();
 		
        	InputMultiplexer inputMultiplexer = new InputMultiplexer(uiStage, new GestureDetector(constructionStage), constructionStage);
 		Gdx.input.setInputProcessor(inputMultiplexer);
@@ -77,7 +80,7 @@ public class DiyaMain extends ApplicationAdapter implements DiyaViewInterface{
 
         Gdx.gl.glClearColor(0.95f, 0.95f, 0.95f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        
+
         constructionStage.draw();
         uiStage.draw();
 	}

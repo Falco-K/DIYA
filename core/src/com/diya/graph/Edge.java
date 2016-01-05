@@ -28,7 +28,7 @@ public class Edge extends GraphElement implements ConstructionMenuInterface{
 	Node destination;
 	Group edgeLabels;
 	Label edgeLabel;
-	Connection curve;
+	Connection connection;
 	
 	Vector2 edgeVector;
 	Vector2 calculatingVector;
@@ -48,12 +48,10 @@ public class Edge extends GraphElement implements ConstructionMenuInterface{
 		edgeLabel.setFillParent(true);
 		edgeLabels.addActor(edgeLabel);
 		edgeLabel.setAlignment(Align.center);
-		curve = new Connection(origin, destination, edgeVector);
-		curve.setOrigin(Align.center);
+		connection = new Connection(origin, destination, edgeVector);
+		connection.setOrigin(Align.center);
 		this.addActor(edgeLabels);
 		edgeLabels.setOrigin(Align.center);
-		
-		this.setDebug(true);
 		
 		if(origin == destination){
 			this.addListener(new ClickListener(){
@@ -121,12 +119,12 @@ public class Edge extends GraphElement implements ConstructionMenuInterface{
 	}
 	
 	public void animateTransition(){
-		curve.setAnimation(true);
+		connection.setAnimation(true);
 	}
 	
 	@Override
 	public void drawDebug(ShapeRenderer shapeRenderer){
-		curve.drawDebug(shapeRenderer);
+		connection.drawDebug(shapeRenderer);
 		/*
 		this.drawDebugBounds(shapeRenderer);
 		this.applyTransform(shapeRenderer, this.computeTransform());
@@ -137,9 +135,7 @@ public class Edge extends GraphElement implements ConstructionMenuInterface{
 	@Override
 	public void draw(Batch batch, float parentAlpha){
 		this.applyTransform(batch, this.computeTransform());
-		batch.setShader(fontShader);
 		this.drawChildren(batch, parentAlpha);
-		batch.setShader(null);
 		this.resetTransform(batch);
 	}
 	
@@ -155,16 +151,18 @@ public class Edge extends GraphElement implements ConstructionMenuInterface{
 		else{
 			updateCurve();
 		}
+		
+		connection.act(delta);
 	}
 	
 	private void updateLoop(){
 		boolean changed = false;
 		
-		if(curve.getConnectionType() == ConnectionType.Loop){
+		if(connection.getConnectionType() == ConnectionType.Loop){
 			changed = true;
 		}
 		
-		curve.setConnectionType(ConnectionType.Loop);
+		connection.setConnectionType(ConnectionType.Loop);
 		
 		if(changed == false){
 			return;
@@ -181,17 +179,17 @@ public class Edge extends GraphElement implements ConstructionMenuInterface{
 		edgeLabels.setOrigin(Align.center);
 		
 		rotateLabels();
-		curve.calculateConnection();
+		connection.calculateConnection();
 	}
 	
 	private void updateLine(){
 		boolean changed = false;
 		
-		if(curve.getConnectionType() != ConnectionType.Line){
+		if(connection.getConnectionType() != ConnectionType.Line){
 			changed = true;
 		}
 		
-		curve.setConnectionType(ConnectionType.Line);
+		connection.setConnectionType(ConnectionType.Line);
 		
 		float updatedX = destination.getX()-origin.getX();
 		float updatedY = destination.getY()-origin.getY();
@@ -210,21 +208,21 @@ public class Edge extends GraphElement implements ConstructionMenuInterface{
 
 		setBounds(x, y, edgeVector.len()-origin.getInnerRadius()-destination.getInnerRadius(), 32);
 		setRotation(edgeVector.angle());
-		edgeLabels.setOrigin(Align.center);
 		edgeLabels.setBounds(0, 0, this.getWidth(), this.getHeight());
+		edgeLabels.setOrigin(Align.center);
 		
 		rotateLabels();
-		curve.calculateConnection();
+		connection.calculateConnection();
 	}
 	
 	private void updateCurve(){
 		boolean changed = false;
 		
-		if(curve.getConnectionType() == ConnectionType.Curve){
+		if(connection.getConnectionType() == ConnectionType.Curve){
 			changed = true;
 		}
 		
-		curve.setConnectionType(ConnectionType.Curve);
+		connection.setConnectionType(ConnectionType.Curve);
 		
 		float updatedX = destination.getX()-origin.getX();
 		float updatedY = destination.getY()-origin.getY();
@@ -243,11 +241,11 @@ public class Edge extends GraphElement implements ConstructionMenuInterface{
 
 		setBounds(x, y, edgeVector.len()-origin.getInnerRadius()-destination.getInnerRadius(), 48);
 		setRotation(edgeVector.angle());
-		edgeLabels.setOrigin(Align.center);
 		edgeLabels.setBounds(0, 10, this.getWidth(), this.getHeight());
+		edgeLabels.setOrigin(Align.center);
 			
 		rotateLabels();
-		curve.calculateConnection();
+		connection.calculateConnection();
 	}
 	
 	private void rotateLabels(){

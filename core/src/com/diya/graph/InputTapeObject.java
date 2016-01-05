@@ -6,7 +6,9 @@ import java.util.EnumSet;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -29,6 +31,14 @@ import diya.model.automata.components.InputTape;
 
 public class InputTapeObject extends GraphElement implements ConstructionMenuInterface{
 
+	final static TextureRegion cellGfx;
+	final static TextureRegion highlightedCell;
+	
+	static{
+		cellGfx = new TextureRegion(new Texture(Gdx.files.internal("Cell.png")));
+		highlightedCell = new TextureRegion(new Texture(Gdx.files.internal("HighlightedCell.png")));
+	}
+	
 	InputTape inputTape;
 	ArrayList<Cell> cells;
 	TextButton stepButton;
@@ -45,8 +55,7 @@ public class InputTapeObject extends GraphElement implements ConstructionMenuInt
 	public InputTapeObject(InputTape inputTape){
 		this.inputTape = inputTape;
 		this.setPosition(inputTape.getX(), inputTape.getY());
-
-		this.setTransform(false);
+		
 		cells = new ArrayList<Cell>();
 		accepted = false;
 		
@@ -159,7 +168,8 @@ public class InputTapeObject extends GraphElement implements ConstructionMenuInt
 		Cell temp = new Cell(input);
 		cells.add(temp);
 		this.addActor(temp);
-		temp.setPosition(this.getWidth()-resetButton.getWidth()-temp.getWidth(), 0);
+		
+		temp.setPosition(this.getWidth()-resetButton.getWidth(), 0);
 		this.setSize(this.getWidth()+temp.getWidth(), cellHeight);
 		this.resetCellHighlightning();
 		
@@ -185,6 +195,10 @@ public class InputTapeObject extends GraphElement implements ConstructionMenuInt
 			return;
 		}
 		
+		for(Cell aCell : cells){
+			aCell.setHighlight(false);
+		}
+		
 		cells.get(currentCell).setHighlight(true);
 		currentCell++;
 	}
@@ -207,7 +221,7 @@ public class InputTapeObject extends GraphElement implements ConstructionMenuInt
 		
 		this.addActor(stepButton);
 		this.addActor(runButton);
-		setSize(stepButton.getWidth()+cellWidth*1+resetButton.getWidth(), cellHeight);
+		setSize(stepButton.getWidth()+resetButton.getWidth(), cellHeight);
 		this.addActor(resetButton);
 		this.addCell("");
 	}
@@ -224,30 +238,32 @@ public class InputTapeObject extends GraphElement implements ConstructionMenuInt
 	
 	@Override
 	public void drawDebug(ShapeRenderer shapeRenderer) {
-		this.drawDebugBounds(shapeRenderer);
-		for(int i = 0; i < cells.size(); i++){
-			cells.get(i).drawDebug(shapeRenderer);
-		}
-		
-		if(finished)
-		{
-			shapeRenderer.set(ShapeType.Filled);
-	
-			if(accepted){
-				shapeRenderer.setColor(Color.GREEN);
-				shapeRenderer.rect(this.getX()+this.getWidth()-resetButton.getWidth()-cellWidth, this.getY(), cellWidth, cellHeight);
-			}
-			else{
-				shapeRenderer.setColor(Color.RED);
-				shapeRenderer.rect(this.getX()+this.getWidth()-resetButton.getWidth()-cellWidth, this.getY(), cellWidth, cellHeight);
-			}
-			shapeRenderer.set(ShapeType.Line);
-		}
+
 	}
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		this.drawChildren(batch, parentAlpha);
+		this.applyTransform(batch, this.computeTransform());
+		for(Cell aCell : cells){
+			aCell.draw(batch, parentAlpha);
+		}
+		this.resetTransform(batch);
+	}
+	
+	public void drawLabels(Batch batch, float parentAlpha){
+		this.applyTransform(batch, this.computeTransform());
+		for(Cell aCell : cells){
+			aCell.drawLabel(batch, parentAlpha);
+		}
+		this.resetTransform(batch);
+	}
+	
+	public void drawButtons(Batch batch, float parentAlpha){
+		this.applyTransform(batch, this.computeTransform());
+		stepButton.draw(batch, parentAlpha);;
+		runButton.draw(batch, parentAlpha);
+		resetButton.draw(batch, parentAlpha);
+		this.resetTransform(batch);
 	}
 
 	@Override
@@ -299,12 +315,16 @@ public class InputTapeObject extends GraphElement implements ConstructionMenuInt
 		
 		public Cell(String content){
 			this.setSize(32, 64);
+			this.setTransform(false);
+
 			cellLabel = new Label(content, labelStyle);
 			cellLabel.setFillParent(true);
 			cellLabel.setAlignment(Align.center);
+			cellLabel.setOrigin(Align.center);
+			cellLabel.setPosition(0, 0);
+
 			this.addActor(cellLabel);
 			this.setTouchable(Touchable.disabled);
-			this.setTransform(false);
 			this.highlight = false;
 		}
 		
@@ -316,24 +336,29 @@ public class InputTapeObject extends GraphElement implements ConstructionMenuInt
 			return cellLabel.getText().toString();
 		}
 		
-		@Override
-		public void drawDebug(ShapeRenderer shapeRenderer){
-			//this.drawDebugBounds(shapeRenderer);
-			if(highlight == true){
-				shapeRenderer.set(ShapeType.Filled);
-				Color color = shapeRenderer.getColor();
-				shapeRenderer.setColor(0.9f, 0.9f, 0.9f, 0.3f);
-				shapeRenderer.box(this.getX()+this.getParent().getX(), this.getY()+this.getParent().getY(), 0, this.getWidth(), this.getHeight(), 0);
-				shapeRenderer.setColor(color);
-				shapeRenderer.set(ShapeType.Line);
-			}
+		public void drawLabel(Batch batch, float parentAlpha){
+			this.drawChildren(batch, parentAlpha);
 		}
 		
 		@Override
 		public void draw(Batch batch, float parentAlpha){
-			batch.setShader(fontShader);
-			this.drawChildren(batch, parentAlpha);
-			batch.setShader(null);
+			if(finished){
+				if(accepted){
+					batch.setColor(Color.GREEN);
+				}
+				else{
+					batch.setColor(Color.RED);
+				}
+			}else{
+				batch.setColor(Color.BLACK);
+			}
+			
+			batch.draw(cellGfx, this.getX(), this.getY());
+			
+			batch.setColor(Color.WHITE);
+			if(highlight == true){
+				batch.draw(highlightedCell, this.getX(), this.getY());
+			}
 		}
 	}
 }
