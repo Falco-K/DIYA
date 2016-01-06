@@ -25,7 +25,6 @@ public class Connection extends Actor{
 	static final Vector2 arrowCenter;
 	static final Vector2 arrowStart;
 
-	
 	final Bezier<Vector2> curve;
 	final Vector2 edgeVector;
 	

@@ -76,7 +76,7 @@ public class State extends Component implements Iterable<Transition>{
 		return null;
 	}
 	
-	public ArrayList<Transition> getNextEdges(Symbol symbol){
+	public ArrayList<Transition> getNextEdges(Symbol symbol, boolean getEmptyTransitions){
 		ArrayList<Transition> transitions = new ArrayList<Transition>();
 		
 		if(outgoingTransitions.isEmpty()){
@@ -84,7 +84,7 @@ public class State extends Component implements Iterable<Transition>{
 		}
 		
 		for(Transition aTransition : outgoingTransitions){
-			if(aTransition.accepts(symbol)){
+			if(aTransition.accepts(symbol) || (getEmptyTransitions && aTransition.isEmpty())){
 				transitions.add(aTransition);
 			}
 		}

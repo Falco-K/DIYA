@@ -26,6 +26,11 @@ public class FiniteStateMachine extends Automaton{
 		return true;
 	}
 	
+	@Override
+	public boolean getEmptyTransitionsAllowed(){
+		return true;
+	}
+	
 	public TransitionRule makeTransitionRule(String transition){
 		for(TransitionRule aRule : possibleRules){
 			if(aRule.toString().equals(transition)){

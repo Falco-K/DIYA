@@ -64,6 +64,10 @@ public class Transition extends Component{
 		return false;
 	}
 	
+	public boolean isEmpty(){
+		return transitionRules.isEmpty();
+	}
+	
 	public State getDestination(){
 		return this.destination;
 	}

@@ -83,7 +83,7 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 			ArrayList<Transition> tempTransitions = new ArrayList<Transition>();
 			
 			for(State aState : currentStates){
-				for(Transition aTransition : aState.getNextEdges(nextSymbol)){
+				for(Transition aTransition : aState.getNextEdges(nextSymbol, getEmptyTransitionsAllowed())){
 					tempTransitions.add(aTransition);
 					tempStates.add(aTransition.getDestination());
 					afterInputRead(aTransition.getTransitionRule(nextSymbol));
@@ -359,4 +359,6 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 	public abstract TransitionRule makeTransitionRule(String transition);
 	
 	public abstract boolean validate(State aState);
+	
+	public abstract boolean getEmptyTransitionsAllowed();
 }

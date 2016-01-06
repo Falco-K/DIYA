@@ -15,11 +15,13 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputEvent.Type;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
@@ -33,17 +35,31 @@ public class InputTapeObject extends GraphElement implements ConstructionMenuInt
 
 	final static TextureRegion cellGfx;
 	final static TextureRegion highlightedCell;
+	final static TextureRegionDrawable stopButtonUp;
+	final static TextureRegionDrawable stopButtonDown;
+	final static TextureRegionDrawable runButton;
+	final static TextureRegionDrawable pauseButton;
+	final static TextureRegionDrawable stepButtonUp;
+	final static TextureRegionDrawable stepButtonDown;
 	
 	static{
 		cellGfx = new TextureRegion(new Texture(Gdx.files.internal("Cell.png")));
 		highlightedCell = new TextureRegion(new Texture(Gdx.files.internal("HighlightedCell.png")));
+		
+		stopButtonUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("StopButtonUp.png"))));
+		stopButtonDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("StopButtonDown.png"))));
+		runButton = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("RunButton.png"))));
+		pauseButton = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("PauseButton.png"))));
+		stepButtonUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("StepButtonUp.png"))));
+		stepButtonDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("StepButtonDown.png"))));
 	}
 	
 	InputTape inputTape;
 	ArrayList<Cell> cells;
-	TextButton stepButton;
-	TextButton runButton;
-	TextButton resetButton;
+	
+	Button stepButton;
+	Button runPauseButton;
+	Button stopButton;
 	
 	final float cellWidth = 32;
 	final float cellHeight = 64;
@@ -52,9 +68,12 @@ public class InputTapeObject extends GraphElement implements ConstructionMenuInt
 	boolean accepted;
 	boolean finished;
 	
+	boolean cellAmountChanged;
+	
 	public InputTapeObject(InputTape inputTape){
 		this.inputTape = inputTape;
 		this.setPosition(inputTape.getX(), inputTape.getY());
+		this.cellAmountChanged = false;
 		
 		cells = new ArrayList<Cell>();
 		accepted = false;
@@ -64,6 +83,7 @@ public class InputTapeObject extends GraphElement implements ConstructionMenuInt
 			float offsetX;
 			float offsetY;
 			boolean dragged = false;
+			
 			
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
@@ -90,9 +110,8 @@ public class InputTapeObject extends GraphElement implements ConstructionMenuInt
 			}
 		});
 		
-		Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
-		stepButton = new TextButton("Step", skin);
-		stepButton.setSize(cellHeight, cellWidth);
+		//Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+		stepButton = new Button(stepButtonUp, stepButtonDown);
 		stepButton.addListener(new ClickListener(){
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
@@ -116,20 +135,25 @@ public class InputTapeObject extends GraphElement implements ConstructionMenuInt
 		}, 0, 2);
 		doSteps.stop();
 		
-		runButton = new TextButton("Run", skin);
-		runButton.setSize(cellHeight, cellWidth);
-		runButton.setPosition(0, cellWidth);
-		runButton.addListener(new ClickListener(){
+		final Button.ButtonStyle runButtonStyle = new Button.ButtonStyle(runButton, null, null);
+		final Button.ButtonStyle pauseButtonStyle = new Button.ButtonStyle(pauseButton, null, null);	
+		
+		runPauseButton = new Button(runButton);
+		runPauseButton.setPosition(0, cellWidth);
+		runPauseButton.setUserObject(false);
+		runPauseButton.addListener(new ClickListener(){
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
 				if(button == Input.Buttons.LEFT){
-					TextButton temp = ((TextButton)event.getListenerActor());
-					if(temp.getText().toString().equals("Run")){
-						temp.setText("Pause");
+					Button temp = (Button)event.getListenerActor();
+					if((boolean)temp.getUserObject() == false){
+						temp.setStyle(pauseButtonStyle);
+						temp.setUserObject(true);
 						doSteps.start();
 					}
 					else{
-						temp.setText("Run");
+						temp.setStyle(runButtonStyle);
+						temp.setUserObject(false);
 						doSteps.stop();
 					}
 					return true;
@@ -139,17 +163,17 @@ public class InputTapeObject extends GraphElement implements ConstructionMenuInt
 			}
 		});
 		
-		resetButton = new TextButton("Reset", skin);
-		resetButton.setSize(cellHeight, cellHeight);
-		resetButton.addListener(new ClickListener(){
+		stopButton = new Button(stopButtonUp, stopButtonDown);
+		stopButton.setSize(cellHeight, cellHeight);
+		stopButton.addListener(new ClickListener(){
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
 				if(button == Input.Buttons.LEFT){
-					if(runButton.getText().toString().equals("Pause")){
+					if((boolean)runPauseButton.getUserObject() == true){
 						InputEvent inputEvent = new InputEvent();
 						inputEvent.setType(Type.touchDown);
-						inputEvent.setListenerActor(runButton);
-						runButton.fire(inputEvent);
+						inputEvent.setListenerActor(runPauseButton);
+						runPauseButton.fire(inputEvent);
 					}
 					
 					((ConstructionStage)event.getStage()).sendCommand("reset");
@@ -166,17 +190,24 @@ public class InputTapeObject extends GraphElement implements ConstructionMenuInt
 	
 	public void addCell(String input){
 		Cell temp = new Cell(input);
-		cells.add(temp);
+		if(cells.size() > 1){
+			cells.add(cells.size()-1, temp);
+		}
+		else{
+			cells.add(temp);
+		}
+		
 		this.addActor(temp);
 		
-		temp.setPosition(this.getWidth()-resetButton.getWidth(), 0);
-		this.setSize(this.getWidth()+temp.getWidth(), cellHeight);
+		this.setSize(cells.size()*cellWidth+cellWidth*4, cellHeight);
 		this.resetCellHighlightning();
 		
 		String currentContent = getInput();
 		if(input.length() > 0){
 			((ConstructionStage)this.getStage()).sendCommand("setinput "+currentContent);
 		}
+		
+		cellAmountChanged = true;
 	}
 	
 	public void resetCellHighlightning(){
@@ -220,10 +251,13 @@ public class InputTapeObject extends GraphElement implements ConstructionMenuInt
 		clearChildren();
 		
 		this.addActor(stepButton);
-		this.addActor(runButton);
-		setSize(stepButton.getWidth()+resetButton.getWidth(), cellHeight);
-		this.addActor(resetButton);
+		this.addActor(runPauseButton);
+		setSize(stepButton.getWidth()+stopButton.getWidth(), cellHeight);
+		this.addActor(stopButton);
 		this.addCell("");
+		this.addCell("");
+		
+		this.cellAmountChanged = true;
 	}
 	
 	public void finished(boolean accepted){
@@ -233,7 +267,20 @@ public class InputTapeObject extends GraphElement implements ConstructionMenuInt
 	
 	@Override
 	public void sizeChanged(){
-		resetButton.setPosition(this.getWidth()-resetButton.getWidth(), 0);
+		stopButton.setPosition(this.getWidth()-stopButton.getWidth(), 0);
+	}
+	
+	@Override
+	public void act(float delta){
+		if(cellAmountChanged){
+			float startX = cellWidth*2;
+			for(int i = 0; i < cells.size(); i++){
+				cells.get(i).setPosition(startX, 0);
+				startX+= cellWidth;
+			}
+			
+			cellAmountChanged = false;
+		}
 	}
 	
 	@Override
@@ -261,8 +308,8 @@ public class InputTapeObject extends GraphElement implements ConstructionMenuInt
 	public void drawButtons(Batch batch, float parentAlpha){
 		this.applyTransform(batch, this.computeTransform());
 		stepButton.draw(batch, parentAlpha);;
-		runButton.draw(batch, parentAlpha);
-		resetButton.draw(batch, parentAlpha);
+		runPauseButton.draw(batch, parentAlpha);
+		stopButton.draw(batch, parentAlpha);
 		this.resetTransform(batch);
 	}
 

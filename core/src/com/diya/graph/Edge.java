@@ -108,11 +108,17 @@ public class Edge extends GraphElement implements ConstructionMenuInterface{
 	public void updateLabel(){
 		String[] rules = transition.getTransitionRulesAsStrings();
 		String text = "";
-		for(String aRule : rules){
-			if(text.equals("") == false){
-				text += ", ";
+		
+		if(rules.length > 0){
+			for(String aRule : rules){
+				if(text.equals("") == false){
+					text += ", ";
+				}
+				text +=aRule;
 			}
-			text +=aRule;
+		}
+		else{
+			text = "\u03B5";
 		}
 		
 		edgeLabel.setText(text);
@@ -178,7 +184,7 @@ public class Edge extends GraphElement implements ConstructionMenuInterface{
 		edgeVector.setAngle(this.getRotation()+90);
 		edgeLabels.setOrigin(Align.center);
 		
-		rotateLabels();
+		rotateLabels(180, 360);
 		connection.calculateConnection();
 	}
 	
@@ -211,7 +217,7 @@ public class Edge extends GraphElement implements ConstructionMenuInterface{
 		edgeLabels.setBounds(0, 0, this.getWidth(), this.getHeight());
 		edgeLabels.setOrigin(Align.center);
 		
-		rotateLabels();
+		rotateLabels(90, 270);
 		connection.calculateConnection();
 	}
 	
@@ -244,12 +250,12 @@ public class Edge extends GraphElement implements ConstructionMenuInterface{
 		edgeLabels.setBounds(0, 10, this.getWidth(), this.getHeight());
 		edgeLabels.setOrigin(Align.center);
 			
-		rotateLabels();
+		rotateLabels(90, 270);
 		connection.calculateConnection();
 	}
 	
-	private void rotateLabels(){
-		if(edgeVector.angle() > 90 && edgeVector.angle() < 270){
+	private void rotateLabels(float lower, float upper){
+		if(edgeVector.angle() > lower && edgeVector.angle() < upper){
 			edgeLabels.setRotation(180);
 		}
 		else
@@ -260,7 +266,7 @@ public class Edge extends GraphElement implements ConstructionMenuInterface{
 	
 	@Override
 	public EnumSet<ConstructionMenuOption> getMenuOptions() {
-		return EnumSet.of(ConstructionMenuOption.Close, ConstructionMenuOption.SetSymbol);
+		return EnumSet.of(ConstructionMenuOption.Remove, ConstructionMenuOption.SetSymbol);
 	}
 
 	@Override

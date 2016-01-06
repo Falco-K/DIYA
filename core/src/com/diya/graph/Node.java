@@ -265,7 +265,7 @@ public class Node extends GraphElement implements ConstructionMenuInterface{
 
 	@Override
 	public EnumSet<ConstructionMenuOption> getMenuOptions(){
-		return EnumSet.of(ConstructionMenuOption.Close, ConstructionMenuOption.SetStart, ConstructionMenuOption.SetFinal);
+		return EnumSet.of(ConstructionMenuOption.Remove, ConstructionMenuOption.SetStart, ConstructionMenuOption.SetFinal);
 	}
 	
 	@Override

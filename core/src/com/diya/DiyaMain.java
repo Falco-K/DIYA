@@ -41,7 +41,7 @@ public class DiyaMain extends ApplicationAdapter implements DiyaViewInterface{
 		controller = new DiyaCommandProcessor(automaton);
 		automaton.addObserver(this);
 
-		Viewport viewport = new ExtendViewport(512, 512);
+		Viewport viewport = new ExtendViewport(640, 480);
 		uiStage = new UIStage(viewport, this, controller);
        	camera = new Camera(1024, 1024, viewport.getScreenWidth(), viewport.getScreenHeight());
        	

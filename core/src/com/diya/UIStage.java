@@ -1,19 +1,26 @@
 package com.diya;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import diya.controller.handler.DiyaController;
@@ -21,6 +28,14 @@ import diya.view.DiyaViewInterface;
 
 public class UIStage extends Stage{
 
+	final static TextureRegionDrawable undoGfx;
+	final static TextureRegionDrawable redoGfx;
+
+	static{
+		undoGfx = new TextureRegionDrawable(new TextureRegion(new Texture("Undo.png")));
+		redoGfx = new TextureRegionDrawable(new TextureRegion(new Texture("Redo.png")));
+	}
+	
 	final DiyaViewInterface view;
 	final DiyaController controller;
 	Console console;
@@ -76,19 +91,44 @@ public class UIStage extends Stage{
         
         this.addActor(uiTable);
         
-        TextButton undoButton = new TextButton("Undo", skin);
+        Button undoButton = new Button(undoGfx);
+        undoButton.setColor(Color.BLACK);
         undoButton.addListener(new ClickListener(){
         	@Override
-        	public void clicked(InputEvent event, float x, float y){
-        		controller.actionPerformed(view, "undo");
+        	public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
+        		if(button == Input.Buttons.LEFT){
+	        		controller.actionPerformed(view, "undo");
+	        		event.getListenerActor().setColor(Color.RED);
+	        		return true;
+        		}
+        		
+        		return false;
+        	}
+        	
+        	@Override
+         	public void touchUp(InputEvent event, float x, float y, int pointer, int button){
+        		event.getListenerActor().setColor(Color.BLACK);
         	}
         });
         
-        TextButton redoButton = new TextButton("Redo", skin);
+        
+        Button redoButton = new Button(redoGfx);
+        redoButton.setColor(Color.BLACK);
         redoButton.addListener(new ClickListener(){
         	@Override
-        	public void clicked(InputEvent event, float x, float y){
-        		controller.actionPerformed(view, "redo");
+        	public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
+        		if(button == Input.Buttons.LEFT){
+	        		controller.actionPerformed(view, "redo");
+	        		event.getListenerActor().setColor(Color.RED);
+	        		return true;
+        		}
+        		
+        		return false;
+        	}
+        	
+        	@Override
+         	public void touchUp(InputEvent event, float x, float y, int pointer, int button){
+        		event.getListenerActor().setColor(Color.BLACK);
         	}
         });
 
@@ -104,7 +144,7 @@ public class UIStage extends Stage{
         
         uiTable.add().width(100);
         uiTable.add().expandX();
-        uiTable.add(undoButton).height(undoButton.getHeight()*1.5f);
+        uiTable.add(undoButton).height(undoButton.getHeight());
         uiTable.add().width(10);
         uiTable.add(redoButton).width(undoButton.getWidth()).fill();
         uiTable.add().expandX();
@@ -113,8 +153,8 @@ public class UIStage extends Stage{
         uiTable.add(console).colspan(uiTable.getColumns()).fill().top().expand();
         uiTable.row();
         uiTable.add(fpsLabel).width(100).center();
-        uiTable.add().height(undoButton.getHeight()*1.5f).colspan(5).expandX();
-        uiTable.add(menuButton).height(undoButton.getHeight()*1.5f).right();
+        uiTable.add().height(undoButton.getHeight()).colspan(5).expandX();
+        uiTable.add(menuButton).height(undoButton.getHeight()).right();
 	}
 
 	public void printMessage(String message) {

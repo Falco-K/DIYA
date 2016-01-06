@@ -9,6 +9,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
@@ -17,10 +18,12 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.diya.graph.*;
 
@@ -28,8 +31,24 @@ public class ConstructionMenu extends Group {
 
 	final static TextureRegion menuCircle;
 	
+	final static TextureRegionDrawable setSymbolButtonGfx;
+	final static TextureRegionDrawable addSymbolButtonGfx;
+	final static TextureRegionDrawable clearButtonGfx;
+	final static TextureRegionDrawable closeButtonGfx;
+	final static TextureRegionDrawable removeButtonGfx;
+	final static TextureRegionDrawable setFinalButtonGfx;
+	final static TextureRegionDrawable setInitialButtonGfx;
+	
 	static{
 		menuCircle = new TextureRegion(new Texture(Gdx.files.internal("MenuCircle.png")));
+		
+		setSymbolButtonGfx = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("ButtonMenuSetSymbol.png"))));
+		addSymbolButtonGfx = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("ButtonMenuAddSymbol.png"))));
+		clearButtonGfx = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("ButtonMenuClear.png"))));
+		closeButtonGfx = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("ButtonMenuClose.png"))));
+		removeButtonGfx = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("ButtonMenuRemove.png"))));
+		setFinalButtonGfx = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("ButtonMenuSetFinal.png"))));
+		setInitialButtonGfx = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("ButtonMenuSetInitial.png"))));
 	}
 	
 	ConstructionMenuInterface currentObject;
@@ -64,11 +83,10 @@ public class ConstructionMenu extends Group {
 		
 		float buttonSize = 48;
 		
-		TextButton closeButton = new TextButton("X", skin);
-		closeButton.setVisible(false);
-		closeButton.setSize(buttonSize, buttonSize);
-		closeButton.setColor(Color.GREEN);
-		closeButton.addListener(new ClickListener(){
+		Button removeButton = new Button(removeButtonGfx);
+		removeButton.setVisible(false);
+		removeButton.setColor(Color.RED);
+		removeButton.addListener(new ClickListener(){
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
 				if(currentObject instanceof Edge){
@@ -86,55 +104,68 @@ public class ConstructionMenu extends Group {
 			}
 		});
 		
-		this.addActor(closeButton);
-		possibleButtons.put(ConstructionMenuOption.Close.toString(), closeButton);	
+		this.addActor(removeButton);
+		possibleButtons.put(ConstructionMenuOption.Remove.toString(), removeButton);
 		
-		TextButton setStartButton = new TextButton(">", skin);
-		setStartButton.setVisible(false);
-		setStartButton.setSize(buttonSize, buttonSize);
-		setStartButton.addListener(new ClickListener(){
+		Button closeButton = new Button(closeButtonGfx);
+		closeButton.setVisible(false);
+		closeButton.setColor(Color.GREEN);
+		closeButton.addListener(new ClickListener(){
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){				
+				((ConstructionMenu)event.getListenerActor().getParent()).close();
+				event.stop();
+				return true;
+			}
+		});
+		
+		this.addActor(closeButton);
+		possibleButtons.put(ConstructionMenuOption.Close.toString(), closeButton);
+		
+		Button setInitialButton = new Button(setInitialButtonGfx);
+		setInitialButton.setVisible(false);
+		setInitialButton.addListener(new ClickListener(){
 			boolean switchColor;
 			
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
-				Color current = ((TextButton)event.getListenerActor()).getColor();
+				Color current = ((Button)event.getListenerActor()).getColor();
 				switchColor = !current.equals(Color.RED);
 				
 				if(switchColor == true){
-					((TextButton)event.getListenerActor()).setColor(Color.RED);
+					((Button)event.getListenerActor()).setColor(Color.RED);
 				}
 				else{
-					((TextButton)event.getListenerActor()).setColor(Color.WHITE);			
+					((Button)event.getListenerActor()).setColor(Color.WHITE);			
 				}
 				
-				currentObject.setSelectedOption(ConstructionMenuOption.SetStart, ((TextButton)event.getListenerActor()).getText());
+				currentObject.setSelectedOption(ConstructionMenuOption.SetStart, "");
 
 				event.stop();
 				return true;
 			}
 		});
-		this.addActor(setStartButton);
-		possibleButtons.put(ConstructionMenuOption.SetStart.toString(), setStartButton);
+		this.addActor(setInitialButton);
+		possibleButtons.put(ConstructionMenuOption.SetStart.toString(), setInitialButton);
 		
-		TextButton setFinalButton = new TextButton("O", skin);
+		Button setFinalButton = new Button(setFinalButtonGfx);
 		setFinalButton.setVisible(false);
-		setFinalButton.setSize(buttonSize, buttonSize);
 		setFinalButton.addListener(new ClickListener(){
 			boolean switchColor;
 			
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
-				Color current = ((TextButton)event.getListenerActor()).getColor();
+				Color current = ((Button)event.getListenerActor()).getColor();
 				switchColor = !current.equals(Color.RED);
 				
 				if(switchColor == true){
-					((TextButton)event.getListenerActor()).setColor(Color.RED);
+					((Button)event.getListenerActor()).setColor(Color.RED);
 				}
 				else{
-					((TextButton)event.getListenerActor()).setColor(Color.WHITE);			
+					((Button)event.getListenerActor()).setColor(Color.WHITE);			
 				}
 				
-				currentObject.setSelectedOption(ConstructionMenuOption.SetFinal, ((TextButton)event.getListenerActor()).getText());
+				currentObject.setSelectedOption(ConstructionMenuOption.SetFinal, "");
 
 				event.stop();
 				return true;
@@ -143,24 +174,39 @@ public class ConstructionMenu extends Group {
 		this.addActor(setFinalButton);
 		possibleButtons.put(ConstructionMenuOption.SetFinal.toString(), setFinalButton);
 		
-		TextButton clearButton = new TextButton("<", skin);
+		Button clearButton = new Button(clearButtonGfx);
 		clearButton.setVisible(false);
-		clearButton.setSize(buttonSize, buttonSize);
 		clearButton.addListener(new ClickListener(){
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
 				currentObject.setSelectedOption(ConstructionMenuOption.Clear, "");
-
+				event.getListenerActor().setColor(Color.RED);
 				event.stop();
 				return true;
+			}
+			
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button){
+				event.getListenerActor().setColor(Color.WHITE);
 			}
 		});
 		this.addActor(clearButton);
 		possibleButtons.put(ConstructionMenuOption.Clear.toString(), clearButton);
 		
 		
+		
+		TextButton.TextButtonStyle textButtonStyleSetSymbol = new TextButton.TextButtonStyle();
+		textButtonStyleSetSymbol.up = setSymbolButtonGfx;
+		textButtonStyleSetSymbol.font = skin.getFont("default-font");
+		
+		TextButton.TextButtonStyle textButtonStyleAddSymbol = new TextButton.TextButtonStyle();
+		textButtonStyleAddSymbol.up = addSymbolButtonGfx;
+		textButtonStyleAddSymbol.font = skin.getFont("default-font");
+
+		
 		for(String aSymbol : symbols){
-			TextButton temp = new TextButton(aSymbol, skin);
+			TextButton temp = new TextButton(aSymbol, textButtonStyleSetSymbol);
+			temp.align(Align.center);
 			temp.setVisible(false);
 			temp.setSize(buttonSize, buttonSize);
 			temp.addListener(new ClickListener(){
@@ -168,14 +214,14 @@ public class ConstructionMenu extends Group {
 				
 				@Override
 				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
-					Color current = ((TextButton)event.getListenerActor()).getColor();
+					Color current = ((Button)event.getListenerActor()).getColor();
 					switchColor = !current.equals(Color.RED);
 					
 					if(switchColor == true){
-						((TextButton)event.getListenerActor()).setColor(Color.RED);
+						((Button)event.getListenerActor()).setColor(Color.RED);
 					}
 					else{
-						((TextButton)event.getListenerActor()).setColor(Color.WHITE);			
+						((Button)event.getListenerActor()).setColor(Color.WHITE);			
 					}
 					
 					currentObject.setSelectedOption(ConstructionMenuOption.SetSymbol, ((TextButton)event.getListenerActor()).getText());
@@ -187,16 +233,22 @@ public class ConstructionMenu extends Group {
 			this.addActor(temp);
 			possibleButtons.put(ConstructionMenuOption.SetSymbol.toString()+aSymbol, temp);
 			
-			TextButton temp2 = new TextButton(aSymbol, skin);
+			TextButton temp2 = new TextButton(aSymbol, textButtonStyleAddSymbol);
 			temp2.setVisible(false);
 			temp2.setSize(buttonSize, buttonSize);
 			temp2.addListener(new ClickListener(){			
 				@Override
 				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
 					currentObject.setSelectedOption(ConstructionMenuOption.AddSymbol, ((TextButton)event.getListenerActor()).getText());
+					event.getListenerActor().setColor(Color.RED);
 					
 					event.stop();
 					return true;
+				}
+				
+				@Override
+				public void touchUp(InputEvent event, float x, float y, int pointer, int button){
+					event.getListenerActor().setColor(Color.WHITE);
 				}
 			});
 			this.addActor(temp2);
