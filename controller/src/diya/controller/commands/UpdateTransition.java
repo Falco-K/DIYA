@@ -17,7 +17,7 @@ public class UpdateTransition extends Command {
 		if(parameters.length == 2){
 			origin = parameters[0];
 			destination = parameters[1];
-			transitionRules = new String[]{};
+			transitionRules = null;
 		}
 		else if(parameters.length >= 3){
 			origin = parameters[0];

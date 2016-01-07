@@ -1,5 +1,6 @@
 package diya.model.automata.transitionRules;
 
+import diya.model.automata.Automaton;
 import diya.model.language.Symbol;
 
 public class TransitionRule {
@@ -12,6 +13,10 @@ public class TransitionRule {
 	public Symbol getSymbol(){
 		return inputSymbol;
 	}
+	
+	public boolean hasEmptyInput(){
+		return inputSymbol == null;
+	}
 
 	public void setSymbol(Symbol aSymbol){
 		inputSymbol = aSymbol;
@@ -19,6 +24,10 @@ public class TransitionRule {
 
 	@Override
 	public String toString(){
-		return String.valueOf(inputSymbol.toString());
+		if(inputSymbol == null){
+			return Automaton.EMPTY_WORD;
+		}
+		
+		return inputSymbol.toString();
 	}
 }

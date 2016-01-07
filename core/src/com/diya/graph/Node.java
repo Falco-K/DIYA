@@ -380,7 +380,7 @@ public class Node extends GraphElement implements ConstructionMenuInterface{
 		
 		@Override
 		public void drawDebug(ShapeRenderer shapeRenderer){
-			shapeRenderer.setColor(Color.DARK_GRAY);
+			shapeRenderer.setColor(Color.GREEN);
 			shapeRenderer.line(node.getMidX(), node.getMidY(), node.getMidX()+edgeVector.x, node.getMidY()+edgeVector.y);
 			drawArrowHead(shapeRenderer);
 		}

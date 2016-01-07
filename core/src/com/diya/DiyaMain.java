@@ -54,7 +54,7 @@ public class DiyaMain extends ApplicationAdapter implements DiyaViewInterface{
 		automaton.addState("t1", true, false, 100, 200);
 		automaton.addState("t2", false, true, 300, 200);
 		automaton.addState("s1", false, false, 500, 200);
-		automaton.addTransition("t1", "t2", new String[] {"0"});
+		automaton.addTransition("t1", "t2", null);
 		automaton.addTransition("t2", "t1", new String[] {"0"});
 		automaton.addTransition("s1", "s1", new String[] {"1"});
 		automaton.addTransition("t2", "s1", new String[] {"1"});
@@ -137,7 +137,7 @@ public class DiyaMain extends ApplicationAdapter implements DiyaViewInterface{
 				break;
 			case StateUpdated : graph.updateNode(((StateUpdatedEvent) event).getState());
 				break;
-			case StepDone : graph.animateTransition(((StepDoneEvent) event).getStates(), ((StepDoneEvent) event).getTransitions());
+			case StepDone : graph.animateTransition(((StepDoneEvent) event).getStates(), ((StepDoneEvent) event).getTransitions(), ((StepDoneEvent) event).getStepNumber());
 				break;
 			case RunFinished : graph.accepted(((RunFinishedEvent) event).hasAccepted());
 				break;

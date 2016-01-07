@@ -129,18 +129,8 @@ public class ConstructionMenu extends Group {
 			
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
-				Color current = ((Button)event.getListenerActor()).getColor();
-				switchColor = !current.equals(Color.RED);
-				
-				if(switchColor == true){
-					((Button)event.getListenerActor()).setColor(Color.RED);
-				}
-				else{
-					((Button)event.getListenerActor()).setColor(Color.WHITE);			
-				}
-				
 				currentObject.setSelectedOption(ConstructionMenuOption.SetStart, "");
-
+				((ConstructionMenu)(event.getListenerActor().getParent())).setSelectedOptions();
 				event.stop();
 				return true;
 			}
@@ -155,18 +145,8 @@ public class ConstructionMenu extends Group {
 			
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
-				Color current = ((Button)event.getListenerActor()).getColor();
-				switchColor = !current.equals(Color.RED);
-				
-				if(switchColor == true){
-					((Button)event.getListenerActor()).setColor(Color.RED);
-				}
-				else{
-					((Button)event.getListenerActor()).setColor(Color.WHITE);			
-				}
-				
 				currentObject.setSelectedOption(ConstructionMenuOption.SetFinal, "");
-
+				((ConstructionMenu)(event.getListenerActor().getParent())).setSelectedOptions();
 				event.stop();
 				return true;
 			}
@@ -214,18 +194,9 @@ public class ConstructionMenu extends Group {
 				
 				@Override
 				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
-					Color current = ((Button)event.getListenerActor()).getColor();
-					switchColor = !current.equals(Color.RED);
-					
-					if(switchColor == true){
-						((Button)event.getListenerActor()).setColor(Color.RED);
-					}
-					else{
-						((Button)event.getListenerActor()).setColor(Color.WHITE);			
-					}
-					
 					currentObject.setSelectedOption(ConstructionMenuOption.SetSymbol, ((TextButton)event.getListenerActor()).getText());
-
+					((ConstructionMenu)(event.getListenerActor().getParent())).setSelectedOptions();
+					
 					event.stop();
 					return true;
 				}
@@ -254,6 +225,23 @@ public class ConstructionMenu extends Group {
 			this.addActor(temp2);
 			possibleButtons.put(ConstructionMenuOption.AddSymbol.toString()+aSymbol, temp2);
 		}
+		
+		TextButton temp = new TextButton("\u03B5", textButtonStyleSetSymbol);
+		temp.setVisible(false);
+		temp.addListener(new ClickListener(){
+			boolean switchColor;
+			
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
+				currentObject.setSelectedOption(ConstructionMenuOption.SetSymbol, ((TextButton)event.getListenerActor()).getText());
+				((ConstructionMenu)(event.getListenerActor().getParent())).setSelectedOptions();
+				
+				event.stop();
+				return true;
+			}
+		});
+		this.addActor(temp);
+		possibleButtons.put(ConstructionMenuOption.SetEmptyWord.toString(), temp);
 	}
 	
 	@Override
@@ -376,12 +364,13 @@ public class ConstructionMenu extends Group {
 			}
 		}
 		
-		String options = currentObject.getSelectedOptions();
-		if(options != null && options.equals("") == false){
-			for(String option : options.split(",")){
+		String constructionMenuOptions = currentObject.getSelectedOptions();
+		if(constructionMenuOptions != null && constructionMenuOptions.equals("") == false){
+			for(String option : constructionMenuOptions.split(",")){
 				if(possibleButtons.keySet().contains(option) == false){
 					break;
 				}
+
 				possibleButtons.get(option).setColor(Color.RED);
 			}
 		}

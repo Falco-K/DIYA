@@ -165,7 +165,7 @@ public class Graph extends Group{
 		inputTape.resetCellHighlightning();
 	}
 
-	public void animateTransition(ArrayList<State> states, ArrayList<Transition> transitions) {
+	public void animateTransition(ArrayList<State> states, ArrayList<Transition> transitions, int stepCount) {
 
 		Set<Entry<String, Node>> allNodes = nodes.entrySet();
 		for(Entry<String, Node> aNodeName : allNodes){
@@ -174,13 +174,16 @@ public class Graph extends Group{
 			aNode.setHighlighting(false);
 		}
 		
-		if(transitions != null){
-			for(Transition aTransition : transitions){
-				Node aNode = nodes.get(aTransition.getOrigin().getName());
-				aNode.getEdge(aTransition).animateTransition();
-			}
+		if(transitions == null){
+			return;
 		}
-		else{
+		
+		for(Transition aTransition : transitions){
+			Node aNode = nodes.get(aTransition.getOrigin().getName());
+			aNode.getEdge(aTransition).animateTransition();
+		}
+		
+		if(stepCount == 1){
 			for(State aState : states){
 				nodes.get(aState.getName()).setHighlighting(true);
 			}

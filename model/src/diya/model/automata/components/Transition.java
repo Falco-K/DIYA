@@ -56,6 +56,10 @@ public class Transition extends Component{
 	
 	public boolean accepts(Symbol input){
 		for(TransitionRule aRule : transitionRules){
+			if(aRule.hasEmptyInput()){
+				continue;
+			}
+			
 			if(aRule.getSymbol().equals(input)){
 				return true;
 			}
@@ -66,6 +70,16 @@ public class Transition extends Component{
 	
 	public boolean isEmpty(){
 		return transitionRules.isEmpty();
+	}
+	
+	public boolean hasEmptyWordTransition(){
+		for(TransitionRule aRule : transitionRules){
+			if(aRule.hasEmptyInput()){
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	public State getDestination(){

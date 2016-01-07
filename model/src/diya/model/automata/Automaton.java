@@ -1,7 +1,9 @@
 package diya.model.automata;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
@@ -11,18 +13,23 @@ import diya.model.language.*;
 import diya.model.automata.transitionRules.*;
 
 public abstract class Automaton extends ObservableAutomaton implements Iterable<Entry<String, State>>{
-	ArrayList<State> currentStates;
+	
+	public final static String EMPTY_WORD = "\u03B5";
+	
+	HashSet<State> currentStates;
 	HashMap<String, State> states;
 	InputTape inputTape;
 	Alphabet alphabet;
 	boolean running;
+	int stepCount;
 	
 	public Automaton(int x, int y, Alphabet alphabet){
 		states = new HashMap<String, State>();
-		currentStates = new ArrayList<State>();
+		currentStates = new  HashSet<State>();
 		inputTape = new InputTape(x, y);
 		this.alphabet = alphabet;
 		running = false;
+		stepCount = 0;
 	}
 	
 	public void setInput(Word word){
@@ -58,9 +65,10 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 	}
 	
 	public void reset(){
+		running = false;
+		stepCount = 0;
 		inputTape.resetTape();
 		setCurrentStates(null);
-		running = false;
 	}
 	
 	public boolean doTransition(){
@@ -69,7 +77,13 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 			setInitialStates();
 			running = !running;
 			
-			fireEvent(new StepDoneEvent(currentStates));
+			ArrayList<Transition> emptyWordTransitions = getEmptyWordTransitionChain();
+			for(Transition aTransition : emptyWordTransitions){
+				currentStates.add(aTransition.getDestination());
+			}
+			
+			stepCount++;
+			fireEvent(new StepDoneEvent(currentStates, getEmptyWordTransitionChain(), stepCount));
 		}
 		else{
 			Symbol nextSymbol = inputTape.readSymbolMoveTape();
@@ -79,11 +93,13 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 				return false;
 			}
 			
-			ArrayList<State> tempStates = new ArrayList<State>();
+			//TODO: Validate Current States for next Transitions -> Check for bad nondeterminism!
+
+			HashSet<State> tempStates = new HashSet<State>();
 			ArrayList<Transition> tempTransitions = new ArrayList<Transition>();
 			
 			for(State aState : currentStates){
-				for(Transition aTransition : aState.getNextEdges(nextSymbol, getEmptyTransitionsAllowed())){
+				for(Transition aTransition : aState.getNextEdges(nextSymbol)){
 					tempTransitions.add(aTransition);
 					tempStates.add(aTransition.getDestination());
 					afterInputRead(aTransition.getTransitionRule(nextSymbol));
@@ -91,8 +107,14 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 			}
 			
 			currentStates = tempStates;
-			
-			fireEvent(new StepDoneEvent(currentStates, tempTransitions));
+			ArrayList<Transition> emptyWordTransitions = getEmptyWordTransitionChain();
+			for(Transition aTransition : emptyWordTransitions){
+				currentStates.add(aTransition.getDestination());
+				tempTransitions.add(aTransition);
+			}
+
+			stepCount++;
+			fireEvent(new StepDoneEvent(currentStates, tempTransitions, stepCount));
 		}
 
 		return true;
@@ -204,12 +226,18 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 			
 			State secondState = states.get(destination);
 			Transition newEdge = new Transition(firstState, secondState);
-			for(String aRule : transition){
-				if(alphabet.getSymbol(aRule) == null){
-					return null;
+			
+			if(transition == null || transition.length < 1){
+				newEdge.addTransitionRule(this.makeTransitionRule(null));
+			}
+			else{
+				for(String aRule : transition){
+					if(alphabet.getSymbol(aRule) == null){
+						return null;
+					}
+					
+					newEdge.addTransitionRule(this.makeTransitionRule(aRule));
 				}
-				
-				newEdge.addTransitionRule(this.makeTransitionRule(aRule));
 			}
 			
 			if(secondState != null && addTransition(newEdge) != null){
@@ -234,10 +262,15 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 		Transition temp = getTransition(origin, destination);
 		temp.clearTransitionRules();
 		
-		for(String aSymbol : transitionRule){
-			temp.addTransitionRule(this.makeTransitionRule(aSymbol));
+		if(transitionRule == null || transitionRule.length < 1){
+			temp.addTransitionRule(this.makeTransitionRule(null));
 		}
-		
+		else{
+			for(String aSymbol : transitionRule){
+				temp.addTransitionRule(this.makeTransitionRule(aSymbol));
+			}
+		}
+
 		fireEvent(new TransitionUpdatedEvent(temp));
 		return temp;
 	}
@@ -347,11 +380,23 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 			}
 		}
 
-		fireEvent(new StepDoneEvent(currentStates));
+		fireEvent(new StepDoneEvent(currentStates, null, stepCount));
 	}
 	
 	public Iterator<Entry<String, State>> iterator(){
 		return states.entrySet().iterator();
+	}
+	
+	public ArrayList<Transition> getEmptyWordTransitionChain(){
+		
+		ArrayList<Transition> temp = new ArrayList<Transition>();
+		for(State aState : currentStates){
+			for(Transition aTransition : aState.getEmptyTransitionsChain(null)){
+				temp.add(aTransition);
+			}
+		}
+		
+		return temp;
 	}
 	
 	public abstract void afterInputRead(TransitionRule transitionRule);

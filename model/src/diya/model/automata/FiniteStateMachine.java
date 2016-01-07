@@ -38,9 +38,16 @@ public class FiniteStateMachine extends Automaton{
 			}
 		}
 		
-		TransitionRule temp = new TransitionRule(alphabet.getSymbol(transition));
-		possibleRules.add(temp);
-		
+		TransitionRule temp;
+		if(transition != null && transition.isEmpty() == false){
+			temp = new TransitionRule(alphabet.getSymbol(transition));
+			possibleRules.add(temp);
+		}
+		else{
+			temp = new TransitionRule(null);
+			possibleRules.add(temp);
+		}
+
 		return temp;
 	}
 }

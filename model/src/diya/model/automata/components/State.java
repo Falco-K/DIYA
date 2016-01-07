@@ -1,8 +1,11 @@
 package diya.model.automata.components;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
+import diya.model.automata.Automaton;
 import diya.model.language.Symbol;
 
 public class State extends Component implements Iterable<Transition>{
@@ -76,7 +79,7 @@ public class State extends Component implements Iterable<Transition>{
 		return null;
 	}
 	
-	public ArrayList<Transition> getNextEdges(Symbol symbol, boolean getEmptyTransitions){
+	public ArrayList<Transition> getNextEdges(Symbol symbol){
 		ArrayList<Transition> transitions = new ArrayList<Transition>();
 		
 		if(outgoingTransitions.isEmpty()){
@@ -84,8 +87,23 @@ public class State extends Component implements Iterable<Transition>{
 		}
 		
 		for(Transition aTransition : outgoingTransitions){
-			if(aTransition.accepts(symbol) || (getEmptyTransitions && aTransition.isEmpty())){
+			if(aTransition.accepts(symbol)){
 				transitions.add(aTransition);
+			}
+		}
+		
+		return transitions;
+	}
+	
+	public Set<Transition> getEmptyTransitionsChain(Set<Transition> transitions){
+		if(transitions == null){
+			transitions = new HashSet<Transition>();
+		}
+		
+		for(Transition aTransition : outgoingTransitions){
+			if(transitions.contains(aTransition) == false && aTransition.hasEmptyWordTransition()){
+				transitions.add(aTransition);
+				aTransition.destination.getEmptyTransitionsChain(transitions);
 			}
 		}
 		

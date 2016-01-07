@@ -6,6 +6,7 @@ public enum ConstructionMenuOption {
 	SetStart,
 	SetFinal,
 	SetSymbol,
+	SetEmptyWord,
 	AddSymbol,
 	Clear,
 }

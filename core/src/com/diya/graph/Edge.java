@@ -4,6 +4,7 @@ import java.util.EnumSet;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Bezier;
@@ -114,13 +115,16 @@ public class Edge extends GraphElement implements ConstructionMenuInterface{
 				if(text.equals("") == false){
 					text += ", ";
 				}
-				text +=aRule;
+				
+				if(aRule.isEmpty()){
+					text+="\u03B5";
+				}
+				else{
+					text +=aRule;
+				}
 			}
 		}
-		else{
-			text = "\u03B5";
-		}
-		
+
 		edgeLabel.setText(text);
 	}
 	
@@ -266,13 +270,14 @@ public class Edge extends GraphElement implements ConstructionMenuInterface{
 	
 	@Override
 	public EnumSet<ConstructionMenuOption> getMenuOptions() {
-		return EnumSet.of(ConstructionMenuOption.Remove, ConstructionMenuOption.SetSymbol);
+		return EnumSet.of(ConstructionMenuOption.Remove, ConstructionMenuOption.SetSymbol, ConstructionMenuOption.SetEmptyWord);
 	}
 
 	@Override
 	public void setSelectedOption(ConstructionMenuOption option, CharSequence text) {
 		String newRule = "";
 		boolean inRules = false;
+		
 		String[] currentRules = transition.getTransitionRulesAsStrings();
 		for(String aRule : currentRules){
 			if(aRule.equals(text.toString())){
@@ -318,7 +323,12 @@ public class Edge extends GraphElement implements ConstructionMenuInterface{
 	public String getSelectedOptions(){
 		String options = "";
 		for(String aRule : transition.getTransitionRulesAsStrings()){
-			options+=ConstructionMenuOption.SetSymbol.toString()+aRule+",";
+			if(aRule.equals("\u03B5")){
+				options+=ConstructionMenuOption.SetEmptyWord+",";
+			}
+			else{
+				options+=ConstructionMenuOption.SetSymbol.toString()+aRule+",";
+			}
 		}
 		return options;
 	}
