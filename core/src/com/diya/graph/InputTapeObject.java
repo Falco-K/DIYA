@@ -140,13 +140,13 @@ public class InputTapeObject extends GraphElement implements ConstructionMenuInt
 		
 		runPauseButton = new Button(runButton);
 		runPauseButton.setPosition(0, cellWidth);
-		runPauseButton.setUserObject(false);
+		runPauseButton.setUserObject(Boolean.FALSE);
 		runPauseButton.addListener(new ClickListener(){
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
 				if(button == Input.Buttons.LEFT){
 					Button temp = (Button)event.getListenerActor();
-					if((boolean)temp.getUserObject() == false){
+					if((Boolean)temp.getUserObject() == Boolean.FALSE){
 						temp.setStyle(pauseButtonStyle);
 						temp.setUserObject(true);
 						doSteps.start();
@@ -169,7 +169,7 @@ public class InputTapeObject extends GraphElement implements ConstructionMenuInt
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
 				if(button == Input.Buttons.LEFT){
-					if((boolean)runPauseButton.getUserObject() == true){
+					if((Boolean)runPauseButton.getUserObject() == Boolean.TRUE){
 						InputEvent inputEvent = new InputEvent();
 						inputEvent.setType(Type.touchDown);
 						inputEvent.setListenerActor(runPauseButton);
