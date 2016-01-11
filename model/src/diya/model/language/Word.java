@@ -13,11 +13,17 @@ public class Word{
 		}
 	}
 	
-	public Word(String word){
+	public Word(String word, Alphabet alphabet){
+		this(word.split(" "), alphabet);
+	}
+	
+	public Word(String[] symbols, Alphabet alphabet){
 		this.symbols = new ArrayList<Symbol>();
 		
-		for(String x : word.split(" ")){
-			this.symbols.add(new Symbol(x));
+		for(String x : symbols){
+			if(x.trim().isEmpty() == false){
+				this.symbols.add(alphabet.getSymbol(x));
+			}
 		}
 	}
 	

@@ -15,6 +15,7 @@ import diya.controller.handler.DiyaCommandProcessor;
 import diya.controller.handler.DiyaController;
 import diya.model.automata.Automaton;
 import diya.model.automata.FiniteStateMachine;
+import diya.model.automata.TuringMachine;
 import diya.model.automata.events.*;
 import diya.model.language.Alphabet;
 import diya.view.DiyaViewInterface;
@@ -37,7 +38,7 @@ public class DiyaMain extends ApplicationAdapter implements DiyaViewInterface{
 		Alphabet alphabet = new Alphabet();
 		alphabet.addSymbol("0");
 		alphabet.addSymbol("1");
-		automaton = new FiniteStateMachine(200, 400, alphabet);
+		automaton = new TuringMachine(200, 300, alphabet);//new FiniteStateMachine(200, 400, alphabet);
 		controller = new DiyaCommandProcessor(automaton);
 		automaton.addObserver(this);
 
@@ -48,16 +49,15 @@ public class DiyaMain extends ApplicationAdapter implements DiyaViewInterface{
        	ShapeRenderer shapeRenderer = new ShapeRenderer();
        	shapeRenderer.setAutoShapeType(true);
        	constructionStage = new ConstructionStage(camera, this, controller, shapeRenderer);
-		graph = new Graph(worldWidth, worldHeight, this, automaton.getInputTape(), shapeRenderer);
+		graph = new Graph(worldWidth, worldHeight, this, automaton.getMainInputTape(), shapeRenderer);
        	//constructionStage.setDebugAll(true);
      
-		automaton.addState("t1", true, false, 100, 200);
-		automaton.addState("t2", false, true, 300, 200);
-		automaton.addState("s1", false, false, 500, 200);
-		automaton.addTransition("t1", "t2", null);
-		automaton.addTransition("t2", "t1", new String[] {"0"});
-		automaton.addTransition("s1", "s1", new String[] {"1"});
-		automaton.addTransition("t2", "s1", new String[] {"1"});
+		automaton.addState("t1", true, false, 200, 200);
+		automaton.addState("t2", false, true, 400, 200);
+		automaton.addTransition("t1", "t2", new String[] {"0/R", "1/0"});
+//		automaton.addTransition("t2", "t1", new String[] {"0"});
+//		automaton.addTransition("s1", "s1", new String[] {"1"});
+//		automaton.addTransition("t2", "s1", new String[] {"1"});
 //		automaton.addTransition("t2", "t1", new String[] {"a"});
 //		automaton.addTransition("s1", "t1", new String[] {"a"});
 //		automaton.addTransition("t1", "s1", new String[] {"a"});
@@ -78,6 +78,7 @@ public class DiyaMain extends ApplicationAdapter implements DiyaViewInterface{
         constructionStage.act();
         uiStage.act();
 
+        Gdx.gl.glLineWidth(2f);
         Gdx.gl.glClearColor(0.95f, 0.95f, 0.95f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -142,6 +143,8 @@ public class DiyaMain extends ApplicationAdapter implements DiyaViewInterface{
 			case RunFinished : graph.accepted(((RunFinishedEvent) event).hasAccepted());
 				break;
 			case AutomatonReset : graph.automatonReseted();
+				break;
+			case TapeUpdated : graph.tapeUpdated();
 				break;
 			default:
 				break;

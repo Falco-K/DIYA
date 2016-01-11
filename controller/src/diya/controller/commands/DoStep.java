@@ -23,7 +23,7 @@ public class DoStep extends Command {
 			save.add(aState.getName());
 		}
 
-		if(automaton.doTransition() == true){
+		if(automaton.doStep() == true){
 			sendMessage("Step done");
 			
 		}else{

@@ -30,14 +30,4 @@ public class Alphabet {
 		String[] symbolStrings = new String[symbols.size()];
 		return symbols.keySet().toArray(symbolStrings);
 	}
-	
-	public Word createWord(String[] input){
-		
-		Symbol[] temp = new Symbol[input.length];
-		for(int i = 0; i < input.length; i++){
-			temp[i] = symbols.get(input[i]);
-		}
-		
-		return new Word(temp);
-	}
 }

@@ -10,4 +10,6 @@ public enum AutomatonEventType {
 	StepDone,
 	RunFinished,
 	AutomatonReset,
+	InvalidAutomaton,
+	TapeUpdated;
 }

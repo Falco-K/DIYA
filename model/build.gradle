@@ -16,4 +16,14 @@ task dist(type: Jar) {
     from {configurations.compile.collect {zipTree(it)}}
 }
 
+test {
+	testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+		exceptionFormat = "full"
+    }
+}
+	
+	
 dist.dependsOn classes
+
+build.dependsOn test

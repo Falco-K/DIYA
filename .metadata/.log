@@ -1,0 +1,452 @@
+!SESSION 2016-01-08 01:54:25.566 -----------------------------------------------
+eclipse.buildId=4.5.1.M20150904-0015
+java.version=1.8.0_66
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -data E:\DiyaGit\DIYA -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-01-08 01:54:33.150
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Falco'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.core.jobs 2 2 2016-01-08 01:54:43.712
+!MESSAGE Job found still running after platform shutdown.  Jobs should be canceled by the plugin that scheduled them during shutdown: org.eclipse.epp.internal.logging.aeri.ui.log.ProblemsDatabaseUpdateJob
+!SESSION 2016-01-08 01:54:44.012 -----------------------------------------------
+eclipse.buildId=4.5.1.M20150904-0015
+java.version=1.8.0_66
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -data E:\DiyaGit\DIYA -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-01-08 01:54:51.345
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Falco'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.springsource.ide.eclipse.gradle.core 1 0 2016-01-08 01:56:03.928
+!MESSAGE org.eclipse.wst.common.componentcore.ComponentCore cannot be found by org.springsource.ide.eclipse.gradle.core_3.7.3.201511271322-CI-B51
+!STACK 0
+java.lang.ClassNotFoundException: org.eclipse.wst.common.componentcore.ComponentCore cannot be found by org.springsource.ide.eclipse.gradle.core_3.7.3.201511271322-CI-B51
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:439)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:352)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:344)
+	at org.eclipse.osgi.internal.loader.ModuleClassLoader.loadClass(ModuleClassLoader.java:160)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Unknown Source)
+	at org.springsource.ide.eclipse.gradle.core.wtp.WTPUtil.createImplementation(WTPUtil.java:252)
+	at org.springsource.ide.eclipse.gradle.core.wtp.WTPUtil.<clinit>(WTPUtil.java:248)
+	at org.springsource.ide.eclipse.gradle.core.classpathcontainer.GradleClassPathContainer.addTo(GradleClassPathContainer.java:498)
+	at org.springsource.ide.eclipse.gradle.core.classpathcontainer.GradleClassPathContainer.addTo(GradleClassPathContainer.java:381)
+	at org.springsource.ide.eclipse.gradle.core.GradleProject.convertToGradleProject(GradleProject.java:736)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.importProject(GradleImportOperation.java:426)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.perform(GradleImportOperation.java:185)
+	at org.springsource.ide.eclipse.gradle.ui.wizards.GradleImportWizard$1.doit(GradleImportWizard.java:66)
+	at org.springsource.ide.eclipse.gradle.core.util.GradleRunnable$1.run(GradleRunnable.java:53)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY org.springsource.ide.eclipse.gradle.core 4 0 2016-01-08 01:56:05.047
+!MESSAGE Multiple problems: 
+Invalid project description.
+Project-name (diya-core) should match last segment of location (E:\DiyaGit\DIYA\core)
+Project-name (diya-android) should match last segment of location (E:\DiyaGit\DIYA\android)
+...more errors...
+!STACK 1
+org.eclipse.core.runtime.CoreException: Multiple problems: 
+Invalid project description.
+Project-name (diya-core) should match last segment of location (E:\DiyaGit\DIYA\core)
+Project-name (diya-android) should match last segment of location (E:\DiyaGit\DIYA\android)
+...more errors...
+	at org.springsource.ide.eclipse.gradle.core.util.ErrorHandler$RecordAll.rethrowAsCore(ErrorHandler.java:123)
+	at org.springsource.ide.eclipse.gradle.ui.wizards.GradleImportWizard$1.doit(GradleImportWizard.java:67)
+	at org.springsource.ide.eclipse.gradle.core.util.GradleRunnable$1.run(GradleRunnable.java:53)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+Contains: Invalid project description.
+org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:168)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:52)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:268)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:252)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.importProject(GradleImportOperation.java:368)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.perform(GradleImportOperation.java:185)
+	at org.springsource.ide.eclipse.gradle.ui.wizards.GradleImportWizard$1.doit(GradleImportWizard.java:66)
+	at org.springsource.ide.eclipse.gradle.core.util.GradleRunnable$1.run(GradleRunnable.java:53)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+Contains: OK
+Contains: E:\DiyaGit\DIYA overlaps the workspace location: E:\DiyaGit\DIYA
+Contains: Project-name (diya-core) should match last segment of location (E:\DiyaGit\DIYA\core)
+org.eclipse.core.runtime.CoreException: Project-name (diya-core) should match last segment of location (E:\DiyaGit\DIYA\core)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:36)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:30)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:44)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.importProject(GradleImportOperation.java:358)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.perform(GradleImportOperation.java:185)
+	at org.springsource.ide.eclipse.gradle.ui.wizards.GradleImportWizard$1.doit(GradleImportWizard.java:66)
+	at org.springsource.ide.eclipse.gradle.core.util.GradleRunnable$1.run(GradleRunnable.java:53)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+Contains: Project-name (diya-android) should match last segment of location (E:\DiyaGit\DIYA\android)
+org.eclipse.core.runtime.CoreException: Project-name (diya-android) should match last segment of location (E:\DiyaGit\DIYA\android)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:36)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:30)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:44)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.importProject(GradleImportOperation.java:358)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.perform(GradleImportOperation.java:185)
+	at org.springsource.ide.eclipse.gradle.ui.wizards.GradleImportWizard$1.doit(GradleImportWizard.java:66)
+	at org.springsource.ide.eclipse.gradle.core.util.GradleRunnable$1.run(GradleRunnable.java:53)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+Contains: Project-name (diya-desktop) should match last segment of location (E:\DiyaGit\DIYA\desktop)
+org.eclipse.core.runtime.CoreException: Project-name (diya-desktop) should match last segment of location (E:\DiyaGit\DIYA\desktop)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:36)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:30)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:44)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.importProject(GradleImportOperation.java:358)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.perform(GradleImportOperation.java:185)
+	at org.springsource.ide.eclipse.gradle.ui.wizards.GradleImportWizard$1.doit(GradleImportWizard.java:66)
+	at org.springsource.ide.eclipse.gradle.core.util.GradleRunnable$1.run(GradleRunnable.java:53)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+Contains: Project-name (diya-html) should match last segment of location (E:\DiyaGit\DIYA\html)
+org.eclipse.core.runtime.CoreException: Project-name (diya-html) should match last segment of location (E:\DiyaGit\DIYA\html)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:36)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:30)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:44)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.importProject(GradleImportOperation.java:358)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.perform(GradleImportOperation.java:185)
+	at org.springsource.ide.eclipse.gradle.ui.wizards.GradleImportWizard$1.doit(GradleImportWizard.java:66)
+	at org.springsource.ide.eclipse.gradle.core.util.GradleRunnable$1.run(GradleRunnable.java:53)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+Contains: Project-name (diya-ios) should match last segment of location (E:\DiyaGit\DIYA\ios)
+org.eclipse.core.runtime.CoreException: Project-name (diya-ios) should match last segment of location (E:\DiyaGit\DIYA\ios)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:36)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:30)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:44)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.importProject(GradleImportOperation.java:358)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.perform(GradleImportOperation.java:185)
+	at org.springsource.ide.eclipse.gradle.ui.wizards.GradleImportWizard$1.doit(GradleImportWizard.java:66)
+	at org.springsource.ide.eclipse.gradle.core.util.GradleRunnable$1.run(GradleRunnable.java:53)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 1 org.springsource.ide.eclipse.gradle.core 4 666 2016-01-08 01:56:05.048
+!MESSAGE Multiple problems: 
+Invalid project description.
+Project-name (diya-core) should match last segment of location (E:\DiyaGit\DIYA\core)
+Project-name (diya-android) should match last segment of location (E:\DiyaGit\DIYA\android)
+...more errors...
+!SUBENTRY 2 org.springsource.ide.eclipse.gradle.core 4 0 2016-01-08 01:56:05.048
+!MESSAGE Invalid project description.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:168)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:52)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:268)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:252)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.importProject(GradleImportOperation.java:368)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.perform(GradleImportOperation.java:185)
+	at org.springsource.ide.eclipse.gradle.ui.wizards.GradleImportWizard$1.doit(GradleImportWizard.java:66)
+	at org.springsource.ide.eclipse.gradle.core.util.GradleRunnable$1.run(GradleRunnable.java:53)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+Contains: OK
+Contains: E:\DiyaGit\DIYA overlaps the workspace location: E:\DiyaGit\DIYA
+!SUBENTRY 3 org.eclipse.core.resources 4 77 2016-01-08 01:56:05.048
+!MESSAGE Invalid project description.
+!SUBENTRY 4 unknown 0 0 2016-01-08 01:56:05.048
+!MESSAGE OK
+!SUBENTRY 4 org.eclipse.core.resources 4 77 2016-01-08 01:56:05.048
+!MESSAGE E:\DiyaGit\DIYA overlaps the workspace location: E:\DiyaGit\DIYA
+!SUBENTRY 2 org.springsource.ide.eclipse.gradle.core 4 0 2016-01-08 01:56:05.048
+!MESSAGE Project-name (diya-core) should match last segment of location (E:\DiyaGit\DIYA\core)
+!STACK 1
+org.eclipse.core.runtime.CoreException: Project-name (diya-core) should match last segment of location (E:\DiyaGit\DIYA\core)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:36)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:30)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:44)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.importProject(GradleImportOperation.java:358)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.perform(GradleImportOperation.java:185)
+	at org.springsource.ide.eclipse.gradle.ui.wizards.GradleImportWizard$1.doit(GradleImportWizard.java:66)
+	at org.springsource.ide.eclipse.gradle.core.util.GradleRunnable$1.run(GradleRunnable.java:53)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 3 org.springsource.ide.eclipse.gradle.core 4 0 2016-01-08 01:56:05.048
+!MESSAGE Project-name (diya-core) should match last segment of location (E:\DiyaGit\DIYA\core)
+!SUBENTRY 2 org.springsource.ide.eclipse.gradle.core 4 0 2016-01-08 01:56:05.048
+!MESSAGE Project-name (diya-android) should match last segment of location (E:\DiyaGit\DIYA\android)
+!STACK 1
+org.eclipse.core.runtime.CoreException: Project-name (diya-android) should match last segment of location (E:\DiyaGit\DIYA\android)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:36)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:30)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:44)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.importProject(GradleImportOperation.java:358)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.perform(GradleImportOperation.java:185)
+	at org.springsource.ide.eclipse.gradle.ui.wizards.GradleImportWizard$1.doit(GradleImportWizard.java:66)
+	at org.springsource.ide.eclipse.gradle.core.util.GradleRunnable$1.run(GradleRunnable.java:53)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 3 org.springsource.ide.eclipse.gradle.core 4 0 2016-01-08 01:56:05.048
+!MESSAGE Project-name (diya-android) should match last segment of location (E:\DiyaGit\DIYA\android)
+!SUBENTRY 2 org.springsource.ide.eclipse.gradle.core 4 0 2016-01-08 01:56:05.048
+!MESSAGE Project-name (diya-desktop) should match last segment of location (E:\DiyaGit\DIYA\desktop)
+!STACK 1
+org.eclipse.core.runtime.CoreException: Project-name (diya-desktop) should match last segment of location (E:\DiyaGit\DIYA\desktop)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:36)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:30)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:44)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.importProject(GradleImportOperation.java:358)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.perform(GradleImportOperation.java:185)
+	at org.springsource.ide.eclipse.gradle.ui.wizards.GradleImportWizard$1.doit(GradleImportWizard.java:66)
+	at org.springsource.ide.eclipse.gradle.core.util.GradleRunnable$1.run(GradleRunnable.java:53)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 3 org.springsource.ide.eclipse.gradle.core 4 0 2016-01-08 01:56:05.048
+!MESSAGE Project-name (diya-desktop) should match last segment of location (E:\DiyaGit\DIYA\desktop)
+!SUBENTRY 2 org.springsource.ide.eclipse.gradle.core 4 0 2016-01-08 01:56:05.048
+!MESSAGE Project-name (diya-html) should match last segment of location (E:\DiyaGit\DIYA\html)
+!STACK 1
+org.eclipse.core.runtime.CoreException: Project-name (diya-html) should match last segment of location (E:\DiyaGit\DIYA\html)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:36)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:30)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:44)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.importProject(GradleImportOperation.java:358)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.perform(GradleImportOperation.java:185)
+	at org.springsource.ide.eclipse.gradle.ui.wizards.GradleImportWizard$1.doit(GradleImportWizard.java:66)
+	at org.springsource.ide.eclipse.gradle.core.util.GradleRunnable$1.run(GradleRunnable.java:53)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 3 org.springsource.ide.eclipse.gradle.core 4 0 2016-01-08 01:56:05.048
+!MESSAGE Project-name (diya-html) should match last segment of location (E:\DiyaGit\DIYA\html)
+!SUBENTRY 2 org.springsource.ide.eclipse.gradle.core 4 0 2016-01-08 01:56:05.048
+!MESSAGE Project-name (diya-ios) should match last segment of location (E:\DiyaGit\DIYA\ios)
+!STACK 1
+org.eclipse.core.runtime.CoreException: Project-name (diya-ios) should match last segment of location (E:\DiyaGit\DIYA\ios)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:36)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:30)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:44)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.importProject(GradleImportOperation.java:358)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.perform(GradleImportOperation.java:185)
+	at org.springsource.ide.eclipse.gradle.ui.wizards.GradleImportWizard$1.doit(GradleImportWizard.java:66)
+	at org.springsource.ide.eclipse.gradle.core.util.GradleRunnable$1.run(GradleRunnable.java:53)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 3 org.springsource.ide.eclipse.gradle.core 4 0 2016-01-08 01:56:05.048
+!MESSAGE Project-name (diya-ios) should match last segment of location (E:\DiyaGit\DIYA\ios)
+!SESSION 2016-01-08 01:57:20.639 -----------------------------------------------
+eclipse.buildId=4.5.1.M20150904-0015
+java.version=1.8.0_66
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-01-08 01:57:28.054
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Falco'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.springsource.ide.eclipse.gradle.core 4 0 2016-01-08 01:58:07.609
+!MESSAGE Multiple problems: 
+Invalid project description.
+Project-name (diya-core) should match last segment of location (E:\DiyaGit\DIYA\core)
+Project-name (diya-android) should match last segment of location (E:\DiyaGit\DIYA\android)
+...more errors...
+!STACK 1
+org.eclipse.core.runtime.CoreException: Multiple problems: 
+Invalid project description.
+Project-name (diya-core) should match last segment of location (E:\DiyaGit\DIYA\core)
+Project-name (diya-android) should match last segment of location (E:\DiyaGit\DIYA\android)
+...more errors...
+	at org.springsource.ide.eclipse.gradle.core.util.ErrorHandler$RecordAll.rethrowAsCore(ErrorHandler.java:123)
+	at org.springsource.ide.eclipse.gradle.ui.wizards.GradleImportWizard$1.doit(GradleImportWizard.java:67)
+	at org.springsource.ide.eclipse.gradle.core.util.GradleRunnable$1.run(GradleRunnable.java:53)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+Contains: Invalid project description.
+org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:168)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:52)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:268)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:252)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.importProject(GradleImportOperation.java:368)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.perform(GradleImportOperation.java:185)
+	at org.springsource.ide.eclipse.gradle.ui.wizards.GradleImportWizard$1.doit(GradleImportWizard.java:66)
+	at org.springsource.ide.eclipse.gradle.core.util.GradleRunnable$1.run(GradleRunnable.java:53)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+Contains: OK
+Contains: E:\DiyaGit\DIYA overlaps the workspace location: E:\DiyaGit\DIYA
+Contains: Project-name (diya-core) should match last segment of location (E:\DiyaGit\DIYA\core)
+org.eclipse.core.runtime.CoreException: Project-name (diya-core) should match last segment of location (E:\DiyaGit\DIYA\core)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:36)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:30)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:44)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.importProject(GradleImportOperation.java:358)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.perform(GradleImportOperation.java:185)
+	at org.springsource.ide.eclipse.gradle.ui.wizards.GradleImportWizard$1.doit(GradleImportWizard.java:66)
+	at org.springsource.ide.eclipse.gradle.core.util.GradleRunnable$1.run(GradleRunnable.java:53)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+Contains: Project-name (diya-android) should match last segment of location (E:\DiyaGit\DIYA\android)
+org.eclipse.core.runtime.CoreException: Project-name (diya-android) should match last segment of location (E:\DiyaGit\DIYA\android)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:36)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:30)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:44)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.importProject(GradleImportOperation.java:358)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.perform(GradleImportOperation.java:185)
+	at org.springsource.ide.eclipse.gradle.ui.wizards.GradleImportWizard$1.doit(GradleImportWizard.java:66)
+	at org.springsource.ide.eclipse.gradle.core.util.GradleRunnable$1.run(GradleRunnable.java:53)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+Contains: Project-name (diya-desktop) should match last segment of location (E:\DiyaGit\DIYA\desktop)
+org.eclipse.core.runtime.CoreException: Project-name (diya-desktop) should match last segment of location (E:\DiyaGit\DIYA\desktop)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:36)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:30)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:44)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.importProject(GradleImportOperation.java:358)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.perform(GradleImportOperation.java:185)
+	at org.springsource.ide.eclipse.gradle.ui.wizards.GradleImportWizard$1.doit(GradleImportWizard.java:66)
+	at org.springsource.ide.eclipse.gradle.core.util.GradleRunnable$1.run(GradleRunnable.java:53)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+Contains: Project-name (diya-html) should match last segment of location (E:\DiyaGit\DIYA\html)
+org.eclipse.core.runtime.CoreException: Project-name (diya-html) should match last segment of location (E:\DiyaGit\DIYA\html)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:36)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:30)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:44)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.importProject(GradleImportOperation.java:358)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.perform(GradleImportOperation.java:185)
+	at org.springsource.ide.eclipse.gradle.ui.wizards.GradleImportWizard$1.doit(GradleImportWizard.java:66)
+	at org.springsource.ide.eclipse.gradle.core.util.GradleRunnable$1.run(GradleRunnable.java:53)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+Contains: Project-name (diya-ios) should match last segment of location (E:\DiyaGit\DIYA\ios)
+org.eclipse.core.runtime.CoreException: Project-name (diya-ios) should match last segment of location (E:\DiyaGit\DIYA\ios)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:36)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:30)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:44)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.importProject(GradleImportOperation.java:358)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.perform(GradleImportOperation.java:185)
+	at org.springsource.ide.eclipse.gradle.ui.wizards.GradleImportWizard$1.doit(GradleImportWizard.java:66)
+	at org.springsource.ide.eclipse.gradle.core.util.GradleRunnable$1.run(GradleRunnable.java:53)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 1 org.springsource.ide.eclipse.gradle.core 4 666 2016-01-08 01:58:07.610
+!MESSAGE Multiple problems: 
+Invalid project description.
+Project-name (diya-core) should match last segment of location (E:\DiyaGit\DIYA\core)
+Project-name (diya-android) should match last segment of location (E:\DiyaGit\DIYA\android)
+...more errors...
+!SUBENTRY 2 org.springsource.ide.eclipse.gradle.core 4 0 2016-01-08 01:58:07.610
+!MESSAGE Invalid project description.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:168)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:52)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:268)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:252)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.importProject(GradleImportOperation.java:368)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.perform(GradleImportOperation.java:185)
+	at org.springsource.ide.eclipse.gradle.ui.wizards.GradleImportWizard$1.doit(GradleImportWizard.java:66)
+	at org.springsource.ide.eclipse.gradle.core.util.GradleRunnable$1.run(GradleRunnable.java:53)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+Contains: OK
+Contains: E:\DiyaGit\DIYA overlaps the workspace location: E:\DiyaGit\DIYA
+!SUBENTRY 3 org.eclipse.core.resources 4 77 2016-01-08 01:58:07.610
+!MESSAGE Invalid project description.
+!SUBENTRY 4 unknown 0 0 2016-01-08 01:58:07.610
+!MESSAGE OK
+!SUBENTRY 4 org.eclipse.core.resources 4 77 2016-01-08 01:58:07.610
+!MESSAGE E:\DiyaGit\DIYA overlaps the workspace location: E:\DiyaGit\DIYA
+!SUBENTRY 2 org.springsource.ide.eclipse.gradle.core 4 0 2016-01-08 01:58:07.610
+!MESSAGE Project-name (diya-core) should match last segment of location (E:\DiyaGit\DIYA\core)
+!STACK 1
+org.eclipse.core.runtime.CoreException: Project-name (diya-core) should match last segment of location (E:\DiyaGit\DIYA\core)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:36)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:30)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:44)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.importProject(GradleImportOperation.java:358)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.perform(GradleImportOperation.java:185)
+	at org.springsource.ide.eclipse.gradle.ui.wizards.GradleImportWizard$1.doit(GradleImportWizard.java:66)
+	at org.springsource.ide.eclipse.gradle.core.util.GradleRunnable$1.run(GradleRunnable.java:53)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 3 org.springsource.ide.eclipse.gradle.core 4 0 2016-01-08 01:58:07.611
+!MESSAGE Project-name (diya-core) should match last segment of location (E:\DiyaGit\DIYA\core)
+!SUBENTRY 2 org.springsource.ide.eclipse.gradle.core 4 0 2016-01-08 01:58:07.611
+!MESSAGE Project-name (diya-android) should match last segment of location (E:\DiyaGit\DIYA\android)
+!STACK 1
+org.eclipse.core.runtime.CoreException: Project-name (diya-android) should match last segment of location (E:\DiyaGit\DIYA\android)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:36)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:30)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:44)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.importProject(GradleImportOperation.java:358)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.perform(GradleImportOperation.java:185)
+	at org.springsource.ide.eclipse.gradle.ui.wizards.GradleImportWizard$1.doit(GradleImportWizard.java:66)
+	at org.springsource.ide.eclipse.gradle.core.util.GradleRunnable$1.run(GradleRunnable.java:53)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 3 org.springsource.ide.eclipse.gradle.core 4 0 2016-01-08 01:58:07.611
+!MESSAGE Project-name (diya-android) should match last segment of location (E:\DiyaGit\DIYA\android)
+!SUBENTRY 2 org.springsource.ide.eclipse.gradle.core 4 0 2016-01-08 01:58:07.611
+!MESSAGE Project-name (diya-desktop) should match last segment of location (E:\DiyaGit\DIYA\desktop)
+!STACK 1
+org.eclipse.core.runtime.CoreException: Project-name (diya-desktop) should match last segment of location (E:\DiyaGit\DIYA\desktop)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:36)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:30)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:44)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.importProject(GradleImportOperation.java:358)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.perform(GradleImportOperation.java:185)
+	at org.springsource.ide.eclipse.gradle.ui.wizards.GradleImportWizard$1.doit(GradleImportWizard.java:66)
+	at org.springsource.ide.eclipse.gradle.core.util.GradleRunnable$1.run(GradleRunnable.java:53)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 3 org.springsource.ide.eclipse.gradle.core 4 0 2016-01-08 01:58:07.611
+!MESSAGE Project-name (diya-desktop) should match last segment of location (E:\DiyaGit\DIYA\desktop)
+!SUBENTRY 2 org.springsource.ide.eclipse.gradle.core 4 0 2016-01-08 01:58:07.611
+!MESSAGE Project-name (diya-html) should match last segment of location (E:\DiyaGit\DIYA\html)
+!STACK 1
+org.eclipse.core.runtime.CoreException: Project-name (diya-html) should match last segment of location (E:\DiyaGit\DIYA\html)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:36)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:30)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:44)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.importProject(GradleImportOperation.java:358)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.perform(GradleImportOperation.java:185)
+	at org.springsource.ide.eclipse.gradle.ui.wizards.GradleImportWizard$1.doit(GradleImportWizard.java:66)
+	at org.springsource.ide.eclipse.gradle.core.util.GradleRunnable$1.run(GradleRunnable.java:53)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 3 org.springsource.ide.eclipse.gradle.core 4 0 2016-01-08 01:58:07.611
+!MESSAGE Project-name (diya-html) should match last segment of location (E:\DiyaGit\DIYA\html)
+!SUBENTRY 2 org.springsource.ide.eclipse.gradle.core 4 0 2016-01-08 01:58:07.611
+!MESSAGE Project-name (diya-ios) should match last segment of location (E:\DiyaGit\DIYA\ios)
+!STACK 1
+org.eclipse.core.runtime.CoreException: Project-name (diya-ios) should match last segment of location (E:\DiyaGit\DIYA\ios)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:36)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:30)
+	at org.springsource.ide.eclipse.gradle.core.util.ExceptionUtil.coreException(ExceptionUtil.java:44)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.importProject(GradleImportOperation.java:358)
+	at org.springsource.ide.eclipse.gradle.core.wizards.GradleImportOperation.perform(GradleImportOperation.java:185)
+	at org.springsource.ide.eclipse.gradle.ui.wizards.GradleImportWizard$1.doit(GradleImportWizard.java:66)
+	at org.springsource.ide.eclipse.gradle.core.util.GradleRunnable$1.run(GradleRunnable.java:53)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 3 org.springsource.ide.eclipse.gradle.core 4 0 2016-01-08 01:58:07.611
+!MESSAGE Project-name (diya-ios) should match last segment of location (E:\DiyaGit\DIYA\ios)
+
+!ENTRY org.springsource.ide.eclipse.gradle.core 1 0 2016-01-08 02:01:06.045
+!MESSAGE org.eclipse.wst.common.componentcore.ComponentCore cannot be found by org.springsource.ide.eclipse.gradle.core_3.7.3.201511271322-CI-B51
+!STACK 0
+java.lang.ClassNotFoundException: org.eclipse.wst.common.componentcore.ComponentCore cannot be found by org.springsource.ide.eclipse.gradle.core_3.7.3.201511271322-CI-B51
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:439)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:352)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:344)
+	at org.eclipse.osgi.internal.loader.ModuleClassLoader.loadClass(ModuleClassLoader.java:160)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Unknown Source)
+	at org.springsource.ide.eclipse.gradle.core.wtp.WTPUtil.createImplementation(WTPUtil.java:252)
+	at org.springsource.ide.eclipse.gradle.core.wtp.WTPUtil.<clinit>(WTPUtil.java:248)
+	at org.springsource.ide.eclipse.gradle.core.classpathcontainer.GradleDependencyComputer.addJarEntry(GradleDependencyComputer.java:87)
+	at org.springsource.ide.eclipse.gradle.core.classpathcontainer.GradleDependencyComputer.computeEntries(GradleDependencyComputer.java:149)
+	at org.springsource.ide.eclipse.gradle.core.classpathcontainer.GradleDependencyComputer.getClassPath(GradleDependencyComputer.java:107)
+	at org.springsource.ide.eclipse.gradle.core.classpathcontainer.GradleClassPathContainer.getClasspathEntries(GradleClassPathContainer.java:166)
+	at org.eclipse.jdt.internal.core.JavaModelManager$VariablesAndContainersSaveHelper.saveContainers(JavaModelManager.java:4252)
+	at org.eclipse.jdt.internal.core.JavaModelManager$VariablesAndContainersSaveHelper.saveProjects(JavaModelManager.java:4319)
+	at org.eclipse.jdt.internal.core.JavaModelManager$VariablesAndContainersSaveHelper.save(JavaModelManager.java:4160)
+	at org.eclipse.jdt.internal.core.JavaModelManager.saveVariablesAndContainers(JavaModelManager.java:4131)
+	at org.eclipse.jdt.internal.core.JavaModelManager.saving(JavaModelManager.java:4362)
+	at org.eclipse.core.internal.resources.SaveManager.executeLifecycle(SaveManager.java:387)
+	at org.eclipse.core.internal.resources.SaveManager$1.run(SaveManager.java:196)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.resources.SaveManager.broadcastLifecycle(SaveManager.java:199)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1184)
+	at org.eclipse.core.internal.resources.Workspace.save(Workspace.java:2270)
+	at org.eclipse.ui.internal.ide.application.IDEWorkbenchAdvisor$4.run(IDEWorkbenchAdvisor.java:453)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:119)

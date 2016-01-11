@@ -11,7 +11,10 @@ public class SetInput extends Command {
 	public SetInput(Automaton automaton, DiyaViewInterface view, String... parameters) {
 		super(automaton, view, UndoType.NoUndoPossible);
 
-		if(parameters.length >= 1){
+		if(parameters.length == 0){
+			input = new String[0];
+		}
+		else if(parameters.length >= 1){
 			input = parameters;
 		}
 		else{

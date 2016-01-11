@@ -18,6 +18,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import diya.model.automata.components.InputTape;
 import diya.model.automata.components.State;
+import diya.model.automata.components.Tape;
 import diya.model.automata.components.Transition;
 import diya.view.DiyaViewInterface;
 
@@ -35,16 +36,16 @@ public class Graph extends Group{
 	
 	DiyaViewInterface view;
 	HashMap<String, Node> nodes;
-	InputTapeObject inputTape;
+	Belt inputTape;
 	ShapeRenderer shapeRenderer;
 	int nodeSize;
 
-	public Graph(int width, int height, DiyaViewInterface view, InputTape startTape, ShapeRenderer shapeRenderer){
+	public Graph(int width, int height, DiyaViewInterface view, Tape startTape, ShapeRenderer shapeRenderer){
 		nodes = new HashMap<String, Node>();
 		nodeSize = 32;
 		this.view = view;
 		this.setBounds(0, 0, width, height);
-		inputTape = new InputTapeObject(startTape);
+		inputTape = new Belt(startTape);
 		this.addActor(inputTape);
 		this.shapeRenderer = shapeRenderer;
 	}
@@ -164,6 +165,10 @@ public class Graph extends Group{
 	public void automatonReseted(){
 		inputTape.resetCellHighlightning();
 	}
+	
+	public void tapeUpdated(){
+		inputTape.updateBelt();
+	}
 
 	public void animateTransition(ArrayList<State> states, ArrayList<Transition> transitions, int stepCount) {
 
@@ -181,9 +186,10 @@ public class Graph extends Group{
 		for(Transition aTransition : transitions){
 			Node aNode = nodes.get(aTransition.getOrigin().getName());
 			aNode.getEdge(aTransition).animateTransition();
+			states.remove(aTransition.getDestination());
 		}
 		
-		if(stepCount == 1){
+		if(stepCount == 1 || states.size() > 0){
 			for(State aState : states){
 				nodes.get(aState.getName()).setHighlighting(true);
 			}

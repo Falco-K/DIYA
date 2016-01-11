@@ -18,60 +18,63 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 	
 	HashSet<State> currentStates;
 	HashMap<String, State> states;
-	InputTape inputTape;
-	Alphabet alphabet;
+	HashMap<Integer, Tape> tapes;
+	Alphabet inputAlphabet;
 	boolean running;
 	int stepCount;
 	
-	public Automaton(int x, int y, Alphabet alphabet){
+	public Automaton(int x, int y, Alphabet alphabet, Tape tapeWithInput){
 		states = new HashMap<String, State>();
 		currentStates = new  HashSet<State>();
-		inputTape = new InputTape(x, y);
-		this.alphabet = alphabet;
+		tapes = new HashMap<Integer, Tape>();
+		
+		tapes.put(0, tapeWithInput);
+		inputAlphabet = alphabet;
 		running = false;
 		stepCount = 0;
 	}
 	
 	public void setInput(Word word){
 		reset();
-		inputTape.setTape(word);
+		getMainInputTape().setTape(word);
+		fireEvent(new TapeUpdatedEvent(getMainInputTape()));
 	}
 	
 	public void setInput(String[] input){
-		setInput(alphabet.createWord(input));
+		setInput(new Word(input, inputAlphabet));
 	}
 	
 	public void setAlphabet(String[] symbolStrings){
 		Alphabet newAlphabet = new Alphabet();
 		
 		for(int i = 0; i < symbolStrings.length; i++){
-			if(alphabet.getSymbol(symbolStrings[i]) == null){
+			if(inputAlphabet.getSymbol(symbolStrings[i]) == null){
 				newAlphabet.addSymbol(new Symbol(symbolStrings[i]));
 			}
 			else{
-				newAlphabet.addSymbol(alphabet.getSymbol(symbolStrings[i]));
+				newAlphabet.addSymbol(inputAlphabet.getSymbol(symbolStrings[i]));
 			}
 		}
 		
-		alphabet = newAlphabet;
+		inputAlphabet = newAlphabet;
 	}
 	
 	public String[] getAlphabet(){
-		return alphabet.getAsStrings();
+		return inputAlphabet.getAsStrings();
 	}
 	
-	public InputTape getInputTape(){
-		return inputTape;
+	public Tape getMainInputTape(){
+		return tapes.get(Integer.valueOf(0));
 	}
 	
 	public void reset(){
 		running = false;
 		stepCount = 0;
-		inputTape.resetTape();
+		tapes.get(Integer.valueOf(0)).resetTape();
 		setCurrentStates(null);
 	}
 	
-	public boolean doTransition(){
+	public boolean doStep(){
 		
 		if(currentStates.isEmpty() && running == false){
 			setInitialStates();
@@ -86,44 +89,31 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 			fireEvent(new StepDoneEvent(currentStates, getEmptyWordTransitionChain(), stepCount));
 		}
 		else{
-			Symbol nextSymbol = inputTape.readSymbolMoveTape();
-
-			if(nextSymbol == null){
-				fireEvent(new RunFinishedEvent(hasAccepted()));
-				return false;
-			}
 			
-			//TODO: Validate Current States for next Transitions -> Check for bad nondeterminism!
-
-			HashSet<State> tempStates = new HashSet<State>();
 			ArrayList<Transition> tempTransitions = new ArrayList<Transition>();
-			
-			for(State aState : currentStates){
-				for(Transition aTransition : aState.getNextEdges(nextSymbol)){
-					tempTransitions.add(aTransition);
-					tempStates.add(aTransition.getDestination());
-					afterInputRead(aTransition.getTransitionRule(nextSymbol));
-				}
-			}
-			
-			currentStates = tempStates;
-			ArrayList<Transition> emptyWordTransitions = getEmptyWordTransitionChain();
-			for(Transition aTransition : emptyWordTransitions){
-				currentStates.add(aTransition.getDestination());
-				tempTransitions.add(aTransition);
+			if(executeTransition(currentStates, tempTransitions) == false){
+				return false;
 			}
 
 			stepCount++;
 			fireEvent(new StepDoneEvent(currentStates, tempTransitions, stepCount));
 		}
 
+		fireEvent(new TapeUpdatedEvent(getMainInputTape()));
 		return true;
+	}
+	
+	public boolean run(Word aWord){
+		setInput(aWord);
+		while(doStep()){};
+		
+		return hasAccepted();
 	}
 	
 	public boolean hasAccepted(){
 		boolean accepted = false;
 		
-		if(inputTape.readCurrentSymbol() == null){
+		if(getMainInputTape().readCurrentSymbol() == null){
 			for(State aState : currentStates){
 				if(aState.isFinal()){
 					accepted = true;
@@ -232,11 +222,13 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 			}
 			else{
 				for(String aRule : transition){
-					if(alphabet.getSymbol(aRule) == null){
+					TransitionRuleInterface newRule = this.makeTransitionRule(aRule);
+					
+					if(newRule.getInputSymbol() == null){
 						return null;
 					}
 					
-					newEdge.addTransitionRule(this.makeTransitionRule(aRule));
+					newEdge.addTransitionRule(newRule);
 				}
 			}
 			
@@ -399,9 +391,15 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 		return temp;
 	}
 	
-	public abstract void afterInputRead(TransitionRule transitionRule);
+	public int getCurrentStepCount(){
+		return stepCount;
+	}
 	
-	public abstract TransitionRule makeTransitionRule(String transition);
+	public abstract boolean executeTransition(HashSet<State> currentStatesOut, ArrayList<Transition> transitionsOut);
+	
+	//public abstract void afterInputRead(TransitionRule transitionRule);
+	
+	public abstract TransitionRuleInterface makeTransitionRule(String transition);
 	
 	public abstract boolean validate(State aState);
 	

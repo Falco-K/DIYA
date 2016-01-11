@@ -3,26 +3,27 @@ package diya.model.automata.components;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import diya.model.automata.transitionRules.TransitionRule;
+import diya.model.automata.transitionRules.SimpleTransitionRule;
+import diya.model.automata.transitionRules.TransitionRuleInterface;
 import diya.model.language.Symbol;
 
 public class Transition extends Component{
 	State origin;
 	State destination;
-	ArrayList<TransitionRule> transitionRules;
+	ArrayList<TransitionRuleInterface> transitionRules;
 	
 	public Transition(State origin, State destination){
 		super(origin.getX(), origin.getY());
 		this.origin = origin;
 		this.destination = destination;
-		this.transitionRules = new ArrayList<TransitionRule>();
+		this.transitionRules = new ArrayList<TransitionRuleInterface>();
 	}
 	
-	public void addTransitionRule(TransitionRule aRule){
-		transitionRules.add(aRule);
+	public void addTransitionRule(TransitionRuleInterface transitionRule){
+		transitionRules.add(transitionRule);
 	}
 	
-	public void removeTransitionRule(TransitionRule aRule){
+	public void removeTransitionRule(SimpleTransitionRule aRule){
 		transitionRules.remove(aRule);
 	}
 	
@@ -30,7 +31,7 @@ public class Transition extends Component{
 		transitionRules.clear();
 	}
 	
-	public ArrayList<TransitionRule> getTransitionRules(){
+	public ArrayList<TransitionRuleInterface> getTransitionRules(){
 		return transitionRules;
 	}
 	
@@ -44,9 +45,9 @@ public class Transition extends Component{
 		return rules;
 	}
 	
-	public TransitionRule getTransitionRule(Symbol aSymbol){
-		for(TransitionRule aRule : transitionRules){
-			if(aRule.getSymbol() == aSymbol){
+	public TransitionRuleInterface getTransitionRule(Symbol aSymbol){
+		for(TransitionRuleInterface aRule : transitionRules){
+			if(aRule.getInputSymbol() == aSymbol){
 				return aRule;
 			}
 		}
@@ -55,12 +56,12 @@ public class Transition extends Component{
 	}
 	
 	public boolean accepts(Symbol input){
-		for(TransitionRule aRule : transitionRules){
+		for(TransitionRuleInterface aRule : transitionRules){
 			if(aRule.hasEmptyInput()){
 				continue;
 			}
 			
-			if(aRule.getSymbol().equals(input)){
+			if(aRule.getInputSymbol().equals(input)){
 				return true;
 			}
 		}
@@ -73,7 +74,7 @@ public class Transition extends Component{
 	}
 	
 	public boolean hasEmptyWordTransition(){
-		for(TransitionRule aRule : transitionRules){
+		for(TransitionRuleInterface aRule : transitionRules){
 			if(aRule.hasEmptyInput()){
 				return true;
 			}
