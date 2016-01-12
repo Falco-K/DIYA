@@ -1,6 +1,7 @@
 package diya.model.automata;
 
 import diya.model.language.Alphabet;
+import diya.model.language.AlphabetType;
 import diya.model.language.Symbol;
 
 import java.util.ArrayList;
@@ -74,7 +75,7 @@ public class FiniteStateMachine extends Automaton{
 		
 		SimpleTransitionRule temp;
 		if(transition != null && transition.isEmpty() == false){
-			temp = new SimpleTransitionRule(inputAlphabet.getSymbol(transition));
+			temp = new SimpleTransitionRule(alphabets.get(AlphabetType.INPUT).getSymbol(transition));
 			possibleRules.add(temp);
 		}
 		else{

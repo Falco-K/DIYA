@@ -21,7 +21,7 @@ public class FiniteStateMachine01Var1Tests {
 		alphabet01.addSymbol("0");
 		alphabet01.addSymbol("1");
 		
-		finiteStateMachine01 = new FiniteStateMachine(0,0,alphabet01);
+		finiteStateMachine01 = new FiniteStateMachine(0, 0, alphabet01);
 		finiteStateMachine01.addState("s0", true, false, 0, 0);
 		finiteStateMachine01.addState("s1", false, true, 0, 0);
 		finiteStateMachine01.addTransition("s0", "s1", null);

@@ -270,7 +270,7 @@ public class Edge extends GraphElement implements ConstructionMenuInterface{
 	
 	@Override
 	public EnumSet<ConstructionMenuOption> getMenuOptions() {
-		return EnumSet.of(ConstructionMenuOption.Remove, ConstructionMenuOption.SetSymbol, ConstructionMenuOption.SetEmptyWord);
+		return EnumSet.of(ConstructionMenuOption.REMOVE, ConstructionMenuOption.SET_TAPE_SYMBOL);
 	}
 
 	@Override
@@ -280,12 +280,23 @@ public class Edge extends GraphElement implements ConstructionMenuInterface{
 		
 		String[] currentRules = transition.getTransitionRulesAsStrings();
 		for(String aRule : currentRules){
-			if(aRule.equals(text.toString())){
+			String firstPartRule = aRule.substring(0, aRule.indexOf('/'));
+			String textStr = text.toString();
+			String firstPartText = textStr.substring(0, textStr.indexOf('/'));
+			
+			if(aRule.equals(text)){
 				inRules = true;
+			}
+			else if(firstPartRule.equals(firstPartText)){
+				aRule = textStr;
+				inRules = true;
+				newRule+=aRule + " ";
 			}
 			else{
 				newRule+=aRule + " ";
 			}
+
+			
 		}
 		
 		if(inRules == false){
@@ -323,11 +334,13 @@ public class Edge extends GraphElement implements ConstructionMenuInterface{
 	public String getSelectedOptions(){
 		String options = "";
 		for(String aRule : transition.getTransitionRulesAsStrings()){
-			if(aRule.equals("\u03B5")){
-				options+=ConstructionMenuOption.SetEmptyWord+",";
+			String[] ruleParts = aRule.split("/");
+			
+			if(ruleParts[0].equals("\u03B5")){
+				options+=ConstructionMenuOption.SET_EMPTY_WORD.toString()+",";
 			}
 			else{
-				options+=ConstructionMenuOption.SetSymbol.toString()+aRule+",";
+				options+=ConstructionMenuOption.SET_TAPE_SYMBOL.toString()+":"+aRule+",";
 			}
 		}
 		return options;

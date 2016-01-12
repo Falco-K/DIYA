@@ -265,7 +265,7 @@ public class Node extends GraphElement implements ConstructionMenuInterface{
 
 	@Override
 	public EnumSet<ConstructionMenuOption> getMenuOptions(){
-		return EnumSet.of(ConstructionMenuOption.Remove, ConstructionMenuOption.SetStart, ConstructionMenuOption.SetFinal);
+		return EnumSet.of(ConstructionMenuOption.REMOVE, ConstructionMenuOption.SET_INITIAL, ConstructionMenuOption.SET_FINAL);
 	}
 	
 	@Override
@@ -278,10 +278,10 @@ public class Node extends GraphElement implements ConstructionMenuInterface{
 
 	@Override
 	public void setSelectedOption(ConstructionMenuOption entry, CharSequence text) {
-		if(entry.equals(ConstructionMenuOption.SetStart)){
+		if(entry.equals(ConstructionMenuOption.SET_INITIAL)){
 			((ConstructionStage)this.getStage()).sendCommand("updatestate "+this.getName()+" "+(!this.state.isInitial())+" "+this.state.isFinal()+" "+this.getMidX()+" "+this.getMidY());
 		}
-		else if(entry.equals(ConstructionMenuOption.SetFinal)){
+		else if(entry.equals(ConstructionMenuOption.SET_FINAL)){
 			((ConstructionStage)this.getStage()).sendCommand("updatestate "+this.getName()+" "+this.state.isInitial()+" "+(!this.state.isFinal())+" "+this.getMidX()+" "+this.getMidY());
 		}
 	}
@@ -300,14 +300,14 @@ public class Node extends GraphElement implements ConstructionMenuInterface{
 	public String getSelectedOptions(){
 		String options = "";
 		if(this.state.isInitial()){
-			options+=ConstructionMenuOption.SetStart.toString();
+			options+=ConstructionMenuOption.SET_INITIAL.toString();
 		}
 		if(this.state.isFinal()){
 			if(options != ""){
 				options+=",";
 			}
 			
-			options+=ConstructionMenuOption.SetFinal.toString();
+			options+=ConstructionMenuOption.SET_FINAL.toString();
 		}
 		return options;
 	}

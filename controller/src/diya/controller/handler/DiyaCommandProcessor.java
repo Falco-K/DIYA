@@ -29,7 +29,7 @@ public class DiyaCommandProcessor extends DiyaController{
 			parameters[i-1] = fullCommand[i];
 		}
 		
-		interpretCommand(command, parameters, view);
+		interpretCommand(command.toLowerCase(), parameters, view);
 	}
 	
 	private void interpretCommand(String command, String[] parameters, DiyaViewInterface view){

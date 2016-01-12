@@ -18,6 +18,7 @@ import diya.model.automata.FiniteStateMachine;
 import diya.model.automata.TuringMachine;
 import diya.model.automata.events.*;
 import diya.model.language.Alphabet;
+import diya.model.language.AlphabetType;
 import diya.view.DiyaViewInterface;
 
 public class DiyaMain extends ApplicationAdapter implements DiyaViewInterface{
@@ -38,7 +39,8 @@ public class DiyaMain extends ApplicationAdapter implements DiyaViewInterface{
 		Alphabet alphabet = new Alphabet();
 		alphabet.addSymbol("0");
 		alphabet.addSymbol("1");
-		automaton = new TuringMachine(200, 300, alphabet);//new FiniteStateMachine(200, 400, alphabet);
+		alphabet.addSymbol("2");
+		automaton = new TuringMachine(200, 300, alphabet, "#");//new FiniteStateMachine(200, 400, alphabet);
 		controller = new DiyaCommandProcessor(automaton);
 		automaton.addObserver(this);
 
@@ -54,7 +56,8 @@ public class DiyaMain extends ApplicationAdapter implements DiyaViewInterface{
      
 		automaton.addState("t1", true, false, 200, 200);
 		automaton.addState("t2", false, true, 400, 200);
-		automaton.addTransition("t1", "t2", new String[] {"0/R", "1/0"});
+		automaton.addTransition("t1", "t2", new String[] {"1/0"});
+		automaton.addTransition("t1", "t1", new String[] {"0/R"});
 //		automaton.addTransition("t2", "t1", new String[] {"0"});
 //		automaton.addTransition("s1", "s1", new String[] {"1"});
 //		automaton.addTransition("t2", "s1", new String[] {"1"});
@@ -66,7 +69,12 @@ public class DiyaMain extends ApplicationAdapter implements DiyaViewInterface{
 		graph.addEdge(automaton.addTransition("s1", "test", new String[] {"a"}));*/
 		
        	constructionStage.addGraph(graph);
-       	ConstructionMenu menu = new ConstructionMenu(alphabet.getAsStrings());
+       	
+       	Alphabet[] transitionAlphabet = new Alphabet[2];
+       	transitionAlphabet[0] = automaton.getAlphabet(AlphabetType.TAPE);
+       	transitionAlphabet[1] = Alphabet.combine(automaton.getAlphabet(AlphabetType.TAPE), automaton.getAlphabet(AlphabetType.MOVEMENT));
+       	
+       	ConstructionMenu menu = new ConstructionMenu(alphabet, false, transitionAlphabet);
        	constructionStage.setMenu(menu);
 		
        	InputMultiplexer inputMultiplexer = new InputMultiplexer(uiStage, new GestureDetector(constructionStage), constructionStage);
@@ -107,9 +115,7 @@ public class DiyaMain extends ApplicationAdapter implements DiyaViewInterface{
     }
     
 	@Override
-	public void sendCommand(String text) {
-		text = text.toLowerCase();
-		
+	public void sendCommand(String text) {	
 		if(text.startsWith("zoom")){
 			camera.setZoom(Float.valueOf(text.substring(4, text.length())));
 		}

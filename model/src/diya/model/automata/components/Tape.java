@@ -33,6 +33,10 @@ public class Tape extends Component implements Iterable<Symbol>{
 		}
 	}
 	
+	public void setBlank(Symbol blank){
+		this.blank = blank;
+	}
+	
 	public Symbol readCurrentSymbol(){
 		if(successors.isEmpty()){
 			return null;
@@ -54,6 +58,7 @@ public class Tape extends Component implements Iterable<Symbol>{
 		if(successors.isEmpty()){
 			successors.push(blank);
 		}
+		
 		predecessors.push(successors.pop());
 	}
 	
@@ -61,6 +66,7 @@ public class Tape extends Component implements Iterable<Symbol>{
 		if(predecessors.isEmpty()){
 			predecessors.push(blank);
 		}
+		
 		successors.push(predecessors.pop());
 	}
 	

@@ -264,7 +264,6 @@ public class Belt extends GraphElement implements ConstructionMenuInterface{
 	
 	@Override
 	public void sizeChanged(){
-		Gdx.app.log("pos:", this.getX()+" - "+this.getY());
 		stopButton.setPosition(this.getWidth()-stopButton.getWidth(), 0);
 	}
 	
@@ -313,7 +312,7 @@ public class Belt extends GraphElement implements ConstructionMenuInterface{
 
 	@Override
 	public EnumSet<ConstructionMenuOption> getMenuOptions() {
-		return EnumSet.of(ConstructionMenuOption.Close, ConstructionMenuOption.AddSymbol, ConstructionMenuOption.Clear);
+		return EnumSet.of(ConstructionMenuOption.CLOSE, ConstructionMenuOption.ADD_INPUT_SYMBOL, ConstructionMenuOption.CLEAR);
 	}
 
 	@Override
@@ -324,11 +323,11 @@ public class Belt extends GraphElement implements ConstructionMenuInterface{
 
 	@Override
 	public void setSelectedOption(ConstructionMenuOption option, CharSequence text) {
-		if(option == ConstructionMenuOption.AddSymbol){
+		if(option == ConstructionMenuOption.ADD_INPUT_SYMBOL){
 			this.moveBy(-cellWidth, 0);
 			((ConstructionStage)this.getStage()).sendCommand("setinput "+getInput()+" "+text);
 		}
-		else if(option == ConstructionMenuOption.Clear){
+		else if(option == ConstructionMenuOption.CLEAR){
 			this.moveBy((this.cells.size()-2)*cellWidth, 0);
 			((ConstructionStage)this.getStage()).sendCommand("setinput");
 		}

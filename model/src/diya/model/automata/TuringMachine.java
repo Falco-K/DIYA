@@ -5,26 +5,34 @@ import java.util.HashSet;
 
 import diya.model.automata.components.State;
 import diya.model.automata.components.Tape;
+import diya.model.automata.components.TapeType;
 import diya.model.automata.components.Transition;
 import diya.model.automata.events.InvalidAutomatonEvent;
 import diya.model.automata.events.RunFinishedEvent;
 import diya.model.automata.transitionRules.SimpleTransitionRule;
 import diya.model.automata.transitionRules.TuringTransitionRule;
 import diya.model.language.Alphabet;
+import diya.model.language.AlphabetType;
 import diya.model.language.Symbol;
 
 public class TuringMachine extends Automaton {
 
-	Alphabet moveSymbols;
-	Tape mainTape;
-	
-	public TuringMachine(int x, int y, Alphabet alphabet) {
-		super(x, y, alphabet, new Tape(x, y));
+	Symbol blank;
 
-		mainTape = tapes.get(Integer.valueOf(0));
-		moveSymbols = new Alphabet();
+	public TuringMachine(int x, int y, Alphabet inputAlphabet, String blank){
+		super(x, y, inputAlphabet, new Tape(x, y));
+
+		this.blank = new Symbol(blank);
+		tapes.get(TapeType.MAIN_TAPE).setBlank(this.blank);
+		
+		Alphabet moveSymbols = new Alphabet();
 		moveSymbols.addSymbol("R");
 		moveSymbols.addSymbol("L");
+		alphabets.put(AlphabetType.MOVEMENT, moveSymbols);
+	
+		Alphabet tapeSymbols = inputAlphabet.clone();
+		tapeSymbols.addSymbol(this.blank);
+		alphabets.put(AlphabetType.TAPE, tapeSymbols);
 	}
 
 	@Override
@@ -42,7 +50,7 @@ public class TuringMachine extends Automaton {
 			}
 		}
 		
-		Symbol currentSymbol = mainTape.readCurrentSymbol();
+		Symbol currentSymbol = tapes.get(TapeType.MAIN_TAPE).readCurrentSymbol();
 		
 		for(State aState : currentStatesOut){
 			ArrayList<Transition> possibleTransitions = aState.getNextEdges(currentSymbol);
@@ -56,14 +64,18 @@ public class TuringMachine extends Automaton {
 			TuringTransitionRule transitionRule = (TuringTransitionRule) transition.getTransitionRule(currentSymbol);
 			
 			Symbol executionSymbol = transitionRule.getExecutionSymbol();
-			if(executionSymbol.equals(moveSymbols.getSymbol("R"))){
-				mainTape.moveHeadRight();
+			
+			Alphabet movement = alphabets.get(AlphabetType.MOVEMENT);
+			Tape tape = tapes.get(TapeType.MAIN_TAPE);
+			
+			if(executionSymbol.equals(movement.getSymbol("R"))){
+				tape.moveHeadRight();
 			}
-			else if(executionSymbol.equals(moveSymbols.getSymbol("L"))){
-				mainTape.moveHeadLeft();
+			else if(executionSymbol.equals(movement.getSymbol("L"))){
+				tape.moveHeadLeft();
 			}
 			else{
-				mainTape.writeSymbol(executionSymbol);
+				tape.writeSymbol(executionSymbol);
 			}
 			
 			currentStatesOut.clear();
@@ -90,14 +102,19 @@ public class TuringMachine extends Automaton {
 
 	@Override
 	public TuringTransitionRule makeTransitionRule(String transition) {
+		
+		if(transition == null || transition.isEmpty()){
+			transition = this.blank + "/" + this.blank;
+		}
+		
 		String[] symbols = transition.split("/");
 		
-		Symbol inputSymbol = inputAlphabet.getSymbol(symbols[0]);
+		Symbol inputSymbol = alphabets.get(AlphabetType.TAPE).getSymbol(symbols[0]);
 		
-		Symbol executionSymbol = inputAlphabet.getSymbol(symbols[1]);
+		Symbol executionSymbol = alphabets.get(AlphabetType.TAPE).getSymbol(symbols[1]);
 		
 		if(executionSymbol == null){
-			executionSymbol = moveSymbols.getSymbol(symbols[1]);
+			executionSymbol = alphabets.get(AlphabetType.MOVEMENT).getSymbol(symbols[1]);
 		}
 		
 		return new TuringTransitionRule(inputSymbol, executionSymbol);

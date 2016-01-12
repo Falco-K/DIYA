@@ -6,6 +6,7 @@ import org.junit.Test;
 import diya.model.automata.Automaton;
 import diya.model.automata.FiniteStateMachine;
 import diya.model.language.Alphabet;
+import diya.model.language.AlphabetType;
 
 public class AbstractAutomatonTests {
 	
@@ -15,6 +16,6 @@ public class AbstractAutomatonTests {
 		alphabet.addSymbol("TestSymbol");
 		Automaton testAutomaton = new FiniteStateMachine(0, 0, alphabet);
 		
-		assertEquals("Alphabet must contain TestSymbol", "TestSymbol", testAutomaton.getAlphabet()[0]);
+		assertEquals("Alphabet must contain TestSymbol", "TestSymbol", testAutomaton.getAlphabets().get(AlphabetType.INPUT).getAsStrings()[0]);
 	}
 }

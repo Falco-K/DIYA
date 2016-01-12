@@ -33,6 +33,6 @@ public class TuringTransitionRule implements TransitionRuleInterface{
 
 	@Override
 	public String toString(){
-		return inputSymbol.toString()+"/"+executionSymbol.toString();
+ 		return inputSymbol.toString()+"/"+executionSymbol.toString();
 	}
 }

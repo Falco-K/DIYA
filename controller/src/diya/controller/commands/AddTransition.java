@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import diya.model.automata.Automaton;
 import diya.model.automata.components.Transition;
+import diya.model.language.AlphabetType;
 import diya.view.DiyaViewInterface;
 
 public class AddTransition extends Command{
@@ -18,7 +19,7 @@ public class AddTransition extends Command{
 		if(parameters.length == 2){
 			origin = parameters[0];
 			destination = parameters[1];
-			transitionSymbols = new String[]{automaton.getAlphabet()[0]};
+			transitionSymbols = null;
 		}
 		else if(parameters.length >= 3){
 			origin = parameters[0];

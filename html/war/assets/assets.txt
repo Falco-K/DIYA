@@ -12,6 +12,7 @@ i:ButtonMenuRemove.png:831:image/png
 i:ButtonMenuSetFinal.png:1660:image/png
 i:ButtonMenuSetInitial.png:1185:image/png
 i:ButtonMenuSetSymbol.png:1011:image/png
+i:ButtonMenuSwitchSymbol.png:696:image/png
 i:Cell.png:204:image/png
 t:default.fnt:11526:application/unknown
 i:default.png:26179:image/png
@@ -36,6 +37,7 @@ b:RawGraphics/ButtonMenuRemove.pdn:5394:application/unknown
 b:RawGraphics/ButtonMenuSetFinal.pdn:7432:application/unknown
 b:RawGraphics/ButtonMenuSetInitial.pdn:6194:application/unknown
 b:RawGraphics/ButtonMenuSetSymbol.pdn:5944:application/unknown
+b:RawGraphics/ButtonMenuSwitchSymbol.pdn:5174:application/unknown
 i:Redo.png:1318:image/png
 i:RunButton.png:829:image/png
 i:StepButton.png:720:image/png

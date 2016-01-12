@@ -18,18 +18,20 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 	
 	HashSet<State> currentStates;
 	HashMap<String, State> states;
-	HashMap<Integer, Tape> tapes;
-	Alphabet inputAlphabet;
+	HashMap<TapeType, Tape> tapes;
+	HashMap<AlphabetType, Alphabet> alphabets;
 	boolean running;
 	int stepCount;
 	
 	public Automaton(int x, int y, Alphabet alphabet, Tape tapeWithInput){
 		states = new HashMap<String, State>();
 		currentStates = new  HashSet<State>();
-		tapes = new HashMap<Integer, Tape>();
+		tapes = new HashMap<TapeType, Tape>();
+		alphabets = new HashMap<AlphabetType, Alphabet>();
 		
-		tapes.put(0, tapeWithInput);
-		inputAlphabet = alphabet;
+		tapes.put(TapeType.MAIN_TAPE, tapeWithInput);
+		alphabets.put(AlphabetType.INPUT, alphabet);
+		
 		running = false;
 		stepCount = 0;
 	}
@@ -41,36 +43,50 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 	}
 	
 	public void setInput(String[] input){
-		setInput(new Word(input, inputAlphabet));
+		setInput(new Word(input, alphabets.get(AlphabetType.INPUT)));
 	}
 	
-	public void setAlphabet(String[] symbolStrings){
+	public void setInputAlphabet(String[] symbolStrings){
 		Alphabet newAlphabet = new Alphabet();
 		
 		for(int i = 0; i < symbolStrings.length; i++){
-			if(inputAlphabet.getSymbol(symbolStrings[i]) == null){
+			if(alphabets.get(AlphabetType.INPUT).getSymbol(symbolStrings[i]) == null){
 				newAlphabet.addSymbol(new Symbol(symbolStrings[i]));
 			}
 			else{
-				newAlphabet.addSymbol(inputAlphabet.getSymbol(symbolStrings[i]));
+				newAlphabet.addSymbol(alphabets.get(AlphabetType.INPUT).getSymbol(symbolStrings[i]));
 			}
 		}
 		
-		inputAlphabet = newAlphabet;
+		alphabets.put(AlphabetType.INPUT, newAlphabet);
 	}
 	
-	public String[] getAlphabet(){
-		return inputAlphabet.getAsStrings();
+	public HashMap<AlphabetType, Alphabet> getAlphabets(){
+		return alphabets;
+	}
+	
+	public HashMap<AlphabetType, Alphabet> getAlphabets(AlphabetType... types){	
+		HashMap<AlphabetType, Alphabet> temp = new HashMap<AlphabetType, Alphabet>(alphabets.size());
+		
+		for(AlphabetType type : types){
+			temp.put(type, alphabets.get(type));
+		}
+		
+		return temp;
+	}
+	
+	public Alphabet getAlphabet(AlphabetType type){
+		return alphabets.get(type);
 	}
 	
 	public Tape getMainInputTape(){
-		return tapes.get(Integer.valueOf(0));
+		return tapes.get(TapeType.MAIN_TAPE);
 	}
 	
 	public void reset(){
 		running = false;
 		stepCount = 0;
-		tapes.get(Integer.valueOf(0)).resetTape();
+		tapes.get(TapeType.MAIN_TAPE).resetTape();
 		setCurrentStates(null);
 	}
 	
