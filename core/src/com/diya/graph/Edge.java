@@ -280,11 +280,23 @@ public class Edge extends GraphElement implements ConstructionMenuInterface{
 		
 		String[] currentRules = transition.getTransitionRulesAsStrings();
 		for(String aRule : currentRules){
-			String firstPartRule = aRule.substring(0, aRule.indexOf('/'));
-			String textStr = text.toString();
-			String firstPartText = textStr.substring(0, textStr.indexOf('/'));
 			
-			if(aRule.equals(text)){
+			int index = aRule.indexOf('/');
+			
+			String firstPartRule;
+			String textStr;
+			String firstPartText;
+			
+			if(index != -1){
+				firstPartRule = aRule.substring(0, index);
+				textStr = text.toString();
+				firstPartText = textStr.substring(0, textStr.indexOf('/'));
+			}else{
+				firstPartRule = aRule;
+				firstPartText = textStr = text.toString();
+			}
+			
+			if(aRule.matches(textStr)){
 				inRules = true;
 			}
 			else if(firstPartRule.equals(firstPartText)){
@@ -295,8 +307,6 @@ public class Edge extends GraphElement implements ConstructionMenuInterface{
 			else{
 				newRule+=aRule + " ";
 			}
-
-			
 		}
 		
 		if(inRules == false){

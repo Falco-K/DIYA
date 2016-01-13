@@ -14,4 +14,13 @@ public class InputTape extends Tape{
 		
 		return symbol;
 	}
+	
+	@Override
+	public void moveHeadRight(){
+		if(successors.isEmpty() || successors.peek() == null){
+			return;
+		}
+		
+		predecessors.push(successors.pop());
+	}
 }

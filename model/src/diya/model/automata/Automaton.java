@@ -83,6 +83,10 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 		return tapes.get(TapeType.MAIN_TAPE);
 	}
 	
+	public String getMainInputTapeContent(){
+		return tapes.get(TapeType.MAIN_TAPE).toString();
+	}
+	
 	public void reset(){
 		running = false;
 		stepCount = 0;

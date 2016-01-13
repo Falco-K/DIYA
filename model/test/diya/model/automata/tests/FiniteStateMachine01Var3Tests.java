@@ -3,6 +3,7 @@ package diya.model.automata.tests;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import diya.model.automata.tests.TestHelper;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -54,61 +55,51 @@ public class FiniteStateMachine01Var3Tests {
 	
 	@Test
 	public void testFiniteAutomaton01Var3WithEmptyWord(){
-		testWord(finiteStateMachine01, alphabet01, "", 1, true);
+		TestHelper.testWord(finiteStateMachine01, alphabet01, "", 1, true);
 	}
 	
 	@Test
 	public void testFiniteAutomaton01Var3With1(){
-		testWord(finiteStateMachine01, alphabet01, "1", 2, true);
+		TestHelper.testWord(finiteStateMachine01, alphabet01, "1", 2, true);
 	}
 	
 	@Test
 	public void testFiniteAutomaton01Var3With0(){
-		testWord(finiteStateMachine01, alphabet01, "0", 2, false);
+		TestHelper.testWord(finiteStateMachine01, alphabet01, "0", 2, false);
 	}
 	
 	@Test
 	public void testFiniteAutomaton01Var3With111(){
-		testWord(finiteStateMachine01, alphabet01, "1 1 1", 4, true);
+		TestHelper.testWord(finiteStateMachine01, alphabet01, "1 1 1", 4, true);
 	}
 	
 	@Test
 	public void testFiniteAutomaton01Var3With00111(){
-		testWord(finiteStateMachine01, alphabet01, "0 0 1 1 1", 6, false);
+		TestHelper.testWord(finiteStateMachine01, alphabet01, "0 0 1 1 1", 6, false);
 	}
 	
 	@Test
 	public void testFiniteAutomaton01Var3With10(){
-		testWord(finiteStateMachine01, alphabet01, "1 0", 3, false);
+		TestHelper.testWord(finiteStateMachine01, alphabet01, "1 0", 3, false);
 	}
 	
 	@Test
 	public void testFiniteAutomaton01Var3With1010(){
-		testWord(finiteStateMachine01, alphabet01, "1 0 1 0", 5, true);
+		TestHelper.testWord(finiteStateMachine01, alphabet01, "1 0 1 0", 5, true);
 	}
 	
 	@Test
 	public void testFiniteAutomaton01Var3With11101110(){
-		testWord(finiteStateMachine01, alphabet01, "1 1 1 0 1 1 1 0", 9, true);
+		TestHelper.testWord(finiteStateMachine01, alphabet01, "1 1 1 0 1 1 1 0", 9, true);
 	}
 	
 	@Test
 	public void testFiniteAutomaton01Var3With01110110(){
-		testWord(finiteStateMachine01, alphabet01, "0 1 1 1 0 1 1 0", 9, false);
+		TestHelper.testWord(finiteStateMachine01, alphabet01, "0 1 1 1 0 1 1 0", 9, false);
 	}
 	
 	@Test
 	public void testFiniteAutomaton01Var3With0111011011(){
-		testWord(finiteStateMachine01, alphabet01, "0 1 1 1 0 1 1 0 1 1", 11, false);
-	}
-	
-	public void testWord(Automaton automaton, Alphabet alphabet, String word, int expectedSteps, boolean expectedResult){
-		if(expectedResult){
-			assertTrue("Automaton should accept '"+word+"'", automaton.run(new Word(word, alphabet)));
-		}else{
-			assertFalse("Automaton should not accept '"+word+"'", automaton.run(new Word(word, alphabet)));
-		}
-
-		assertEquals("Stepcount for '"+word+"' should be "+expectedSteps, expectedSteps, automaton.getCurrentStepCount());
+		TestHelper.testWord(finiteStateMachine01, alphabet01, "0 1 1 1 0 1 1 0 1 1", 11, false);
 	}
 }

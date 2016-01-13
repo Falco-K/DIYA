@@ -306,7 +306,7 @@ public class ConstructionMenu extends Group {
 			
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
-				currentObject.setSelectedOption(ConstructionMenuOption.SET_TAPE_SYMBOL, ((TextButton)event.getListenerActor()).getText());
+				currentObject.setSelectedOption(ConstructionMenuOption.SET_EMPTY_WORD, ((TextButton)event.getListenerActor()).getText());
 				((ConstructionMenu)(event.getListenerActor().getParent())).setSelectedOptions();
 				
 				event.stop();
@@ -455,8 +455,21 @@ public class ConstructionMenu extends Group {
 			for(String option : constructionMenuOptions.split(",")){
 				
 				if(option.startsWith(ConstructionMenuOption.SET_TAPE_SYMBOL.toString())){
-					String optionPart = option.substring(0, option.indexOf('/'));
-					String rule = option.substring(option.indexOf(':')+1);
+					
+					int index = option.indexOf('/');
+					
+					String optionPart;
+					String rule;
+					
+					if(index != -1){
+						optionPart = option.substring(0, index);
+						
+					}else{
+						optionPart = option;
+					}
+					
+					rule = option.substring(option.indexOf(':')+1);
+
 					
 					if(possibleButtons.keySet().contains(optionPart) == false){
 						break;
@@ -493,7 +506,6 @@ public class ConstructionMenu extends Group {
 			Vector2 temp = new Vector2(this.getX()+this.getHeight()/2-circle.radius, this.getY()+this.getHeight()/2-circle.radius);
 			float length = (float) Math.sqrt(45*45);
 			temp.setLength(length);
-			Gdx.app.log("angle", this.getX()+" - "+this.getY());
 			
 			for(int i = 0; i < children.size; i++){
 				if(i > 0){

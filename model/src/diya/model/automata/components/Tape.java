@@ -19,7 +19,7 @@ public class Tape extends Component implements Iterable<Symbol>{
 		
 		successors = new Stack<Symbol>();
 		predecessors = new Stack<Symbol>();
-		blank = new Symbol("#");
+		blank = new Symbol("");
 	}
 	
 	public void setTape(Word word){
@@ -44,22 +44,21 @@ public class Tape extends Component implements Iterable<Symbol>{
 		
 		Symbol readSymbol = successors.peek();
 		
-		if(readSymbol != blank && readSymbol != null)
+		if(readSymbol != null)
 		{
 			return readSymbol;
 		}
-		else
-		{
+		else{
 			return null;
 		}
 	}
 	
 	public void moveHeadRight(){
+		predecessors.push(successors.pop());
+		
 		if(successors.isEmpty()){
 			successors.push(blank);
 		}
-		
-		predecessors.push(successors.pop());
 	}
 	
 	public void moveHeadLeft(){
@@ -83,6 +82,22 @@ public class Tape extends Component implements Iterable<Symbol>{
 		while(predecessors.isEmpty() == false){
 			moveHeadLeft();
 		}
+	}
+	
+	@Override
+	public String toString(){
+		String content = "";
+		
+		for(Symbol aSymbol : this){
+			if(content.equals("")){
+				content += aSymbol.toString();
+			}
+			else{
+				content += " "+aSymbol.toString();
+			}
+		}
+		
+		return content;
 	}
 
 	@Override

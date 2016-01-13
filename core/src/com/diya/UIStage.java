@@ -30,10 +30,12 @@ public class UIStage extends Stage{
 
 	final static TextureRegionDrawable undoGfx;
 	final static TextureRegionDrawable redoGfx;
+	final static TextureRegionDrawable settingsGfx;
 
 	static{
-		undoGfx = new TextureRegionDrawable(new TextureRegion(new Texture("Undo.png")));
-		redoGfx = new TextureRegionDrawable(new TextureRegion(new Texture("Redo.png")));
+		undoGfx = new TextureRegionDrawable(new TextureRegion(new Texture("ButtonUIUndo.png")));
+		redoGfx = new TextureRegionDrawable(new TextureRegion(new Texture("ButtonUIRedo.png")));
+		settingsGfx = new TextureRegionDrawable(new TextureRegion(new Texture("ButtonUISettings.png")));
 	}
 	
 	final DiyaViewInterface view;
@@ -132,13 +134,23 @@ public class UIStage extends Stage{
         	}
         });
 
-        TextButton menuButton = new TextButton("Console", skin);
+        Button menuButton = new Button(settingsGfx);
         menuButton.addListener(new ClickListener(){
+        	boolean switchColor = true;
+        	
         	@Override
         	public void clicked(InputEvent event, float x, float y){
         		Gdx.input.setOnscreenKeyboardVisible(!console.isVisible());
         		console.setVisible(!console.isVisible());
         		event.getStage().setKeyboardFocus(console.getConsoleInput());
+        		
+        		if(switchColor){
+        			event.getListenerActor().setColor(Color.RED);
+        		}else{
+        			event.getListenerActor().setColor(Color.WHITE);
+        		}
+        		
+        		switchColor = !switchColor;
         	}
         });
         
@@ -156,7 +168,7 @@ public class UIStage extends Stage{
         uiTable.add().height(undoButton.getHeight()).colspan(5).expandX();
         uiTable.add(menuButton).height(undoButton.getHeight()).right();
 	}
-
+	
 	public void printMessage(String message) {
 		console.addMessage(message);
 	}

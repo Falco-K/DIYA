@@ -31,46 +31,51 @@ public class FiniteStateMachine01Var1Tests {
 	
 	@Test
 	public void testFiniteAutomaton01Var1WithEmptyWord(){
-		testWord(finiteStateMachine01, alphabet01, "", 1);
+		TestHelper.testWord(finiteStateMachine01, alphabet01, "", 1);
 	}
 	
 	@Test
 	public void testFiniteAutomaton01Var1With0(){
-		testWord(finiteStateMachine01, alphabet01, "0", 2);
+		TestHelper.testWord(finiteStateMachine01, alphabet01, "0", 2);
 	}
 	
 	@Test
 	public void testFiniteAutomaton01Var1With1(){
-		testWord(finiteStateMachine01, alphabet01, "1", 2);
+		TestHelper.testWord(finiteStateMachine01, alphabet01, "1", 2);
 	}
 	
 	@Test
 	public void testFiniteAutomaton01Var1With01(){
-		testWord(finiteStateMachine01, alphabet01, "0 1", 3);
+		TestHelper.testWord(finiteStateMachine01, alphabet01, "0 1", 3);
 	}
 	
 	@Test
 	public void testFiniteAutomaton01Var1With0011(){
-		testWord(finiteStateMachine01, alphabet01, "0 0 1 1", 5);
+		TestHelper.testWord(finiteStateMachine01, alphabet01, "0 0 1 1", 5);
 	}
 	
 	@Test
 	public void testFiniteAutomaton01Var1With000111(){
-		testWord(finiteStateMachine01, alphabet01, "0 0 0 1 1 1", 7);
+		TestHelper.testWord(finiteStateMachine01, alphabet01, "0 0 0 1 1 1", 7);
 	}
 	
 	@Test
 	public void testFiniteAutomaton01Var1With0111(){
-		testWord(finiteStateMachine01, alphabet01, "0 1 1 1", 5);
+		TestHelper.testWord(finiteStateMachine01, alphabet01, "0 1 1 1", 5);
 	}
 	
 	@Test
 	public void testFiniteAutomaton01Var1With000000011111(){
-		testWord(finiteStateMachine01, alphabet01, "0 0 0 0 0 0 0 1 1 1 1 1", 13);
+		TestHelper.testWord(finiteStateMachine01, alphabet01, "0 0 0 0 0 0 0 1 1 1 1 1", 13);
 	}
 	
-	public void testWord(Automaton automaton, Alphabet alphabet, String word, int expectedSteps){
-		assertTrue("Automaton should accept '"+word+"'", automaton.run(new Word(word, alphabet)));
-		assertEquals("Stepcount for '"+word+"' should be "+expectedSteps, expectedSteps, automaton.getCurrentStepCount());
+	@Test
+	public void testFiniteAutomaton01Var1With110(){
+		TestHelper.testWord(finiteStateMachine01, alphabet01, "1 1 0", 4, false);
+	}
+	
+	@Test
+	public void testFiniteAutomaton01Var1With0110(){
+		TestHelper.testWord(finiteStateMachine01, alphabet01, "0 1 1 0", 5, false);
 	}
 }

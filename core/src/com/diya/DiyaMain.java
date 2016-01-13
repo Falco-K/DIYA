@@ -7,8 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.utils.viewport.*;
 import com.diya.graph.Graph;
 
 import diya.controller.handler.DiyaCommandProcessor;
@@ -28,61 +27,107 @@ public class DiyaMain extends ApplicationAdapter implements DiyaViewInterface{
 
 	private UIStage uiStage;
 	private ConstructionStage constructionStage;
-	private Camera camera;
+	private ConstructionMenu menu;
+	private CameraWrapper camera;
 	
 	private DiyaController controller;
 	private Automaton automaton;
 	private Graph graph;
 
+	boolean firstStart = true;
+	
 	@Override
 	public void create () {
+
+		worldWidth = 1024;
+		worldHeight = 1024;
+
+       	ShapeRenderer shapeRenderer = new ShapeRenderer();
+       	shapeRenderer.setAutoShapeType(true);
+
+       	createEmptyFiniteStateMachine(shapeRenderer);
+		//createFiniteStateMachine(shapeRenderer);
+       	//createTuringMachine(shapeRenderer);
+       	
+		Viewport uiViewport = new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		uiStage = new UIStage(uiViewport, this, controller);
+       	camera = new CameraWrapper(worldWidth, worldHeight, uiViewport.getScreenWidth(), uiViewport.getScreenHeight());
+		
+       	Viewport constructionViewport = new ExtendViewport(uiViewport.getScreenWidth(), uiViewport.getScreenHeight(), camera.getCamera());
+       	constructionStage = new ConstructionStage(camera, this, controller, shapeRenderer, constructionViewport);
+       	
+       	constructionStage.setMenu(menu);
+       	constructionStage.addGraph(graph);
+
+       	InputMultiplexer inputMultiplexer = new InputMultiplexer(uiStage, new GestureDetector(constructionStage), constructionStage);
+		Gdx.input.setInputProcessor(inputMultiplexer);
+	}
+	
+	private void createEmptyFiniteStateMachine(ShapeRenderer shapeRenderer){
 		Alphabet alphabet = new Alphabet();
 		alphabet.addSymbol("0");
 		alphabet.addSymbol("1");
-		alphabet.addSymbol("2");
-		automaton = new TuringMachine(200, 300, alphabet, "#");//new FiniteStateMachine(200, 400, alphabet);
+		automaton = new FiniteStateMachine(416, 100, alphabet);
+		graph = new Graph(worldWidth, worldHeight, this, automaton.getMainInputTape(), shapeRenderer);
 		controller = new DiyaCommandProcessor(automaton);
 		automaton.addObserver(this);
-
-		Viewport viewport = new ExtendViewport(640, 480);
-		uiStage = new UIStage(viewport, this, controller);
-       	camera = new Camera(1024, 1024, viewport.getScreenWidth(), viewport.getScreenHeight());
-       	
-       	ShapeRenderer shapeRenderer = new ShapeRenderer();
-       	shapeRenderer.setAutoShapeType(true);
-       	constructionStage = new ConstructionStage(camera, this, controller, shapeRenderer);
+		
+		Alphabet[] transitionAlphabet = new Alphabet[1];
+       	transitionAlphabet[0] = automaton.getAlphabet(AlphabetType.INPUT);
+    	menu = new ConstructionMenu(alphabet, true, transitionAlphabet);
+	}
+	
+	private void createFiniteStateMachine(ShapeRenderer shapeRenderer){		
+		Alphabet alphabet = new Alphabet();
+		alphabet.addSymbol("0");
+		alphabet.addSymbol("1");
+		automaton = new FiniteStateMachine(416, 100, alphabet);
 		graph = new Graph(worldWidth, worldHeight, this, automaton.getMainInputTape(), shapeRenderer);
-       	//constructionStage.setDebugAll(true);
-     
+		controller = new DiyaCommandProcessor(automaton);
+		automaton.addObserver(this);
+		
 		automaton.addState("t1", true, false, 200, 200);
 		automaton.addState("t2", false, true, 400, 200);
-		automaton.addTransition("t1", "t2", new String[] {"1/0"});
+		
+		automaton.addTransition("t1", "t2", null);
+		automaton.addTransition("t1", "t1", new String[] {"0"});
+		automaton.addTransition("t2", "t2", new String[] {"1"});
+		
+		Alphabet[] transitionAlphabet = new Alphabet[1];
+       	transitionAlphabet[0] = automaton.getAlphabet(AlphabetType.INPUT);
+       	menu = new ConstructionMenu(alphabet, true, transitionAlphabet);
+	}
+	
+	private void createTuringMachine(ShapeRenderer shapeRenderer){	
+		Alphabet alphabet = new Alphabet();
+		alphabet.addSymbol("0");
+		alphabet.addSymbol("1");
+		automaton = new TuringMachine(200, 300, alphabet, "#");
+		graph = new Graph(worldWidth, worldHeight, this, automaton.getMainInputTape(), shapeRenderer);
+		controller = new DiyaCommandProcessor(automaton);
+		automaton.addObserver(this);
+		
+		automaton.addState("t1", true, false, 200, 200);
+		automaton.addState("t2", false, false, 400, 200);
+		automaton.addState("t3", false, true, 600, 200);
+		
 		automaton.addTransition("t1", "t1", new String[] {"0/R"});
-//		automaton.addTransition("t2", "t1", new String[] {"0"});
-//		automaton.addTransition("s1", "s1", new String[] {"1"});
-//		automaton.addTransition("t2", "s1", new String[] {"1"});
-//		automaton.addTransition("t2", "t1", new String[] {"a"});
-//		automaton.addTransition("s1", "t1", new String[] {"a"});
-//		automaton.addTransition("t1", "s1", new String[] {"a"});
-		/*graph.addNode(automaton.addState("s2", false, false, 300, 100));
-		graph.addEdge(automaton.addTransition("s2", "s1", new String[] {"a"}));
-		graph.addEdge(automaton.addTransition("s1", "test", new String[] {"a"}));*/
+		automaton.addTransition("t1", "t2", new String[] {"#/R"});
+		automaton.addTransition("t2", "t3", new String[] {"#/0"});
 		
-       	constructionStage.addGraph(graph);
-       	
-       	Alphabet[] transitionAlphabet = new Alphabet[2];
+		Alphabet[] transitionAlphabet = new Alphabet[2];
        	transitionAlphabet[0] = automaton.getAlphabet(AlphabetType.TAPE);
-       	transitionAlphabet[1] = Alphabet.combine(automaton.getAlphabet(AlphabetType.TAPE), automaton.getAlphabet(AlphabetType.MOVEMENT));
-       	
-       	ConstructionMenu menu = new ConstructionMenu(alphabet, false, transitionAlphabet);
-       	constructionStage.setMenu(menu);
-		
-       	InputMultiplexer inputMultiplexer = new InputMultiplexer(uiStage, new GestureDetector(constructionStage), constructionStage);
-		Gdx.input.setInputProcessor(inputMultiplexer);
+      	transitionAlphabet[1] = Alphabet.combine(automaton.getAlphabet(AlphabetType.TAPE), automaton.getAlphabet(AlphabetType.MOVEMENT));
+       	menu = new ConstructionMenu(alphabet, false, transitionAlphabet);
 	}
 
 	@Override
 	public void render () {
+		if(firstStart){
+			camera.moveCamera(worldWidth/2-Gdx.graphics.getWidth()/2, -100);
+			firstStart = false;
+		}
+		
         constructionStage.act();
         uiStage.act();
 

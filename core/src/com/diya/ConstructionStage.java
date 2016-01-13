@@ -14,9 +14,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.diya.graph.Edge;
 import com.diya.graph.Graph;
 import com.diya.graph.Node;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import diya.controller.handler.DiyaController;
 import diya.view.DiyaViewInterface;
@@ -24,10 +26,10 @@ import diya.view.DiyaViewInterface;
 public class ConstructionStage extends Stage implements GestureListener{
 	final DiyaViewInterface view;
 	final DiyaController controller;
-	final Camera camera;
+	final CameraWrapper camera;
 	
-	final int worldHeight;
-	final int worldWidth;
+	final float worldHeight;
+	final float worldWidth;
 	
 	ConstructionMenu constructionMenu;
 	ShapeRenderer shapeRenderer;
@@ -43,13 +45,13 @@ public class ConstructionStage extends Stage implements GestureListener{
 	float offsetY;
 	Actor hitActor;
 	
-	public ConstructionStage(final Camera camera, final DiyaViewInterface view, final DiyaController controller, ShapeRenderer shapeRenderer){
-		super(camera.getViewPort());
+	public ConstructionStage(final CameraWrapper camera, final DiyaViewInterface view, final DiyaController controller, ShapeRenderer shapeRenderer, Viewport viewport){
+		super(viewport);
 		
 		this.view = view;
 		this.controller = controller;
 		this.camera = camera;
-		
+
 		this.worldWidth = camera.getWorldWidth();
 		this.worldHeight = camera.getWorldHeight();
 		
@@ -185,6 +187,7 @@ public class ConstructionStage extends Stage implements GestureListener{
 	}
 	
 	public void addGraph(Graph graph){
+		graph.setTouchable(Touchable.childrenOnly);
 		this.addActor(graph);
 		graphs.add(graph);
 	}
