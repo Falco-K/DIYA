@@ -8,6 +8,7 @@ buildscript {
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
         classpath 'com.android.tools.build:gradle:1.2.3'
         classpath 'org.robovm:robovm-gradle-plugin:1.9.0'
+		classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.2'
     }
 }
 
@@ -33,9 +34,10 @@ allprojects {
 }
 
 project(":desktop") {
-    apply plugin: "java"
-
-
+	apply plugin: 'application'
+	mainClassName = "com.diya.desktop.DesktopLauncher"
+	apply plugin: 'com.github.johnrengelman.shadow'
+	
     dependencies {
         compile project(":core")
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"

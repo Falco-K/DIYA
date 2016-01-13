@@ -2,16 +2,20 @@ apply plugin: "java"
 
 sourceCompatibility = 1.7
 sourceSets.main.java.srcDirs = [ "src/" ]
+sourceSets.main.resources.srcDirs = ["../android/assets"]
 
 project.ext.mainClassName = "com.diya.desktop.DesktopLauncher"
 project.ext.assetsDir = new File("../android/assets");
 
-task run(dependsOn: classes, type: JavaExec) {
+task runa(dependsOn: classes, type: JavaExec) {
     main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
     workingDir = project.assetsDir
     ignoreExitValue = true
+}
+
+task application(dependsOn: classes){
 }
 
 task dist(type: Jar) {
