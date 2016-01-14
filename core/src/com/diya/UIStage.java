@@ -55,8 +55,8 @@ public class UIStage extends Stage{
 		this.ignoreInput = false;
 		
         Label.LabelStyle fpsStyle = new Label.LabelStyle();
-        fpsStyle.font = new BitmapFont();
-        fpsStyle.fontColor = Color.GRAY;
+        fpsStyle.font = skin.getFont("default-font");
+        fpsStyle.fontColor = new Color(0.8f, 0.8f, 0.8f, 0.5f);
         final Label fpsLabel = new Label(String.valueOf(Gdx.graphics.getFramesPerSecond()), fpsStyle);
         fpsLabel.setPosition(viewport.getScreenWidth()-20, viewport.getScreenHeight()-fpsLabel.getStyle().font.getLineHeight()-5);
         fpsLabel.addAction(new Action(){

@@ -37,8 +37,14 @@ public abstract class GraphElement extends Group{
 		
 		nodeBackground = new TextureRegion(new Texture(Gdx.files.internal("NodeBackground.png")));
 		nodeFinalBackground = new TextureRegion(new Texture(Gdx.files.internal("NodeFinalBackground.png")));
-		nodeCircle = new TextureRegion(new Texture(Gdx.files.internal("NodeCircle.png")));
-		nodeFinalCircle = new TextureRegion(new Texture(Gdx.files.internal("NodeFinalCircle.png")));
+		
+		Texture circle = new Texture(Gdx.files.internal("NodeCircle.png"));
+		circle.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		nodeCircle = new TextureRegion(circle);
+		
+		Texture circleFinal = new Texture(Gdx.files.internal("NodeFinalCircle.png"));
+		circleFinal.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		nodeFinalCircle = new TextureRegion(circleFinal);
 	}
 	
 	Graph graph;
