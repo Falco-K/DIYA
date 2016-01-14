@@ -59,6 +59,8 @@ public class ConstructionStage extends Stage implements GestureListener{
 	float offsetY;
 	Actor hitActor;
 	
+	boolean ignoreInput;
+	
 	public ConstructionStage(final CameraWrapper camera, final DiyaViewInterface view, final DiyaController controller, ShapeRenderer shapeRenderer, Viewport viewport){
 		super(viewport);
 		
@@ -76,6 +78,7 @@ public class ConstructionStage extends Stage implements GestureListener{
 		this.lastNode = "";
 		
 		this.graphs = new ArrayList<Graph>();
+		this.ignoreInput = false;
 		
 		this.addListener(new InputListener(){
 			String firstNode = "";
@@ -86,6 +89,7 @@ public class ConstructionStage extends Stage implements GestureListener{
 			
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
+				
 				clickedActor = event.getStage().hit(x, y, true);
 				
 				this.offsetX = x;
@@ -171,6 +175,7 @@ public class ConstructionStage extends Stage implements GestureListener{
 			}
 		});
 	}
+
 	
 	public void setMenu(ConstructionMenu menu){
 		this.constructionMenu = menu;

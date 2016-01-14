@@ -2,6 +2,7 @@ package com.diya;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
@@ -33,6 +34,9 @@ public class DiyaMain extends ApplicationAdapter implements DiyaViewInterface{
 	private DiyaController controller;
 	private Automaton automaton;
 	private Graph graph;
+	
+	InputMultiplexer inputMultiplexer;
+	GestureDetector gestureDetector;
 
 	boolean firstStart = true;
 	
@@ -59,7 +63,8 @@ public class DiyaMain extends ApplicationAdapter implements DiyaViewInterface{
        	constructionStage.setMenu(menu);
        	constructionStage.addGraph(graph);
 
-       	InputMultiplexer inputMultiplexer = new InputMultiplexer(uiStage, new GestureDetector(constructionStage), constructionStage);
+       	gestureDetector = new GestureDetector(constructionStage);
+       	inputMultiplexer = new InputMultiplexer(uiStage, gestureDetector, constructionStage);
 		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
 	
@@ -147,10 +152,12 @@ public class DiyaMain extends ApplicationAdapter implements DiyaViewInterface{
 
     @Override
     public void resume() {
+    	
     }
 
     @Override
     public void pause() {
+    	uiStage.ignoreInput(true);
     }
     
     @Override

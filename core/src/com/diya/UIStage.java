@@ -43,12 +43,16 @@ public class UIStage extends Stage{
 	Console console;
 	Skin skin;
 	
+	boolean ignoreInput;
+	
 	public UIStage(Viewport viewport, final DiyaViewInterface view, final DiyaController controller){
 		super(viewport);
 		
 		this.skin = new Skin(Gdx.files.internal("uiskin.json"));
 		this.view = view;
 		this.controller = controller;
+		
+		this.ignoreInput = false;
 		
         Label.LabelStyle fpsStyle = new Label.LabelStyle();
         fpsStyle.font = new BitmapFont();
@@ -72,6 +76,17 @@ public class UIStage extends Stage{
         //this.addActor(console);
         
         this.addListener(new InputListener(){
+        	@Override
+        	public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
+				if(ignoreInput){
+					event.stop();
+					ignoreInput = false;
+					return true;
+				}
+				
+				return false;
+        	}
+        	
         	@Override
         	public boolean keyDown(InputEvent event, int keycode){
         		if(Keys.F3 == keycode){
@@ -167,6 +182,10 @@ public class UIStage extends Stage{
         uiTable.add(fpsLabel).width(100).center();
         uiTable.add().height(undoButton.getHeight()).colspan(5).expandX();
         uiTable.add(menuButton).height(undoButton.getHeight()).right();
+	}
+	
+	public void ignoreInput(boolean input){
+		this.ignoreInput = input;
 	}
 	
 	public void printMessage(String message) {

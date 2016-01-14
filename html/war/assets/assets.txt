@@ -5,6 +5,7 @@ i:Arial.png:56953:image/png
 t:ArialDF.fnt:25482:application/unknown
 b:ArialDF.hiero:836:application/unknown
 i:ArialDF.png:99607:image/png
+i:BackgroundDrawingArea.png:5757:image/png
 i:ButtonMenuAddSymbol.png:682:image/png
 i:ButtonMenuClear.png:1320:image/png
 i:ButtonMenuClose.png:893:image/png
@@ -13,6 +14,9 @@ i:ButtonMenuSetFinal.png:1660:image/png
 i:ButtonMenuSetInitial.png:1185:image/png
 i:ButtonMenuSetSymbol.png:1011:image/png
 i:ButtonMenuSwitchSymbol.png:696:image/png
+i:ButtonUIRedo.png:1318:image/png
+i:ButtonUISettings.png:1369:image/png
+i:ButtonUIUndo.png:1255:image/png
 i:Cell.png:204:image/png
 t:default.fnt:11526:application/unknown
 i:default.png:26179:image/png
@@ -30,6 +34,7 @@ b:OpenSans-ExtraBold.ttf:222584:application/unknown
 b:OpenSans-Regular.ttf:217360:application/unknown
 i:PauseButton.png:315:image/png
 d:RawGraphics:0:application/unknown
+b:RawGraphics/BackgroundDrawingArea.pdn:12363:application/unknown
 b:RawGraphics/ButtonMenuAddSymbol.pdn:5151:application/unknown
 b:RawGraphics/ButtonMenuClear.pdn:6390:application/unknown
 b:RawGraphics/ButtonMenuClose.pdn:5619:application/unknown
@@ -38,7 +43,7 @@ b:RawGraphics/ButtonMenuSetFinal.pdn:7432:application/unknown
 b:RawGraphics/ButtonMenuSetInitial.pdn:6194:application/unknown
 b:RawGraphics/ButtonMenuSetSymbol.pdn:5944:application/unknown
 b:RawGraphics/ButtonMenuSwitchSymbol.pdn:5174:application/unknown
-i:Redo.png:1318:image/png
+b:RawGraphics/ButtonUISettings.pdn:6371:application/unknown
 i:RunButton.png:829:image/png
 i:StepButton.png:720:image/png
 i:StepButtonDown.png:822:image/png
@@ -49,7 +54,6 @@ i:StopButtonUp.png:632:image/png
 t:uiskin.atlas:2923:application/unknown
 t:uiskin.json:3145:application/unknown
 i:uiskin.png:28299:image/png
-i:Undo.png:1255:image/png
 t:com/badlogic/gdx/graphics/g3d/particles/particles.fragment.glsl:770:application/unknown
 t:com/badlogic/gdx/graphics/g3d/particles/particles.vertex.glsl:2886:application/unknown
 t:com/badlogic/gdx/graphics/g3d/shaders/default.fragment.glsl:5163:application/unknown

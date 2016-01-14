@@ -2,18 +2,32 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\Falco\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx\1.7.1\2179cc613447c297623a4a6d2ba6692c3aaff804\gdx-1.7.1.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="2179cc613447c297623a4a6d2ba6692c3aaff804">
-        <dex dex="E:\DiyaGit\DIYA\android\build\intermediates\pre-dexed\debug\gdx-1.7.1-cba3c91fd76975c2b43ec71f9d7ed57578073de4.jar" />
-    </item>
-    <item
         jar="C:\Users\Falco\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx-box2d\1.7.1\fd23897393900f8f888222795e3229eff600fb3d\gdx-box2d-1.7.1.jar"
         jumboMode="false"
         revision="23.0.2"
         sha1="fd23897393900f8f888222795e3229eff600fb3d">
         <dex dex="E:\DiyaGit\DIYA\android\build\intermediates\pre-dexed\debug\gdx-box2d-1.7.1-639ad10036fcdfa6a69beb7d6db4f04ffcf7891b.jar" />
+    </item>
+    <item
+        jar="E:\DiyaGit\DIYA\model\build\libs\model-1.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="14df1c8dff7206677d408c5b60f3c5ebe1a1b874">
+        <dex dex="E:\DiyaGit\DIYA\android\build\intermediates\pre-dexed\debug\model-1.0-b57d940a75410c1ce64ac6ae965ade1cd0bbbe16.jar" />
+    </item>
+    <item
+        jar="E:\DiyaGit\DIYA\controller\build\libs\controller-1.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="5bbeae166f33a03b2741c706fe6befef90e96ac9">
+        <dex dex="E:\DiyaGit\DIYA\android\build\intermediates\pre-dexed\debug\controller-1.0-78730c9bbdc2e1b2aa1c065de9c572aceec2a908.jar" />
+    </item>
+    <item
+        jar="C:\Users\Falco\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx\1.7.1\2179cc613447c297623a4a6d2ba6692c3aaff804\gdx-1.7.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="2179cc613447c297623a4a6d2ba6692c3aaff804">
+        <dex dex="E:\DiyaGit\DIYA\android\build\intermediates\pre-dexed\debug\gdx-1.7.1-cba3c91fd76975c2b43ec71f9d7ed57578073de4.jar" />
     </item>
     <item
         jar="C:\Users\Falco\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx-backend-android\1.7.1\454871d4783564f17959bf9247660e7f56ecc4ab\gdx-backend-android-1.7.1.jar"
@@ -23,24 +37,10 @@
         <dex dex="E:\DiyaGit\DIYA\android\build\intermediates\pre-dexed\debug\gdx-backend-android-1.7.1-93d36d48bcb79ad3c91eccb9a9ace3574e0781ad.jar" />
     </item>
     <item
-        jar="E:\DiyaGit\DIYA\model\build\libs\model-1.0.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="6c31a1e05d31051aabbea26ee14bf7bd337273e4">
-        <dex dex="E:\DiyaGit\DIYA\android\build\intermediates\pre-dexed\debug\model-1.0-b57d940a75410c1ce64ac6ae965ade1cd0bbbe16.jar" />
-    </item>
-    <item
-        jar="E:\DiyaGit\DIYA\controller\build\libs\controller-1.0.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="003d57397326fb4450673863b79cc641439bf6ac">
-        <dex dex="E:\DiyaGit\DIYA\android\build\intermediates\pre-dexed\debug\controller-1.0-78730c9bbdc2e1b2aa1c065de9c572aceec2a908.jar" />
-    </item>
-    <item
         jar="E:\DiyaGit\DIYA\core\build\libs\core-1.0.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="1f7c04fcea9ec1574cae80ea19bd11a8cb7c3ec8">
+        sha1="bc97fa51a20664d25a033354feb3c9762a0af53c">
         <dex dex="E:\DiyaGit\DIYA\android\build\intermediates\pre-dexed\debug\core-1.0-259585fbcf19b51fb48e24b0da24e579c8d3a537.jar" />
     </item>
 
