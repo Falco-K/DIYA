@@ -41,6 +41,56 @@ public abstract class GraphElement extends Group{
 		nodeFinalCircle = new TextureRegion(new Texture(Gdx.files.internal("NodeFinalCircle.png")));
 	}
 	
+	Graph graph;
+	boolean checkBoundaries;
+	
+	public GraphElement(Graph graph){
+		this.graph = graph;
+		checkBoundaries = true;
+	}
+	
+	@Override
+	public void moveBy(float x, float y){
+		
+		if(checkBoundaries){
+			if(this.getX()+x < graph.getX()){
+				x = graph.getX()-this.getX();
+			}
+			if(this.getY()+y < graph.getY()){
+				y = graph.getY()-this.getY();
+			}
+			if(this.getRight()+x > graph.getWidth()){
+				x = graph.getWidth()-this.getRight();
+			}
+			if(this.getTop()+y > graph.getHeight()){
+				y = graph.getHeight()-this.getTop();
+			}
+		}
+		
+		super.moveBy(x, y);
+	}
+	
+	@Override
+	public void setPosition(float x, float y){
+		
+		if(checkBoundaries){
+			if(x < graph.getX()){
+				x = graph.getX();
+			}
+			if(y < graph.getY()){
+				y = graph.getY();
+			}
+			if(x+this.getWidth() > graph.getWidth()){
+				x = graph.getWidth()-this.getWidth();
+			}
+			if(y+this.getHeight() > graph.getHeight()){
+				y = graph.getHeight()-this.getHeight();
+			}
+		}
+
+		super.setPosition(x, y);
+	}
+	
 	/*
 	public static void generateFont(){
 	   	FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("OpenSans-Regular.ttf"));

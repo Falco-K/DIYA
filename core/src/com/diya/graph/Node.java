@@ -36,7 +36,8 @@ public class Node extends GraphElement implements ConstructionMenuInterface{
 	float animation;
 	Color highlightingColor;
 	
-	public Node(State state, int radius){
+	public Node(State state, int radius, Graph graph){
+		super(graph);
 		
 		this.state = state;
 		this.circle = new Circle();	
@@ -177,7 +178,7 @@ public class Node extends GraphElement implements ConstructionMenuInterface{
 	}
 	
 	@Override
-	protected void positionChanged(){
+	protected void positionChanged(){	
 		circle.setPosition(this.getX()+circle.radius, this.getY()+circle.radius);
 	}
 	

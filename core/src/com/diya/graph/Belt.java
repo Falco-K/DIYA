@@ -73,7 +73,9 @@ public class Belt extends GraphElement implements ConstructionMenuInterface{
 	
 	boolean cellAmountChanged;
 	
-	public Belt(Tape inputTape){
+	public Belt(Tape inputTape, Graph graph){
+		super(graph);
+		
 		this.tape = inputTape;
 		this.setPosition(inputTape.getX(), inputTape.getY());
 		this.cellAmountChanged = false;

@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
@@ -24,6 +27,17 @@ import diya.controller.handler.DiyaController;
 import diya.view.DiyaViewInterface;
 
 public class ConstructionStage extends Stage implements GestureListener{
+	
+	final static TextureRegion background;
+	final static Texture backgroundTexture;
+	
+	static{
+		backgroundTexture = new Texture("BackgroundDrawingArea.png");
+		backgroundTexture.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
+		
+		background = new TextureRegion(backgroundTexture);
+	}
+	
 	final DiyaViewInterface view;
 	final DiyaController controller;
 	final CameraWrapper camera;
@@ -54,6 +68,8 @@ public class ConstructionStage extends Stage implements GestureListener{
 
 		this.worldWidth = camera.getWorldWidth();
 		this.worldHeight = camera.getWorldHeight();
+		
+		background.setRegion(0, 0, worldWidth/backgroundTexture.getWidth(), worldHeight/backgroundTexture.getHeight());
 		
 		this.shapeRenderer = shapeRenderer;
 		this.temp = new Vector2();
@@ -176,6 +192,7 @@ public class ConstructionStage extends Stage implements GestureListener{
 	public void draw(){
 		drawBackground();
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+		drawTexturedBackground(this.getBatch());
 		drawGraphs(this.getBatch());
 		constructionMenu.draw(this.getBatch(), 1);
 	}
@@ -204,21 +221,26 @@ public class ConstructionStage extends Stage implements GestureListener{
 	
 	private void drawBackground(){
         shapeRenderer.setProjectionMatrix(camera.getProjectionMatrix());
-        shapeRenderer.begin(ShapeType.Filled);
-        drawDrawingArea(shapeRenderer);
-        shapeRenderer.end();
         shapeRenderer.begin(ShapeType.Line);
         drawBorders(shapeRenderer);
         shapeRenderer.end();
 	}
 	
+	private void drawTexturedBackground(Batch batch){
+		batch.setProjectionMatrix(camera.getProjectionMatrix());
+		batch.begin();
+		batch.draw(background, 0, 0, worldWidth, worldHeight);
+		batch.end();
+	}
+	
+	@SuppressWarnings("unused")
 	private void drawDrawingArea(ShapeRenderer shapeRenderer){
         shapeRenderer.setColor(1, 1, 1, 1);
 		shapeRenderer.box(0, 0, 0, worldWidth, worldHeight, 0);
 	}
 	
 	private void drawBorders(ShapeRenderer shapeRenderer){
-		shapeRenderer.setColor(0f,0f,0f,1f);
+		shapeRenderer.setColor(0.8f,0.8f,0.8f,1f);
 		shapeRenderer.box(0, 0, 0, worldWidth, worldHeight, 0);
 	}
 

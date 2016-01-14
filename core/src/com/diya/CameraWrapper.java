@@ -56,6 +56,9 @@ public class CameraWrapper {
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             cam.translate(0, 3, 0);
         }
+        if(Gdx.input.isKeyPressed(Input.Keys.R)){
+        	cam.zoom = 1;
+        }
         /*
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             cam.rotate(-rotationSpeed, 0, 0, 1);
@@ -107,13 +110,14 @@ public class CameraWrapper {
 	}
 	
 	private void updateCamera(){
-        cam.zoom = MathUtils.clamp(cam.zoom, 0.2f,2);
+		float maxzoom = (worldWidth+cam.viewportWidth/2)/(cam.viewportWidth);
+        cam.zoom = MathUtils.clamp(cam.zoom, 0.2f, maxzoom);
 		
         float effectiveViewportWidth = cam.viewportWidth * cam.zoom;
         float effectiveViewportHeight = cam.viewportHeight * cam.zoom;
 
-        cam.position.x = MathUtils.clamp(cam.position.x, effectiveViewportWidth / 2f-cam.viewportWidth/2, worldWidth+cam.viewportWidth/2- effectiveViewportWidth / 2f);
-        cam.position.y = MathUtils.clamp(cam.position.y, effectiveViewportHeight / 2f-cam.viewportHeight/2, worldHeight+cam.viewportHeight/2- effectiveViewportHeight / 2f);
+        cam.position.x = MathUtils.clamp(cam.position.x, effectiveViewportWidth / 2f-cam.viewportWidth/2f, worldWidth+cam.viewportWidth/2- effectiveViewportWidth / 2f);
+        cam.position.y = MathUtils.clamp(cam.position.y, effectiveViewportHeight / 2f-cam.viewportHeight/2f, worldHeight+cam.viewportHeight/2- effectiveViewportHeight / 2f);
         
         this.cam.update();
 	}

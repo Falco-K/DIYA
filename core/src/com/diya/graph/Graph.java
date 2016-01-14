@@ -45,7 +45,7 @@ public class Graph extends Group{
 		nodeSize = 32;
 		this.view = view;
 		this.setBounds(0, 0, width, height);
-		inputTape = new Belt(startTape);
+		inputTape = new Belt(startTape, this);
 		this.addActor(inputTape);
 		this.shapeRenderer = shapeRenderer;
 	}
@@ -99,7 +99,7 @@ public class Graph extends Group{
 	}
 	
 	public void addNode(State state){
-		Node temp = new Node(state, nodeSize);
+		Node temp = new Node(state, nodeSize, this);
 		if(nodes.get(temp.getName()) == null){
 			nodes.put(temp.getName(), temp);
 			this.addActor(temp);
@@ -113,7 +113,7 @@ public class Graph extends Group{
 	}
 	
 	public void addEdge(Transition transition){
-		Edge edge = new Edge(transition, nodes.get(transition.getOrigin().getName()), nodes.get(transition.getDestination().getName()));
+		Edge edge = new Edge(transition, nodes.get(transition.getOrigin().getName()), nodes.get(transition.getDestination().getName()), this);
 		nodes.get(transition.getOrigin().getName()).addEdge(edge);
 		this.addActor(edge);
 	}

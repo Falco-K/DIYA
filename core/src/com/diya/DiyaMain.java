@@ -67,7 +67,7 @@ public class DiyaMain extends ApplicationAdapter implements DiyaViewInterface{
 		Alphabet alphabet = new Alphabet();
 		alphabet.addSymbol("0");
 		alphabet.addSymbol("1");
-		automaton = new FiniteStateMachine(416, 100, alphabet);
+		automaton = new FiniteStateMachine((worldWidth/2)-96, 50, alphabet);
 		graph = new Graph(worldWidth, worldHeight, this, automaton.getMainInputTape(), shapeRenderer);
 		controller = new DiyaCommandProcessor(automaton);
 		automaton.addObserver(this);
@@ -81,7 +81,7 @@ public class DiyaMain extends ApplicationAdapter implements DiyaViewInterface{
 		Alphabet alphabet = new Alphabet();
 		alphabet.addSymbol("0");
 		alphabet.addSymbol("1");
-		automaton = new FiniteStateMachine(416, 100, alphabet);
+		automaton = new FiniteStateMachine((worldWidth/2)-96, 50, alphabet);
 		graph = new Graph(worldWidth, worldHeight, this, automaton.getMainInputTape(), shapeRenderer);
 		controller = new DiyaCommandProcessor(automaton);
 		automaton.addObserver(this);
@@ -102,7 +102,7 @@ public class DiyaMain extends ApplicationAdapter implements DiyaViewInterface{
 		Alphabet alphabet = new Alphabet();
 		alphabet.addSymbol("0");
 		alphabet.addSymbol("1");
-		automaton = new TuringMachine(200, 300, alphabet, "#");
+		automaton = new TuringMachine((worldWidth/2)-96, 50, alphabet, "#");
 		graph = new Graph(worldWidth, worldHeight, this, automaton.getMainInputTape(), shapeRenderer);
 		controller = new DiyaCommandProcessor(automaton);
 		automaton.addObserver(this);
@@ -132,7 +132,7 @@ public class DiyaMain extends ApplicationAdapter implements DiyaViewInterface{
         uiStage.act();
 
         Gdx.gl.glLineWidth(2f);
-        Gdx.gl.glClearColor(0.95f, 0.95f, 0.95f, 1f);
+        Gdx.gl.glClearColor(0.84f, 0.93f, 1f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         constructionStage.draw();

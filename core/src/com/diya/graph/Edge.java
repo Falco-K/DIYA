@@ -34,14 +34,16 @@ public class Edge extends GraphElement implements ConstructionMenuInterface{
 	Vector2 edgeVector;
 	Vector2 calculatingVector;
 	
-	public Edge(Transition transition, Node origin, Node destination){
+	public Edge(Transition transition, Node origin, Node destination, Graph graph){
+		super(graph);
+		this.checkBoundaries = false;
+		
 		this.transition = transition;
 
 		this.origin = origin;
 		this.destination = destination;
 		edgeVector = new Vector2();
 		calculatingVector = new Vector2();
-
 		
 		edgeLabels = new Group();
 		edgeLabels.setTouchable(Touchable.disabled);
