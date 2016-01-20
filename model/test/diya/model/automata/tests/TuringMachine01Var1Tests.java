@@ -19,7 +19,7 @@ public class TuringMachine01Var1Tests {
 		alphabet01.addSymbol("0");
 		alphabet01.addSymbol("1");
 		
-		turingMachine01 = new TuringMachine(0, 0, alphabet01, "X");
+		turingMachine01 = new TuringMachine(0, 0, alphabet01, alphabet01, "X");
 		
 		turingMachine01.addState("s0", true, false, 0, 0);
 		turingMachine01.addState("s1", false, false, 0, 0);

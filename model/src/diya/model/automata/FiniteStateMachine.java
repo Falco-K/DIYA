@@ -29,7 +29,7 @@ public class FiniteStateMachine extends Automaton{
 		Symbol nextSymbol = ((InputTape)getMainInputTape()).readSymbolMoveTape();
 
 		if(nextSymbol == null){
-			fireEvent(new RunFinishedEvent(hasAccepted()));
+			fireEvent(new RunFinishedEvent(hasAccepted(), currentStatesOut));
 			return false;
 		}
 		
@@ -58,11 +58,6 @@ public class FiniteStateMachine extends Automaton{
 	@Override
 	public boolean validate(State aState) {
 		// TODO Auto-generated method stub
-		return true;
-	}
-	
-	@Override
-	public boolean getEmptyTransitionsAllowed(){
 		return true;
 	}
 	

@@ -19,19 +19,22 @@ public class TuringMachine extends Automaton {
 
 	Symbol blank;
 
-	public TuringMachine(int x, int y, Alphabet inputAlphabet, String blank){
+	public TuringMachine(int x, int y, Alphabet inputAlphabet, Alphabet tapeAlphabet, String blank){
 		super(x, y, inputAlphabet, new Tape(x, y));
 
 		this.blank = new Symbol(blank);
 		tapes.get(TapeType.MAIN_TAPE).setBlank(this.blank);
+		
+		alphabets.put(AlphabetType.INPUT, inputAlphabet);
 		
 		Alphabet moveSymbols = new Alphabet();
 		moveSymbols.addSymbol("R");
 		moveSymbols.addSymbol("L");
 		alphabets.put(AlphabetType.MOVEMENT, moveSymbols);
 	
-		Alphabet tapeSymbols = inputAlphabet.clone();
+		Alphabet tapeSymbols = tapeAlphabet;
 		tapeSymbols.addSymbol(this.blank);
+		
 		alphabets.put(AlphabetType.TAPE, tapeSymbols);
 	}
 
@@ -39,13 +42,13 @@ public class TuringMachine extends Automaton {
 	public boolean executeTransition(HashSet<State> currentStatesOut, ArrayList<Transition> transitionsOut) {
 
 		for(State aState : currentStatesOut){
-			if(validate(aState) == false){
+			if(validate(aState) == false || currentStatesOut.size() > 1){
 				fireEvent(new InvalidAutomatonEvent(aState));
 				return false;
 			}
 			
 			if(aState.isFinal()){
-				fireEvent(new RunFinishedEvent(hasAccepted()));
+				fireEvent(new RunFinishedEvent(hasAccepted(), currentStatesOut));
 				return false;
 			}
 		}
@@ -56,7 +59,7 @@ public class TuringMachine extends Automaton {
 			ArrayList<Transition> possibleTransitions = aState.getNextEdges(currentSymbol);
 			
 			if(possibleTransitions.isEmpty()){
-				fireEvent(new RunFinishedEvent(hasAccepted()));
+				fireEvent(new RunFinishedEvent(hasAccepted(), currentStatesOut));
 				return false;
 			}
 			
@@ -124,10 +127,4 @@ public class TuringMachine extends Automaton {
 	public boolean validate(State aState) {
 		return true;
 	}
-
-	@Override
-	public boolean getEmptyTransitionsAllowed() {
-		return false;
-	}
-
 }

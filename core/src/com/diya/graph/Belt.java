@@ -137,7 +137,7 @@ public class Belt extends GraphElement implements ConstructionMenuInterface{
 				doAutomatonStep();
 			}
 			
-		}, 0, 2);
+		}, 0, 2.5f);
 		doSteps.stop();
 		
 		final Button.ButtonStyle runButtonStyle = new Button.ButtonStyle(runButton, null, null);

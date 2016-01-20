@@ -113,9 +113,20 @@ public class Edge extends GraphElement implements ConstructionMenuInterface{
 		String text = "";
 		
 		if(rules.length > 0){
+			this.edgeLabel.setHeight(edgeLabels.getHeight());
+			
 			for(String aRule : rules){
 				if(text.equals("") == false){
-					text += ", ";
+					if(aRule.length() > 2 && this.connection.type == ConnectionType.Loop){
+						text += ",\n";
+						this.edgeLabel.setFillParent(false);
+						this.edgeLabel.setHeight(this.edgeLabel.getHeight()+34);
+						this.edgeLabel.setPosition(this.getWidth()/2, 0);
+					}
+					else{
+						this.edgeLabel.setFillParent(true);
+						text += ", ";
+					}
 				}
 				
 				if(aRule.isEmpty()){
@@ -137,11 +148,11 @@ public class Edge extends GraphElement implements ConstructionMenuInterface{
 	@Override
 	public void drawDebug(ShapeRenderer shapeRenderer){
 		connection.drawDebug(shapeRenderer);
-		/*
+		
 		this.drawDebugBounds(shapeRenderer);
 		this.applyTransform(shapeRenderer, this.computeTransform());
 		this.drawDebugChildren(shapeRenderer);
-		this.resetTransform(shapeRenderer);*/
+		this.resetTransform(shapeRenderer);
 	}
 	
 	@Override
@@ -153,7 +164,8 @@ public class Edge extends GraphElement implements ConstructionMenuInterface{
 	
 	@Override
 	public void act(float delta){
-
+		updateLabel();
+		
 		if(origin == destination){
 			updateLoop();
 		}
@@ -191,6 +203,9 @@ public class Edge extends GraphElement implements ConstructionMenuInterface{
 		edgeLabels.setOrigin(Align.center);
 		
 		rotateLabels(180, 360);
+		if(edgeLabels.getRotation() == 180){
+			edgeLabels.setY(+(edgeLabel.getHeight()-origin.getInnerRadius()));
+		}
 		connection.calculateConnection();
 	}
 	

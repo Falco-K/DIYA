@@ -422,6 +422,4 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 	public abstract TransitionRuleInterface makeTransitionRule(String transition);
 	
 	public abstract boolean validate(State aState);
-	
-	public abstract boolean getEmptyTransitionsAllowed();
 }

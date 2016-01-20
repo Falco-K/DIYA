@@ -3,6 +3,7 @@ package com.diya.graph;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -20,6 +21,7 @@ import diya.model.automata.components.InputTape;
 import diya.model.automata.components.State;
 import diya.model.automata.components.Tape;
 import diya.model.automata.components.Transition;
+import diya.model.automata.events.RunFinishedEvent;
 import diya.view.DiyaViewInterface;
 
 public class Graph extends Group{
@@ -118,6 +120,10 @@ public class Graph extends Group{
 		this.addActor(edge);
 	}
 	
+	public Edge getEdge(Transition transition){
+		return nodes.get(transition.getOrigin().getName()).getEdge(transition);
+	}
+	
 	public void updateEdge(Transition transition){
 		nodes.get(transition.getOrigin().getName()).getEdge(transition).updateLabel();
 	}
@@ -148,16 +154,14 @@ public class Graph extends Group{
 		view.sendCommand(message);
 	}
 	
-	public void accepted(boolean accepted){
+	public void accepted(boolean accepted, HashSet<State> states){
 		inputTape.finished(accepted);
 		
-		Set<Entry<String, Node>> allNodes = nodes.entrySet();
-		for(Entry<String, Node> aNode : allNodes){
-			if(aNode.getValue().isFinal()){
-				aNode.getValue().setHighlightingColor(new Color(0f,1f,0f,0.3f));
-			}
-			else{
-				aNode.getValue().setHighlightingColor(new Color(1f,0f,0f,0.3f));
+		resetHighlighting();
+		for(State aState : states){
+			if(aState.isFinal() && accepted == true){
+				nodes.get(aState.getName()).setHighlighting(true);
+				nodes.get(aState.getName()).setHighlightingColor(new Color(0f,1f,0f,0.3f));
 			}
 		}
 	}
@@ -171,13 +175,7 @@ public class Graph extends Group{
 	}
 
 	public void animateTransition(ArrayList<State> states, ArrayList<Transition> transitions, int stepCount) {
-
-		Set<Entry<String, Node>> allNodes = nodes.entrySet();
-		for(Entry<String, Node> aNodeName : allNodes){
-			Node aNode = aNodeName.getValue();
-			aNode.setHighlightingColor(new Color(1f,0f,0f,0.3f));
-			aNode.setHighlighting(false);
-		}
+		resetHighlighting();
 		
 		if(transitions == null){
 			return;
@@ -193,6 +191,15 @@ public class Graph extends Group{
 			for(State aState : states){
 				nodes.get(aState.getName()).setHighlighting(true);
 			}
+		}
+	}
+	
+	public void resetHighlighting(){
+		Set<Entry<String, Node>> allNodes = nodes.entrySet();
+		for(Entry<String, Node> aNodeName : allNodes){
+			Node aNode = aNodeName.getValue();
+			aNode.setHighlightingColor(new Color(1f,0f,0f,0.3f));
+			aNode.setHighlighting(false);
 		}
 	}
 }
