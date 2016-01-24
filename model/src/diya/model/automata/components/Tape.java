@@ -22,7 +22,7 @@ public class Tape extends Component implements Iterable<Symbol>{
 		blank = new Symbol("");
 	}
 	
-	public void setTape(Word word){
+	public void setContent(Word word){
 		predecessors.clear();
 		successors.clear();
 		ArrayList<Symbol> symbols = word.getSymbols();

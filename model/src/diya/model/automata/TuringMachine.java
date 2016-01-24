@@ -20,7 +20,7 @@ public class TuringMachine extends Automaton {
 	Symbol blank;
 
 	public TuringMachine(int x, int y, Alphabet inputAlphabet, Alphabet tapeAlphabet, String blank){
-		super(x, y, inputAlphabet, new Tape(x, y));
+		super(inputAlphabet, new Tape(x, y));
 
 		this.blank = new Symbol(blank);
 		tapes.get(TapeType.MAIN_TAPE).setBlank(this.blank);

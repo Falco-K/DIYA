@@ -51,8 +51,8 @@ public class DiyaMain extends ApplicationAdapter implements DiyaViewInterface{
        	shapeRenderer.setAutoShapeType(true);
 
        	//createEmptyFiniteStateMachine(shapeRenderer);
-		createFiniteStateMachine(shapeRenderer);
-       	//createTuringMachine(shapeRenderer);
+		//createFiniteStateMachine(shapeRenderer);
+       	createTuringMachine(shapeRenderer);
        	//createTuringMachine(shapeRenderer);
        	
 		Viewport uiViewport = new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -195,6 +195,9 @@ public class DiyaMain extends ApplicationAdapter implements DiyaViewInterface{
         uiStage.act();
 
         Gdx.gl.glLineWidth(2f);
+        if (Gdx.gl30 != null){
+        	Gdx.gl30.glLineWidth(2f);
+        }
         Gdx.gl.glClearColor(0.84f, 0.93f, 1f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 

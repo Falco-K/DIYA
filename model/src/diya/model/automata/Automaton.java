@@ -17,20 +17,20 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 	public final static String EMPTY_WORD = "\u03B5";
 	
 	HashSet<State> currentStates;
-	HashMap<String, State> states;
+	HashMap<String, State> allStates;
 	HashMap<TapeType, Tape> tapes;
 	HashMap<AlphabetType, Alphabet> alphabets;
 	boolean running;
 	int stepCount;
 	
-	public Automaton(int x, int y, Alphabet alphabet, Tape tapeWithInput){
-		states = new HashMap<String, State>();
+	public Automaton(Alphabet inputAlphabet, Tape inputTape){
+		allStates = new HashMap<String, State>();
 		currentStates = new  HashSet<State>();
 		tapes = new HashMap<TapeType, Tape>();
 		alphabets = new HashMap<AlphabetType, Alphabet>();
 		
-		tapes.put(TapeType.MAIN_TAPE, tapeWithInput);
-		alphabets.put(AlphabetType.INPUT, alphabet);
+		tapes.put(TapeType.MAIN_TAPE, inputTape);
+		alphabets.put(AlphabetType.INPUT, inputAlphabet);
 		
 		running = false;
 		stepCount = 0;
@@ -38,7 +38,7 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 	
 	public void setInput(Word word){
 		reset();
-		getMainInputTape().setTape(word);
+		getMainInputTape().setContent(word);
 		fireEvent(new TapeUpdatedEvent(getMainInputTape()));
 	}
 	
@@ -130,21 +130,6 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 		return hasAccepted();
 	}
 	
-	public boolean hasAccepted(){
-		boolean accepted = false;
-		
-		if(getMainInputTape().readCurrentSymbol() == null){
-			for(State aState : currentStates){
-				if(aState.isFinal()){
-					accepted = true;
-					break;
-				}
-			}
-		}
-		
-		return accepted;	
-	}
-	
 	public ArrayList<State> getCurrentStates(){
 		return new ArrayList<State>(currentStates);
 	}
@@ -155,17 +140,17 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 	
 	public State addState(State state){
 		String name = state.getName();
-		if(states.get(name) == null){
-			states.put(name, state);
-			fireEvent(new StateAddedEvent(states.get(name)));
-			return states.get(name);
+		if(allStates.get(name) == null){
+			allStates.put(name, state);
+			fireEvent(new StateAddedEvent(allStates.get(name)));
+			return allStates.get(name);
 		}
 		
 		return null;
 	}
 	
 	public State removeState(String name){
-		State temp = states.remove(name);
+		State temp = allStates.remove(name);
 		if(temp != null){
 			fireEvent(new StateRemovedEvent(temp));
 		}
@@ -174,7 +159,7 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 	}
 	
 	public State updateState(String name, boolean initial, boolean accepting, float x, float y){
-		State temp = states.get(name);
+		State temp = allStates.get(name);
 		if(temp != null){
 			temp.setInitial(initial);
 			temp.setFinal(accepting);
@@ -185,7 +170,7 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 	}
 	
 	public boolean isStateAccepting(String name){
-		State temp = states.get(name);
+		State temp = allStates.get(name);
 		if(temp == null || (temp.isFinal() == false)){
 			return false;
 		}
@@ -195,7 +180,7 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 	}
 	
 	public boolean isStateStart(String name){
-		State temp = states.get(name);
+		State temp = allStates.get(name);
 		if(temp == null || (temp.isInitial() == false)){
 			return false;
 		}
@@ -205,7 +190,7 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 	}
 	
 	public float getStatePositionX(String name){
-		State temp = states.get(name);
+		State temp = allStates.get(name);
 		if(temp != null){
 			return temp.getX();
 		}
@@ -215,7 +200,7 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 	}
 	
 	public float getStatePositionY(String name){
-		State temp = states.get(name);
+		State temp = allStates.get(name);
 		if(temp != null){
 			return temp.getY();
 		}
@@ -225,16 +210,16 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 	}
 	
 	public Transition getTransition(String origin, String destination){
-		return states.get(origin).getTransition(destination);
+		return allStates.get(origin).getTransition(destination);
 	}
 	
 	public Transition addTransition(String origin, String destination, String[] transition){
 		
-		State firstState = states.get(origin);
+		State firstState = allStates.get(origin);
 		if(firstState != null && firstState.getTransition(destination) == null)
 		{
 			
-			State secondState = states.get(destination);
+			State secondState = allStates.get(destination);
 			Transition newEdge = new Transition(firstState, secondState);
 			
 			if(transition == null || transition.length < 1){
@@ -261,7 +246,7 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 	}
 	
 	public Transition addTransition(Transition transition){
-		Transition temp = states.get(transition.getOrigin().getName()).addTransitionToState(transition);
+		Transition temp = allStates.get(transition.getOrigin().getName()).addTransitionToState(transition);
 		
 		if(temp != null){
 			fireEvent(new TransitionAddedEvent(temp));
@@ -288,7 +273,7 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 	}
 	
 	public Transition removeTransition(String origin, String destination){
-		State temp = states.get(origin);
+		State temp = allStates.get(origin);
 		if(temp != null) //Check if origin was destination and might already be removed
 		{
 			Transition transition = temp.removeTransition(destination);
@@ -303,7 +288,7 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 	}
 	
 	public ArrayList<Transition> getTransitionsWithDestination(String destination){
-		Iterator<Entry<String, State>> iterator = states.entrySet().iterator();
+		Iterator<Entry<String, State>> iterator = allStates.entrySet().iterator();
 		ArrayList<Transition> removedEdges = new ArrayList<Transition>();
 		
 		while(iterator.hasNext()){
@@ -321,7 +306,7 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 	public ArrayList<Transition> getTransitionsWithOrigin(String origin, boolean getCircularReferences){
 		ArrayList<Transition> removedTransitions = new ArrayList<Transition>();
 		
-		for(Transition aTransition : states.get(origin).getOutgoingTransitions()){
+		for(Transition aTransition : allStates.get(origin).getOutgoingTransitions()){
 			
 			if(getCircularReferences == false && aTransition.getOrigin().equals(aTransition.getDestination())){
 				continue;
@@ -334,7 +319,7 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 	}
 	
 	public ArrayList<Transition> removeTransitionsWithDestination(String destination){
-		Iterator<Entry<String, State>> iterator = states.entrySet().iterator();
+		Iterator<Entry<String, State>> iterator = allStates.entrySet().iterator();
 		ArrayList<Transition> removedEdges = new ArrayList<Transition>();
 		
 		while(iterator.hasNext()){
@@ -354,7 +339,7 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 	public ArrayList<Transition> removeTransitionWithOrigin(String origin){
 		ArrayList<Transition> removedTransitions = new ArrayList<Transition>();
 		
-		for(Transition aTransition : states.get(origin).getOutgoingTransitions()){
+		for(Transition aTransition : allStates.get(origin).getOutgoingTransitions()){
 			removedTransitions.add(aTransition);
 		}
 		
@@ -367,7 +352,7 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 	
 	public void setInitialStates(){
 		currentStates.clear();
-		Iterator<Entry<String, State>> iterator = states.entrySet().iterator();
+		Iterator<Entry<String, State>> iterator = allStates.entrySet().iterator();
 		
 		while(iterator.hasNext()){
 			Entry<String, State> pair = iterator.next();
@@ -384,7 +369,7 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 		
 		if(stateNames != null){
 			for(String aState : stateNames){
-				State temp = states.get(aState);
+				State temp = allStates.get(aState);
 				
 				if(temp != null){
 					currentStates.add(temp);
@@ -396,7 +381,7 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 	}
 	
 	public Iterator<Entry<String, State>> iterator(){
-		return states.entrySet().iterator();
+		return allStates.entrySet().iterator();
 	}
 	
 	public ArrayList<Transition> getEmptyWordTransitionChain(){
@@ -422,4 +407,6 @@ public abstract class Automaton extends ObservableAutomaton implements Iterable<
 	public abstract TransitionRuleInterface makeTransitionRule(String transition);
 	
 	public abstract boolean validate(State aState);
+	
+	public abstract boolean hasAccepted();
 }

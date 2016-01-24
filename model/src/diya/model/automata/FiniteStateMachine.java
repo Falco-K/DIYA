@@ -18,7 +18,7 @@ public class FiniteStateMachine extends Automaton{
 	ArrayList<SimpleTransitionRule> possibleRules;
 	
 	public FiniteStateMachine(int x, int y, Alphabet alphabet) {
-		super(x, y, alphabet, new InputTape(x, y));
+		super(alphabet, new InputTape(x, y));
 		
 		possibleRules = new ArrayList<SimpleTransitionRule>();
 	}
@@ -61,6 +61,23 @@ public class FiniteStateMachine extends Automaton{
 		return true;
 	}
 	
+	@Override
+	public boolean hasAccepted(){
+		boolean accepted = false;
+		
+		if(getMainInputTape().readCurrentSymbol() == null){
+			for(State aState : currentStates){
+				if(aState.isFinal()){
+					accepted = true;
+					break;
+				}
+			}
+		}
+		
+		return accepted;	
+	}
+	
+	@Override
 	public SimpleTransitionRule makeTransitionRule(String transition){
 		for(SimpleTransitionRule aRule : possibleRules){
 			if(aRule.toString().equals(transition)){
